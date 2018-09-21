@@ -1,0 +1,609 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\subsection{Quantifiers한정자와 Beepers}
+지금까지 개수 세기(카운터 패턴), 최대/최소값 구하기 등의 기본적인 반복문 패턴을 알아보았습니다.
+이번에는 quantifier한정자 패턴을 익히도록 합니다.
+수학에서 사용하는 universal quantifier전체 한정자 $\forall$ (for all)과 existential quantifier존재 한정자 $\exists$ (for some)의 의미를 코드로 옮겨놓은 것을 한정자 패턴이라고 합니다.
+한정자 패턴을 통해서 리스트로써 표현된 어떤 집합 $S$가 주어졌을 때,
+\begin{itemize}
+\item $(\forall x \in S)\ p(x)$
+\item $(\exists x \in S)\ p(x)$
+\end{itemize}
+의 참/거짓을 판별할 수 있습니다.
+
+또한 지난 시간에 \texttt{cs1robots} 패키지를 통해 휴보라는 토이 로봇을 생성하여 원하는대로 움직이도록 코드를 작성했습니다.
+이번에는 휴보가 줍고 놓을 수 있는 beeper라는 물체를 다뤄볼 것입니다.
+이러한 beeper는 격자점마다 배치할 수 있는데, 휴보는 해당 격자점까지 이동하여야만 beeper를 감지하거나 놓고 주을 수 있습니다.
+아래와 같은 beeper를 놓고 주을 수 있는 \texttt{drop\_beeper()}와 \texttt{pick\_beeper()} 메소드 등에 대해서 알아봅니다.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"./lectures/lecture5_beeper"}
+\label{fig:lecture5beeper}
+\end{figure}
+
+\subsubsection{Quantifier한정자}
+한정자를 이용할 수 있는 간단한 예시를 들어봅니다.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+        \texttt{numbers} & $(\forall \texttt{i})\ \texttt{numbers[i]}>0$ & $(\exists \texttt{i})\ \texttt{numbers[i]}>0$\\ \hline
+        \texttt{[1, 3, 2, 5, 2]} & \texttt{True} & \texttt{True}\\
+        \texttt{[-1, -3, -2, -5, -2]} & \texttt{False} & \texttt{False} \\
+        \texttt{[-1, -3, -2, 5, 2]} & \texttt{False} & \texttt{True}
+    \end{tabular}
+\end{table}
+위에 \texttt{numbers}라는 리스트의 원소가 모두 양인 경우, 일부만 양인 경우, 그리고 양의 원소가 아예 없는 경우가 나타나 있습니다.
+각 경우에 대해 전체 및 존재 한정자가 원소의 양수 조건에 적용되었을 때의 진리표가 나와 있습니다.
+전체 한정자의 경우 \texttt{numbers}의 모든 원소가 양수일 경우에만 \texttt{True} 값을 가지게 하며, 음의 원소가 하나라도 있을 경우에는 \texttt{False} 값을 가지게 합니다.
+반면 존재 한정자의 경우 \texttt{numbers}의 원소 가운데 양인 것이 하나라도 있다면 \texttt{True}입니다.
+
+한정자를 다루는 것은 곧 명제의 진릿값을 구하는 것이기 때문에 불리언 함수로 표현할 수 있습니다.
+또한 리스트의 각 원소를 확인해야 하므로 \texttt{for} 반복문을 사용해야 합니다.
+일단 전체 한정자의 경우 모든 원소가 어떤 조건을 만족하는지 확인해야 합니다.
+이는 거꾸로 조건을 만족시키지 못하는 단 하나의 원소라도 있다면 \texttt{False}를 반환하는 불리언 함수를 만들면 됩니다.
+\texttt{n}이 \texttt{len(numbers)}일 때 수학적으로는
+\[
+(\forall \texttt{i} \in \texttt{range(n)})\ p(\texttt{numbers[i]}) \Leftrightarrow \neg\left((\exists \texttt{i} \in \texttt{range(n)})\ \neg p(\texttt{numbers[i]})\right)
+\]
+이기 때문입니다.
+즉, 모든 원소를  \texttt{if} 조건문으로 확인하는 \texttt{for} 문에서 조건을 만족하지 못하면 바로 \texttt{False}를 반환하고, 루프를 통과하면 \texttt{True}를 반환하면 됩니다.
+아래는 모든 원소가 양수인지를 확인하는 함수 \texttt{all\_positive($\cdot$)}입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def all_positive(numbers):
+	for i in range(len(numbers)):
+		if not numbers[i] > 0:
+			return False
+	return True
+\end{minted}
+지난 시간에 예제로 풀어보았던 소수를 판별하는 함수도 전체 한정자의 예시입니다.
+1과 자기 자신이 아닌 약수가 하나라도 존재한다면 \texttt{False}를 반환하는 경우이기 때문입니다.
+산술 기하 평균에 의해 해당 수의 절반까지의 루프를 구성했는데, 제곱근까지의 범위를 구성하여도 됩니다.
+
+존재 한정자의 경우, 조건을 만족시키는 하나의 원소라도 존재하면 됩니다.
+이에 따라, 모든 원소를 \texttt{if} 조건문으로 확인하는 \texttt{for} 문에서 조건을 만족하는 원소를 발견하는 즉시 \texttt{True}를 반환하고, 루프를 통과하면 \texttt{False}를 반환하면 됩니다.
+전체 한정자의 경우에서 불리언 값을 바꾸고, \texttt{if} 조건문에서 조건의 역 대신 조건 자체를 넣으면 됩니다.
+아래는 하나의 원소라도 양수인지를 확인하는 함수 \texttt{some\_positive($\cdot$)}입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def some_positive(numbers):
+	for i in range(len(numbers)):
+		if numbers[i] > 0:
+			return True
+	return False
+\end{minted}
+
+\subsubsection{예시}
+다음은 어떤 정수 \texttt{n}이 두 정수의 제곱의 합인지의 여부를 알려주는 함수 \texttt{sum\_squares($\cdot$)}입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def sum_squares(n):
+	sqrt_n = int(n**.5)
+	for x in range(1, sqrt_n + 1):
+		for y in range(x, sqrt_n + 1):
+			if n == x**2 + y**2:
+				return True
+	return False
+\end{minted}
+두 수의 제곱의 합을 확인해야 하므로 2중 루프를 구성하였다는 것 외에는 존재 한정자 패턴과 차이가 없습니다.
+만약 $\texttt{x}^2 + \texttt{y}^2 = n^2$이라면 $\texttt{x}, \texttt{y} \leq \sqrt n$일 것이므로 \texttt{sqrt\_n = int(n**.5)}로 정의하여 줄 3, 4에서 \texttt{for} 루프의 범위를 제한하였습니다.
+나아가 줄 4에서는 계산의 효율을 위해 $\texttt{x} \leq \texttt{y}$의 조건을 주어 계산량을 줄였습니다.
+
+아래는 주어진 리스트 \texttt{numbers}의 모든 원소가 두 정수의 제곱의 합인지를 판단하는 함수 \texttt{all\_sum\_squares($\cdot$)}입니다.
+위에서 구한 불리언 함수 \texttt{sum\_squares($\cdot$)}를 이용한 전체 한정자 패턴입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def all_sum_squares(numbers):
+	for i in range(len(numbers)):
+		if not sum_squares(numbers[i]):
+			return False
+	return True
+\end{minted}
+
+마지막으로 주어진 수열이 증가 수열인지를 확인하는 함수 \texttt{inc\_seq($\cdot$)}입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def inc_seq(numbers):
+	for i in range(len(numbers) - 1):
+		if not numbers[i] <= numbers[i + 1]:
+			return False
+	return True
+\end{minted}
+전체 한정자 패턴과 동일하지만, 주의할 점은 줄 2에서 \texttt{range($\cdot$)}의 범위를 \texttt{len(numbers) - 1}로 해야 \texttt{IndexError}가 나지 않습니다.
+이는 줄 3에서 다음 인덱스의 원소와 현 인덱스의 원소를 비교하기 때문입니다.
+
+지금까지 배운 \texttt{for} 루프의 패턴 세 가지를 아래에 정리합니다.
+\begin{enumerate}
+\item 최대/최소 구하기
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def maximum(numbers):  # def minimum(numbers):
+	m = numbers[0]
+	for i in range(len(numbers)):
+		if numbers[i] > m:  # if numbers[i] < m:
+			m = numbers[i]
+	return m
+\end{minted}
+\item 카운터 패턴
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def cnt_odd(numbers):
+	cnt = 0
+	for i in range(len(numbers)):
+		if numbers[i] % 2:
+			cnt += 1
+	return cnt
+\end{minted}
+\item 한정자 패턴
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def all_odd(numbers):  # def some_odd(numbers):
+	for i in range(len(numbers)):
+		if not numbers[i] % 2:  # if numbers[i] % 2:
+			return False  # return True
+	return True  # return False
+\end{minted}
+\end{enumerate}
+
+\subsubsection{Beepers}
+사실 beeper 자체는 이번 절에서 배운 한정자 패턴과 큰 관련이 있지는 않습니다.
+다만 다음 절에서 \texttt{while} 문과 함께 사용할 것이기 때문에 미리 익혀둡니다.
+
+
+Beepers는 휴보가 놓고 주을 수 있는 물체로, 격자점마다 위치할 수 있습니다.
+휴보가 beeper를 놓기 위해서는 \texttt{drop\_beeper()} 메소드를 사용하면 됩니다.
+이때 휴보는 \texttt{on\_beeper()} 메소드로 beeper를 감지할 수 있습니다.
+만약 격자점에 beeper가 놓여 있었다면, \texttt{pick\_beeper()}로 주으면 됩니다.
+이렇게 주은 beeper는 나중에 휴보가 다시 놓을 수 있습니다.
+만약 beeper가 놓이지 않은 격자점에서 beeper를 주으려 하면 에러가 발생합니다.
+이에 따라 줍기 전에 항상 \texttt{on\_beeper()}를 통해 현재 휴보가 위치한 격자점에 beeper가 있는지 확인을 해야 합니다.
+아래는 \texttt{on\_beeper()}를 통해 beeper가 있는지 확인한 후, 있다면 \texttt{pick\_beeper()}를 통해 beeper를 줍게 하는 코드와 실행 전후 모습입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+for i in range(9):
+	hubo.move()
+	if hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperbef"}
+\label{fig:lecture5pickbeeperbef}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperaft"}
+\label{fig:lecture5pickbeeperaft}
+\end{subfigure}
+\end{figure}
+
+휴보는 beeper를 주워 얻을 수도 있지만, 처음에 가지고 있는 beeper의 개수를 설정할 수도 있습니다.
+지금까지는 단순히 \texttt{Robot()}으로 휴보를 생성하였지만, \texttt{Robot(beepers = 1)}과 같이 인자를 전달해주어 초기에 가지고 있는 \texttt{beeper}를 설정할 수 있습니다.
+사전에 \texttt{beeper}를 가지고 있게 설정하지 않은 상태에서 \texttt{beeper}를 놓으려 하면 에러가 발생하게 됩니다.
+그리고 \texttt{drop\_beeper()}를 통해 beeper를 가지고 있거나 주은 횟수보다 많이 놓으려 한다면 마찬가지로 에러가 발생하기 때문에, \texttt{carries\_beeper()}를 통해 beeper를 가지고 있는지 확인을 하는 것이 바람직합니다.
+\texttt{carries\_beeper()} 메소드는 휴보가 현재 beeper를 가지고 있는지 여부를 불리언으로 반환하는 불리언 함수입니다.
+아래는 \texttt{beepers = 6} 인자를 통해 휴보가 처음에 6개의 beeper를 가지고 시작하도록 한 후 \texttt{carries\_beeper()}를 통해 beeper가 남아 있다면 하나씩 떨어뜨리면서 전진하도록 하는 코드와 전후 실행 모습입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+hubo = Robot(beepers = 6)
+
+for i in range(9):
+	hubo.move()
+	if hubo.carries_beeper():
+		hubo.drop_beeper()
+\end{minted}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperbef"}
+\label{fig:lecture5putbeeperbef}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_putbeeperaft"}
+\label{fig:lecture5putbeeperaft}
+\end{subfigure}
+\end{figure}
+위에서 보듯 이미 beeper가 하나 놓여있더라도 더 놓을 수 있습니다.
+
+그런데, 어떤 격자점에 있는 beeper를 모두 주으려면 어떻게 해야 할지 고민이 될 수 있습니다.
+반복적인 행동을 취해야 하므로 \texttt{for} 문을 활용해야 할 것 같은데, 매 격자점마다 몇 번 반복해야 할지 정해지지 않았기 때문입니다.
+\texttt{if} 조건문과 \texttt{on\_beeper()}를 통해 한 두번 반복을 할 수 있지만, 적절히 큰 수를 잡아서 그 수보다 beeper가 적기를 바라는 수 밖에는 없습니다.
+이러한 경우에 사용하는 것이 바로 다음 절에서 소개할 \texttt{while} 문입니다.
+
+\subsection{While 문과 토이 로봇}
+\subsubsection{While 문}
+\texttt{while} 문은 \texttt{for} 문과 같은 반복문이지만, 조금은 성질이 다릅니다.
+\texttt{for} 문은 명시적으로 몇 회 반복을 해야 하는지 주어지지만, \texttt{while} 문의 경우 어떤 조건을 만족한다면 계속 명령을 반복 수행하도록 하는 루프입니다.
+예컨대 위에서 제기하였던 의문점은 \texttt{on\_beeper()} 조건이 \texttt{True}일 경우 \texttt{pick\_beeper()} 명령이 반복되도록 코드를 작성하면 될 것입니다.
+토이 로봇까지 갈 필요 없이, 유클리드 호제법과 같은 알고리즘도 \texttt{while} 문을 활용해야 한다는 것을 생각해보면 알 수 있습니다.
+아래는 유클리드 호제법으로 최대 공약수를 구해주는 함수 \texttt{gcd($\cdot$)}입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def gcd(m, n):
+	while n:  # > 0
+		m, n = n, m%n
+	return m
+\end{minted}
+\texttt{n}이 0이 아닐 때, 즉 0이 되기 직전까지 줄 3의 내용을 실행하는 것입니다.
+결국 \texttt{n}이 0이 되었을 때 \texttt{m}이 최대 공약수일 것이므로 \texttt{m}을 반환하는 코드입니다.
+
+\subsubsection{토이 로봇}
+토이 로봇에서 움직임을 제어할 수 있는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()}을 반복하기 위해서는 직접 \texttt{for} 문을 작성해야 했습니다.
+\texttt{pick\_beeper()}와 \texttt{drop\_beeper()}도 이와 마찬가지로 한 번에 하나의 beeper만을 배치하거나 주을 수 있기 때문에 반복문을 활용해야 합니다.
+특히 휴보는 \texttt{carries\_beeper()}나 \texttt{on\_beeper()}를 통해 beeper를 가지고 있는지, 혹은 현재 격자점에 beeper가 놓여 있는지의 여부 정도는 파악할 수 있지만, 그 개수는 알 수 없기 때문에 \texttt{while} 문을 통해서 \texttt{pick\_beeper()}와 \texttt{drop\_beeper()}를 사용하는 것이 적절한 경우가 있습니다.
+\texttt{for} 문으로는 횟수를 명시해야 하는데 그것이 불가능하기 때문입니다.
+
+아래는 지난 절에서 beeper를 줍는 \texttt{pick\_beeper()} 메소드를 소개할 때 사용하였던 코드와 실행 모습입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+for i in range(9):
+	hubo.move()
+	if hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperbef"}
+\label{fig:lecture5pickbeeperbef2}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperaft"}
+\label{fig:lecture5pickbeeperaft2}
+\end{subfigure}
+\end{figure}
+각 격자점에 하나 이상의 beeper가 놓여있는 경우에는 아래와 같이 \texttt{if}를 \texttt{while}로 바꾸면 됩니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+for i in range(9):
+	hubo.move()
+	while hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_whilepickbeeper"}
+\label{fig:lecture5whilepickbeeper}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=.9\linewidth]{"./lectures/lecture5_pickbeeperaft"}
+\label{fig:lecture5pickbeeperaft3}
+\end{subfigure}
+\end{figure}
+이를 통해 \texttt{while} 문은 \texttt{if} 문을 여러 번 반복한 것과 동일한 것을 알 수 있습니다.
+
+마찬가지로 \texttt{beeper}를 놓을 때도 가지고 있는 만큼 놓으라는 명령을 \texttt{while} 문을 통해 작성할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+hubo = Robot(beepers = 50)
+
+while hubo.carries_beepers():
+	hubo.drop_beeper()
+hubo.move()
+\end{minted}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"./lectures/lecture5_whiledropbeeper"}
+\label{fig:lecture5whiledropbeeper}
+\end{figure}
+\texttt{if} 문에서 조건문이 \texttt{False}이면 아예 실행이 되지 않는 것처럼 \texttt{while} 문의 조건문도 \texttt{False}로 시작될 경우 루프가 실행되지 않고 넘어가게 됩니다.
+즉, 휴보가 beeper를 가지고 있지 않은 경우에는 \texttt{drop\_beeper()}가 실행되지 않습니다.
+
+\texttt{while} 문을 활용해서 beeper가 있는 곳까지 이동한 후 모두 주워 돌아오라는 코드는 지금까지 배운 반복문을 활용하여 아래와 같이 작성할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+cnt = 0
+
+while not hubo.on_beeper():
+	hubo.move()
+	cnt += 1
+
+while hubo.on_beeper():
+	hubo.pick_beeper()
+
+hubo.turn_right()
+hubo.turn_right()
+
+for i in range(cnt):
+	hubo.move()
+\end{minted}
+줄 1에서 4까지는 \texttt{while} 문에서 카운터 패턴이 적용된 것을 볼 수 있습니다.
+이는 나중에 휴보가 돌아올 때 몇 칸을 \texttt{move()}해야 할지 세야 하기 때문입니다.
+이렇게 센 \texttt{cnt} 값은 줄 13의 \texttt{for} 문에서 사용되었습니다.
+줄 3의 \texttt{while} 문 조건의 경우, 휴보가 beeper 위에 있지 않다면 앞으로 계속 이동하라는 줄 4의 명령을 수행하게 합니다.
+그리고 해당 위치까지 이동해서 반복문을 탈출했을 때, 줄 7의 반복문이 수행되어 beeper가 더 이상 없을 때까지 줍게 됩니다(줄 8).
+마지막으로는 줄 13에서 이동한 칸 수만큼 \texttt{move()}하여 되돌아옵니다.
+
+\subsection{예제}
+\begin{enumerate}
+\item Write a function \texttt{sum\_three\_squares(n)} that returns \texttt{True} if and only if \texttt{n} is expressible as a sum of squares of three positive integers, e.g., 38 should return \texttt{True} as $38 = 2^2 + 3^2 + 5^2$.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def sum_three_squares(n):
+	m = int(n**.5)
+	# Add here!
+	
+for n in range(20, 31):
+	print n, sum_three_squares(n)
+
+"""
+20 False
+21 True
+22 True
+23 False
+24 True
+25 False
+26 True
+27 True
+28 False
+29 True
+30 True
+"""
+\end{minted}
+
+\item Write a function \texttt{sum\_three\_dist\_squares(n)} that returns \texttt{True} if and only if \texttt{n} is expressible as a sum of squares of three distinct positive integers.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def sum_three_squares(n):
+	# Add here!
+	
+for n in range(20, 31):
+	print n, sum_three_dist_squares(n)
+
+"""
+20 False
+21 True
+22 False
+23 False
+24 False
+25 False
+26 True
+27 False
+28 False
+29 True
+30 True
+"""
+\end{minted}
+
+\item Write a function \texttt{sum\_two\_primes(n)} that returns \texttt{True} if and only if \texttt{n} is expressible as a sum of two primes.
+You may want to add your own function other than \texttt{sum\_two\_primes}.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def sum_two_primes(n):
+	# Add here!
+	
+for n in range(20, 31):
+	print n, sum_two_primes(n)
+
+"""
+20 True
+21 True
+22 True
+23 False
+24 True
+25 True
+26 True
+27 False
+28 True
+29 False
+30 True
+"""
+\end{minted}
+
+\item Write a function \texttt{sum\_two\_prime\_squares(n)} that returns \texttt{True} if and only if \texttt{n} is expressible as a sum of squares of two primes.
+You may want to add your own function other than \texttt{sum\_two\_prime\_squares}.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def sum_two_primes(n):
+	# Add here!
+	
+for n in range(20, 31):
+	print n, sum_two_primes(n)
+
+"""
+50 True
+51 False
+52 False
+53 True
+54 False
+55 False
+56 False
+57 False
+58 True
+59 False
+60 False
+"""
+\end{minted}
+
+\item Write a function \texttt{some\_prime(numbers)} that returns \texttt{True} if and only if there is a prime in \texttt{numbers}.
+Also, write a function \texttt{all\_primes(numbers)} if and only if all the numbers in \texttt{numbers} are primes.
+You may want to add your own function other than \texttt{sum\_two\_prime\_squares}.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def some_prime(numbers):
+	# Add here!
+
+def all_prime(numbers):
+	# Add here!
+               
+num1 = [217, 287, 143, 163, 319]
+num2 = [217, 287, 143, 169, 319]
+num3 = [223, 281, 227, 151, 149]
+print some_prime(num1), all_prime(num1)  # True False
+print some_prime(num2), all_prime(num2)  # False False
+print some_prime(num3), all_prime(num3)  # True True
+\end{minted}
+
+\item Write a function \texttt{all\_distinct(numbers)} that returns \texttt{True} if and only if all numbers in \texttt{numbers} are distinct.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def all_distinct(numbers):
+	# Add here!
+
+print all_distinct([1, 3, 2, 5, 2, 1])  # False
+print all_distinct([1, 0, 2, 5, 3, 4])  # True
+\end{minted}
+Write a function \texttt{all\_within\_range(numbers, lower, upper)} that returns \texttt{True} if and only if every $n$ in \texttt{numbers} satisfies $\texttt{lower} \leq n \leq \texttt{upper}$.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def all_within_range(numbers, lower, upper):
+	# Add here!
+
+print all_within_range([1, 0, 2, 6, 3, 4], 0, 5)  # False
+print all_within_range([1, 0, 2, 5, 3, 4], 0, 5)  # True
+\end{minted}
+Write a function \texttt{is\_permutation(numbers)} using the above two functions that returns \texttt{True} if and only if \texttt{numbers} is a permutation.
+An integer list $a_0, a_1, \dots, a_{n - 1}$ is a permutation if all numbers are distinct and $0 \leq n_i \leq n - 1$ for all $i = 0, 1, \dots, n - 1$.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def is_permutation(numbers, lower, upper):
+	# Add here!
+
+print is_permutation([1, 3, 2, 5, 2, 1])  # False
+print is_permutation([1, 0, 2, 5, 3, 4])  # True
+print is_permutation([1, 0, 2, 6, 3, 4])  # False
+\end{minted}
+
+\item Write a function \texttt{count\_sevens(n)} that returns the number of occurences of digit 7 in the integer \texttt{n}.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def count_sevens(n):
+	# Add here!
+
+print count_sevens(1723)  # 1
+print count_sevens(1357924770)  # 3
+\end{minted}
+
+\item Write a function \texttt{gcd(a, b)} that returns the greatest common divisor of two positive integers \texttt{a} and \texttt{b}.
+The greatest common divisor(GCD) can be computed by the Euclidean algorithm:
+Given positive integers $a$ and $b$ where $a \geq b$, let $r = a\ \mathrm{mod}\ b$.
+Then, the GCD of $a$ and $b$ is the same as the GCD $b$ and $r$.
+Thus $\mathrm{gcd}(a, b) = \mathrm{gcd}(b, r)$.
+For any two starting numbers, this repeated reduction eventually produces a pair where the second number is 0.
+Then the GCD is the other number.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def gcd(a, b):
+	if a < b:
+		a, b = b, a
+	
+	while b != 0:
+		# Add here!
+	
+	return # Add here!
+
+print gcd(36, 20)  # 4
+print gcd(2408208, 2790876)  # 132
+\end{minted}
+\end{enumerate}
+\end{document}

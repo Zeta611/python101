@@ -1,0 +1,94 @@
+\documentclass[a4paper, 10pt, twoside, calcwidth]{oblivoir}
+\usepackage[left=3.5cm,right=3.5cm,top=3.5cm,bottom=3.5cm, a4paper]{geometry}
+\usepackage{subfiles}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{upgreek}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{tocloft}
+\usepackage{stmaryrd}
+\usepackage{float}
+\usepackage{mathpazo}
+\usepackage{mathtools}
+\usepackage[datesep={-}]{datetime2}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{fancyhdr}
+\usepackage{textcomp}
+\usepackage{chngcntr}
+\counterwithin{footnote}{section}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{subcaption}
+\usepackage[normalem]{ulem}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\fontsize{9}{11}\selectfont\textsf{Python 및 알고리즘 입문 교재}}
+\fancyhead[LE]{\fontsize{9}{11}\selectfont\textsf\rightmark}
+\fancyhead[R]{\fontsize{9}{11}\selectfont\textsf\thepage}
+
+\renewcommand{\contentsname}{\normalfont\Large\bfseries\sffamily\color{black!60}{목차}}
+
+\newlength\myseclen
+\setlength\myseclen{\dimexpr\oddsidemargin+\hoffset\relax-0.9em}
+\newlength\mysubseclen
+\setlength\mysubseclen{\dimexpr\oddsidemargin+\hoffset\relax}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries\sffamily\color{black!60}}{\llap{\hspace*{-\myseclen}\thesection\hfill}}{0em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries\sffamily\color{black!60}}{\llap{\hspace*{-\mysubseclen}\thesubsection\hfill}}{0em}{}
+
+\begin{document}
+
+\begin{center}\sffamily
+\text{ }\\[1cm]
+\huge Python 및 정보과학 입문 교재
+
+\vspace{.1cm}
+\Large Python 2.7 및 기본적인 알고리즘에 대한 이해\\[.6cm]
+	\begin{tabular} {c c}
+		교재 제작 & v3.0\\
+		이재호 & \today
+	\end{tabular}
+\end{center}
+\vspace{.5cm}
+\noindent\rule[0.5ex]{\linewidth}{.5pt}
+\tableofcontents*
+\pagebreak
+
+\section{Python 소개 및 기본 요소}
+
+\subfile{lectures/lecture1}
+
+\section{Functions함수와 Conditionals조건문}
+
+\subfile{lectures/lecture2}
+
+\section{Boolean Functions불리언 함수와 Loops반복문 기본}
+
+\subfile{lectures/lecture3}
+
+\section{Lists리스트, Strings문자열, Counters카운터}
+
+\subfile{lectures/lecture4}
+
+\section{Quantifiers한정자와 While 문}
+
+\subfile{lectures/lecture5}
+
+\section{Loops반복문 응용과 파일 입출력}
+
+\subfile{lectures/lecture6}
+
+\section{토이 로봇 활용 (선택)}
+\subfile{lectures/lecture7}
+
+\section{Recursion재귀법, Python의 다양한 객체, 그리고 Lambda람다 함수}
+\subfile{lectures/lecture8}
+
+\section{}
+
+\end{document}

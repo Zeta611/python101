@@ -1,0 +1,536 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{강의 계획}
+본 교재에는 Python 2.7 까다로울 수 있는 숙제 문제들과 직접 제작하거나 다양한 자료에서 모은 예제들이 수록되어 있습니다.
+강의 수준은 기초부터 심화까지 차근차근 진행할 것이며, 상황에 따라 적절히 조절하도록 하겠습니다.
+본 교재에서 다루는 내용은 어렵고 복잡한 algorithm알고리즘을 배우는 것이라기보다는, Python 2 언어의 기본적인 문법 숙지와 더불어 자주 사용되는 패턴에 익숙해지는 것에 초점을 맞추고 있습니다.
+또한, 정보과학적인 사고력(순차적으로 논리적인 비약이 없이 문제 해결을 할 수 있는 능력)를 배우고 초보적인 algoritnhmic알고리즈믹 문제의 해결법을 배우는 것이 목적입니다.
+본문의 내용 중 Toy Robot 관련 내용은 수업을 진행하지 않을 예정으로, 한국과학영재학교의 교육 과정에 포함되어 있는 내용입니다.
+아래의 진도표는 회차 당 세 시간 수업을 기준으로 한 것이며, 다른 수업 계획이나 학생의 이해도에 따라 유동적일 수 있습니다.
+
+\begin{description}
+    \item[1회차] Python 소개 및 기본 요소
+    \item[2회차] Functions함수와 Conditionals조건문
+    \item[3회차] Boolean Functions불리언 함수와 Loops반복문 기본
+    \item[4회차] Lists리스트, Strings문자열, Counters카운터
+    \item[5회차] Quantifiers한정자와 While 문
+    \item[6회차] Loops반복문 응용과 파일 입출력
+    \item[\sout{7회차}] \sout{Toy Robot 활용과 기출 문제 풀이}
+    \item[7회차] 재귀법Recursion과 Python의 다양한 객체
+    \item[8회차] 람다Lambda 함수
+\end{description}
+
+\subsection{들어가기 전에}
+Python은 문법이 단순하면서도 활용 가능성이 무궁무진한 언어입니다.
+단순히 `정보과학' 과목만을 위해서 Python을 배운다기보다는, 자신이 평생 쓸 수 있는 도구를 연습한다는 마음가짐으로 배웠으면 좋겠습니다.
+Python은 R이나 Matlab 등과 함께 학문적인 용도로도 쓰임이 많은 언어입니다.
+특히 Matlab과 다르게 Python은 오픈 소스에 무료인데다가, 단순히 데이터 처리만을 위한 언어가 아니기 때문에 유연합니다.
+NumPy와 Matplotlib라는 패키지로 Matlab이 할 수 있는 다양한 작업들을 똑같이 할 수 있기도 합니다.
+
+실제로 저는 한국과학영재학교에서 정보과학 과목 이외에도 일반물리학실험이나 일반천문학실험, 일반화학실험 등의 과목에서 데이터를 분석하고 차트를 그리기 위해 Python을 사용하였습니다.
+나아가 R\&E와 같은 연구 활동이나 KYPT와 같은 대회에 참가한다면 Python을 통한 데이터 분석 및 처리를 통해서 분명 큰 도움을 받을 수 있습니다.
+
+\subsection{Python이란?}
+Python은 1991년에 Guido van Rossum이 발표한 프로그래밍 언어로, 문법이 굉장히 쉬우면서도 높은 생산성을 가지고 있는 언어입니다.
+특히 pseudocode의사코드와 거의 형태가 유사하기 때문에 배우기 쉬워서, 많은 학교에서 프로그래밍 입문 수업 언어로 Python을 채택하고 있습니다.
+또, \textbf{프로그래밍 언어로 할 수 있을 법한 거의 모든 기능들이 이미 Python을 위한 패키지로 구현되어 있습니다.}
+대부분의 연장이 미리 준비되어 있는 것입니다.
+따라서 속도가 중요한 작업이 아니라면 C/C++보다 Python을 쓰는 것이 훨씬 효율적입니다. (연산이 아니라 업무의 효율을 말하는 것입니다.)
+
+프로그래밍에 익숙치 않더라도 컴퓨터에 관심이 많다면 C, C++, Java 등의 언어와 함께 Python도 한 번 쯤 들어보았을 정도로, Python은 점유율 상위 다섯 언어 안에 드는 주류 언어입니다.
+Python은 1995년에 등장한 Java보다도 오래 전에 만들어진 언어로, 긴 역사를 가지고 있습니다.
+그 만큼 버전의 숫자도 큰데, 이 글을 작성하는 현 시점에서 Python 2의 최신 버전은 2.7.14, Python 3의 최신 버전은 3.6.4입니다.
+그런데 왜 Python 2와 Python 3를 둘 다 언급하냐고요?
+아직까지도 호환성 문제로 인해서 Python 2를 사용하는 경우가 많기 때문입니다.
+한동안은 Python 2와 Python 3가 동시에 개발되기도 하였습니다.
+물론, 지금 처음 프로그래밍을 배우시는 분이라면 이제는 Python 2보다는 Python 3를 추천하는 경우가 잦아졌습니다.
+Python 2는 2.7이 최종 버전이고, 이후에는 bugfix 릴리즈만 있을 예정인데다가 2020년까지만 지원을 할 예정입니다.
+나아가 최신 버전의 Ubuntu(Linux 배포판의 한 버전)는 Python 3를 기본 Python 버전으로 설정하였습니다.
+1, 2년 전까지만해도 Python 2 vs Python 3의 논쟁이 비일비재하게 일어났었습니다.
+그렇지만 우리 학교에서는 Python 2를 배우는 탓에, 나아가 cs1graphics 등의 모듈과의 호환성 때문에 Python 2.7.6을 사용해야 합니다.
+
+\textbf{Python은 interpreter인터프리터 언어입니다.}
+Interpreter 언어란 소스 코드를 한 줄씩 기계어\footnote{기계가 바로 이해할 수 있는 저급 언어로, 0과 1의 이진수로만 구성되어 있는 언어로, 모든 CPU를 구동시키기 위해서는 C와 같은 고급 언어를 저급 언어로 변환시키는 과정이 필요합니다.}로 번역하는 방식의 언어입니다.
+조금 더 가독성을 높인, 기계어와 일대일 대응이 되는 (마찬가지로 저급 언어인) 어셈블리어가 있기도 합니다.
+고급 언어를 기계어로 변환시키는 방법은 크게 두 가지가 있습니다.
+Compiler컴파일러와 interpreter입니다.
+C와 같은 언어는 compiler 언어로, 코드 전체를 한꺼번에 기계어로 변환시킵니다.
+이 때문에 실행 속도는 빠르다는 장점이 있지만, 코드를 수정하기 위해서는 다시 한 번 전체를 기계어로 변환시키는 과정이 필요합니다.
+반면 Python은 한 줄씩 기계어로 번역하기 때문에 실행 속도는 다소 느리지만, debug디버그\footnote{코드에서 bug버그, 즉 오류를 제거하는 것을 의미합니다.}에 유리합니다.
+한 줄씩 실행하기 때문에 애초에 compile을 거부하는 compiler 언어와는 다르게 버그가 있는 해당 줄까지 코드를 실행시켜주기 때문입니다.
+이러한 장단점 때문에 프로그램의 골격을 Python으로 만들고, 빠른 연산이 필요한 부분만 C로 만드는 것도 가능합니다.
+
+마지막으로, Python이 얼마나 쉽고 직관적인 언어인지 알아봅시다.
+만약 A+가 F, C+. B0, A-, A+에 있으면 "A+가 있습니다."를 실행해주는 Python 코드를 봅시다.
+\begin{minted}[mathescape,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+if "A+" in ["F", "C+", "B0", "A-", "A+"]: print "A+가 있습니다."
+\end{minted}
+프로그래밍을 할 줄 모르더라도 저 코드를 이해할 수 있을 것입니다.
+이처럼 Python은 인간이 사고하는 방식을 그대로 옮겨 놓았다고 해도 과언이 아닐만큼이나 직관적입니다.
+\textbf{익숙해진다면 자신이 하고 싶은 일을 코드로 옮기려고 끙끙댈 필요 없이, 생각하는 그대로 코드를 작성할 수 있는 자신을 발견할 수 있을 것입니다.}
+이제 Python의 기본 요소에 대해 알아봅시다!
+(설치 과정은 따로 담지 않았습니다. 수업 중에 같이 진행하여 봅시다.)
+
+\subsection{Python의 기본 요소}
+\subsubsection{Values값과 Variables변수}
+IDE에 내장된 쉘shell에 다음을 입력해 봅시다.
+Interpreter 언어이기 때문에, 명령을 한 줄씩 입력하여 명령을 수행할 수 있습니다.
+(\texttt{>>>}는 직접 입력하는 것이 아닙니다.)
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> a = (1+2+3+4)/2
+>>> b = a - 1
+>>> c = 3
+>>> print b + c
+7
+>>> print b, c
+4  3
+>>> d = c
+>>> a = d
+>>> print a
+3
+\end{minted}
+\texttt{a = (1+2+3+4)/2}는 등호 왼쪽에 있는 \texttt{a}에 등호 오른쪽에 있는 $\frac{1+2+3+4}{2}$를 배정한다는 뜻입니다.
+즉, 수학에서 말하는 등호와는 의미가 다른 것이지요.
+줄 2의 \texttt{b = a - 1}은 현재 \texttt{a}에 배정된 $\frac{1+2+3+4}{2} = 5$의 값에 1을 뺀 4를 \texttt{b}에 배정한다는 뜻입니다.
+이 때, 좌변에 있는 \texttt{a}, \texttt{b	}, \texttt{c}를 variables변수\footnote{필요에 따라 영문의 `variable', 국문의 `변수'를 사용하여 서술하겠습니다. 이외의 용어도 처음에는 영문과 국문을 병기한 후, 필요에 따라 둘 중 하나의 표현만 사용하겠습니다.}, 우측의 \texttt{(1+2+3+4)/2}를 expression표현이라고 합니다.
+또한 이러한 변수에 배정되는 것을 value값이라고 합니다.
+다시 위의 예시로 돌아가서, 줄 2에 있는 좌변의 \texttt{b}는 variable, 우변의 \texttt{a - 1}는 value인 것이죠.
+Variable과 value는 문자인지 숫자인지의 여부가 아니라 대입이 되는 대상인지 대입이 되어지는 대상인지의 여부가 결정짓습니다.
+물론, variable이 value 그 자체가 될 수 있습니다.
+줄 8의 예시와 같은 경우, 우변의 \texttt{c}는 variable이면서 \texttt{d}라는 variable에 대입되는 value입니다.
+그렇다면, 아래와 같은 표현을 어떨까요?
+\begin{minted}[mathescape,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> 10 = a
+\end{minted}
+지금까지 잘 따라왔다면, value가 위치해야 할 좌변에 value인 literal\footnote{어떤 객체에 value를 부여할 수 있는 것입니다. \texttt{0}은 \texttt{int} literal, \texttt{"python"}은 \texttt{str} literal입니다. \texttt{int}, \texttt{str}이 무엇인지는 조금 뒤에 type형이라는 것을 배우면 알 수 있습니다.}이 위치해 잘못된 syntax구문이라는 것을 알 수 있습니다.
+\texttt{SyntaxError: can't assign to literal}이라는 오류 log를 볼 수 있을 것입니다.
+(여담이지만, 앞으로 수 없이 많은 오류 log를 볼 텐데, 이를 꼼꼼히 읽어보는 습관을 들입시다.
+오류 log를 무시하고 디버깅하는 것은 마치 백사장에서 바늘을 찾는 것과도 같습니다.)
+혹은, ``let 10 be a"라는 표현이 말이 되지 않는다는 것을 통해서도 직관적으로 잘못되었음을 파악할 수 있습니다.
+
+이러한 변수는 여러 가지 종류가 있습니다.
+이를 data type자료형, 혹은 간단히 type형이라고 합니다.
+\texttt{-1}, \texttt{0}, \texttt{76} 등의 값은 \texttt{int}\footnote{정수라는 뜻의 integer에서 따온 명칭입니다. 단, 수학에서 3.0은 정수이지만 \texttt{3.0}은 \texttt{float} type입니다.} type, \texttt{3.14159}, \texttt{0.}, \texttt{6.626e-34}, \texttt{6.022E23} 등의 값은 \texttt{float}\footnote{부동 소수점 혹은 떠돌이 소수점이라는 뜻의 floating point에서 따온 명칭입니다. 실수가 아니라 근삿값이라는 의미에 더 가깝습니다.} type, \texttt{"Hello, world!"}, \texttt{\textquotesingle python\textquotesingle}, \texttt{""} 등의 값은 \texttt{str}\footnote{나열이라는 뜻의 string에서 따온 명칭입니다.} type입니다.
+Type에 대해서는 조금 뒤에 더 자세히 살펴봅시다.
+
+변수는 어떤 값이 배정된 것이라고 했는데, 이것을 assign되었다고 하며 값이 written되었다고도 표현할 수 있습니다.
+이렇게 변수에 저장된 값은 read읽을 수 있는데, 첫 예시의 줄 2처럼 \texttt{a}에 저장된 값 \texttt{5}를 불러오는 것이 이에 해당합니다.
+또한 줄 4의 \texttt{print}를 통해서도 값을 읽어올 수 있습니다.
+
+변수는 서로 다른 값이 배정될 수 있습니다.
+첫 예시에서 줄 9를 보면, \texttt{5}가 저장되었던 \texttt{a}에 \texttt{3}이 저장된 \texttt{d}의 value가 다시 \texttt{a}에 쓰여지는 것을 볼 수 있습니다.
+줄 10에서 이 사실을 재확인할 수 있고요.
+이와 같이 변수는 재활용될 수 있고, 이는 개수를 세거나(counting) 특정 사건을 기록하기 위해 flag 등으로 사용하는데 도움이 됩니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> summ = 0
+>>> summ = summ + 1
+>>> summ = summ + 1
+>>> print summ
+2
+\end{minted}
+더 자세한 활용은 차차 Python을 익혀가면서 알아봅시다.
+
+이 뿐만이 아니라, Python은 여러 변수에 여러 값을 한 번에 배정하는 것(multiple assignment)을 허용합니다.
+나아가 \textbf{변수의 swapping을 매우 손쉽게 할 수 있습니다.}
+이 둘을 다음 예시를 통해 함께 확인합시다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> a, b, c = 2, 7, 12
+>>> a, b, c = b, c, a
+>>> print a, b, c
+(7, 12, 2)
+>>> a, b = b % a, a
+>>> print a, b
+5, 7
+\end{minted}
+Multiple assignment를 허용하지 않는 대다수의 언어에서는 임시 변수를 도입해야 합니다.
+예컨대 줄 5의 경우 아래와 같은 방법을 사용해야 합니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> tmp = a
+>>> a = b % tmp
+>>> b = tmp
+\end{minted}
+Python에서는 마치 하노이의 탑을 연상시키는 이러한 과정을 시행하지 않아도 됩니다.
+
+마지막으로, 변수의 이름으로 정할 수 없는 특정 문자열이 있습니다.
+Python이 내부적으로 사용하는 \texttt{int}, \texttt{str}, \texttt{if}, \texttt{else}, \texttt{for}, \texttt{range}, \dots 등이 이에 해당합니다.
+(제가 확인해본 결과 \texttt{int} 등 type 명은 배정이 가능했으나, 굳이 그렇게 명명을 해서 좋을 것은 없을 것 같습니다.)
+그리고 변수명은 영어 대소문자, 숫자, 그리고 \texttt{\_}로만 이뤄져 있어야 합니다.\footnote{Python 3에서는 한글로도 이름을 명명할 수 있다고 합니다.}
+나아가 숫자로 시작할 수 없습니다.
+\texttt{1st\_name}과 같은 문자열을 변수명으로 지정할 수 없는 것입니다.
+
+\subsubsection{Expressions표현}
+Expression은 variable, value, 그리고 operator들의 조합입니다.
+우리가 흔히 부르는 사칙 연산 \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}와, 나머지를 구해주는 \texttt{\%}, 지수를 뜻하는 \texttt{**} 등이 이에 해당합니다.
+\textbf{주의할 점은, \texttt{\^{}}이 지수를 뜻하는 것이 아니라 \texttt{**}이라 것입니다.}
+또한, \texttt{/}는 정수 사이의 연산에서는 몫을 구해줍니다.
+아래의 예시를 봅시다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> 12 + 5
+17
+>>> 12 - 5
+7
+>>> 12 * 5
+60
+>>> 12 / 5
+2
+>>> 12.0 / 5.0, 12. / 5., 12. / 5, 12 / 5.
+2.4  2.4  2.4  2.4
+>>> 12 % 5
+2
+>>> 12 ** 5
+248832
+>>> 12 ^ 5
+9
+\end{minted}
+\texttt{\^{}}는 bitwise XOR의 연산자로서, $12 = 1100_2$, $5 = (0)101_2$이므로 digit이 다른 $2^3, 2^2, 2^1$ 자릿수만 1을 취한 $1001_2 = 9$가 \texttt{12 \^{} 5}의 값입니다.
+하지만 우리는 bitwise XOR이 무엇인지 알 필요는 없습니다.
+\texttt{\^{}}이 우리가 원하는 지수의 연산이 아니라는 사실만 기억해두면 됩니다!
+연산의 순서는 기본적으로 괄호(\texttt{(\dots)}), unary 연산(\texttt{+x}, \texttt{-x}), 지수(\texttt{**}), 곱셈/나눗셈/나머지 연산(\texttt{*}, \texttt{/}, \texttt{\%}), 덧셈/뺄셈(\texttt{+}, \texttt{-})의 순서입니다.
+억지로 외울 필요는 없고, 연습을 하다 보면 자연스레 익힐 수 있을 것입니다.
+헷갈리는 경우에는 \texttt{(\dots)}를 사용하여 순서를 덮어 씌울 수 있습니다.
+
+나누기 연산은 정수끼리 행하면 몫 만을 구해준다고 하였습니다.
+그런데 줄 9에서는 수학적으로는 정수끼리 행하였지만 여전히 올바른 실수의 값, 2.4를 내놓는 것을 볼 수 있습니다.
+이는 \texttt{12.}이나 \texttt{5.}이라는 literal 자체가 \texttt{float} type이라는 것을 표현하기 때문입니다.
+\textbf{이러한 나누기 연산에서 제수와 피제수 둘 중 하나만이라도 type이 \texttt{float}이면 결과값도 \texttt{float}을 가지게 됩니다.}\footnote{Python 3에서는 이와 상관 없이 \texttt{float} type의 정확한 나눗셈 결과를 반환합니다.}
+이 부분도 자주 실수를 하게 되는 부분이니 꼭 주의하시길 바랍니다.
+
+코드를 작성할 때에는 특별한 경우를 제외하고는 가독성이 중요합니다.
+예컨대, 중복되는 값이나 의미가 있는 값은 특정 변수에 저장하여 해당 변수를 통해 식을 표현하는 것이 바람직합니다.
+아래의 예시를 봅시다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> S = ((3 + 4 + 5) * (-3 + 4 + 5) * (3 - 4 + 5) * (3 + 4 - 5))**0.5
+>>> a, b, c = 3, 4, 5
+>>> s = (a + b + c) / 2.
+>>> S = (s * (s - a) * (s - b) * (s - c))**0.5
+\end{minted}
+비록 줄 수는 늘어났지만, 줄 1의 표현보다는 줄 4의 표현이 가독성이 높을 뿐만이 아니라 더 일반적이어서 값을 바꾸기 위해서는 줄 2의 숫자 부분만 변경을 하면 된다.
+반면 줄 1의 표현의 경우 \texttt{+}와 \texttt{-}의 부호 구분에서 실수를 할 수 있고 다른 값을 대입하기 위해서는 12 부분에 수정을 가해야 한다.
+그리고 다시 강조하지만, 줄 3처럼 나눗셈 연산을 할 때 정확한 값을 얻기 위해서 제수와 피제수 중 하나는 \texttt{float} type이어야 합니다.
+
+마지막으로 소개할 syntax는 위에서 잠시 언급한 개수 세기 등에서 유용하게 쓸 수 있습니다.
+변수 뒤에 산술 연산자(\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{\%}, \texttt{**}) 뒤에 바로 \texttt{=}를 붙인 후 수를 쓰는 syntax입니다.\footnote{\texttt{int}나 \texttt{float}형에서는 모든 산술 연산자를 쓸 수 있고, \texttt{str}형에 대해서는 정의가 되어 있는 \texttt{+}만 사용할 수 있습니다.}
+\texttt{x += 1}과 같이 말입니다.
+이는 해당 변수에 저장된 값에 등호 뒤에 쓰인 값을 더한다는 의미로, \texttt{x = x + 1}과 동일한 의미를 가지고 있습니다.
+아래와 같이 응용할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> x = 4
+>>> x += 2
+>>> x
+6
+>>> x -= 1
+>>> x
+5
+>>> x *= 2
+>>> x
+10
+>>> x /= 5
+>>> x
+2
+>>> x %= 3
+>>> x
+2
+>>> x **= 3
+>>> x
+8
+\end{minted}
+
+\subsubsection{Types형}
+위에서 간단히 소개한 바 있는데, variable의 종류를 type형이라고 합니다.
+현재로서는 지금까지 언급한 \texttt{int}(정수형), \texttt{float}(실수형), \texttt{str}(문자열) 세 가지 type만 알아두시면 됩니다.
+소리 내어 읽을 때 저는 보통 인트, 플로트, 스트링과 같이 읽습니다.
+지금까지는 숫자가 실수형임을 명시할 때 \texttt{3.}과 같이 온점을 찍어 표현하였는데, type conversion형 변환이라는 것을 사용하여도 됩니다.
+\textbf{형 변환은 정수형과 실수형 간에서 자유롭게 가능하고, 문자열의 경우에는 그 자체가 수일 경우에만 변환이 가능합니다.}
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> x = 76
+>>> x
+76
+>>> float(x)
+76.0
+>>> str(x)
+'76'
+>>> pi = 3.14
+>>> pi
+3.14
+>>> int(pi)
+3
+>>> str(pi)
+'3.14'
+>>> s = "1"
+>>> s
+'1'
+>>> int(s)
+1
+>>> float(s)
+1.0
+\end{minted}
+위 예시를 통해 필요한 모든 경우를 파악하셨을 것입니다.
+또한, \texttt{type($\cdot$)}를 통해 직접 type을 확인할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> print type(76)
+<type 'int'>
+>>> print type(76.)
+<type 'float'>
+>>> print type("76")
+<type 'str'>
+>>> print type(76/1)
+<type 'int'>
+>>> print type(76./1)
+<type 'float'>
+\end{minted}
+
+\subsubsection{Input/Output입출력}
+지금까지는 Python shell에서만 명령을 실행했습니다.
+그렇기 때문에--에컨대--\texttt{a}에 담긴 값을 알기 위해서는 굳이 \texttt{print a}가 아니라 \texttt{a}를 치는 것 만으로도 충분했습니다.
+하지만 여러 줄의 코드를 한꺼번에 작성하여 실행할 때에는 이런 방식의 접근이 불가능합니다.
+또, 코드를 실행 중일 때 어떤 입력을 받기 위해서는 지금까지와는 다른 방법이 필요합니다.
+Shell과는 다르게 한 줄씩 직접 입력하는 방식이 아니기 때문입니다.
+값을 출력하는 것은 지금까지 해왔던 것처럼 \texttt{print}를 사용하면 되는데, 아래에서 \texttt{print}에 대해 좀 더 알아보겠습니다.
+Shell이 아니라 파일을 만들어서 실행시킵니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+print "Hello, world!"
+
+print 1
+print 2
+print 3
+
+print 1,
+print 2 ,
+print 3,
+print 
+
+print 1, 2, 3
+
+today = "Thursday"
+print "Today is ", today
+\end{minted}
+위 코드를 실행시키면, \texttt{print 1}과 같이 뒤에 쉼표 \texttt{,}를 붙이지 않으면 줄이 바뀌고, \texttt{,}를 붙이면 줄이 바뀌지 않는다는 것을 알 수 있습니다.
+또한 줄 8에서 보는 것처럼 값 뒤에 띄어쓰기를 한 후 쉼표를 붙여도 마찬가지로 줄이 바뀌지 않습니다.
+줄 10에는 \texttt{print}만 단독으로 나와 있는데, 이는 출력문 없이 줄만 바뀌는 효과를 줍니다.
+줄 7에서 10까지의 코드는 줄 12와 동등한 결과를 출력합니다.
+줄 15처럼 type이 다르더라도 섞어서 출력할 수 있습니다.
+
+이제는 값을 입력하는 법에 대해 알아봅시다.
+\texttt{raw\_input($\cdot$)} 함수를 사용하면 됩니다.
+다음과 같은 예시를 살펴봅시다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+today = raw_input("What day is it today? ")
+print "Today is ", today
+
+s = raw_input("Enter the number you want to know the square root of: ")
+n = float(s)
+print n**.5
+\end{minted}
+위 코드를 실행시키면 창에 \texttt{What day is it today? }가 출력된 후 입력이 될 때까지 기다립니다.
+키보드로 값을 입력한 후--\texttt{Thursday}를 입력했다고 합시다--enter 키를 치면 값이 입력되고, \texttt{Today is Thursday.}가 출력될 것입니다.
+또한, 수를 입력 받을시 \texttt{int($\cdot$)}나 \texttt{float($\cdot$)}로 형 변환을 수행해줘야 합니다.
+\textbf{\texttt{raw\_input($\cdot$)}이 넘겨주는 값은 항상 \texttt{str} 형이기 때문입니다.}
+
+\subsection{예제}
+\begin{enumerate}
+\item Add additional code to the following so that the difference between the sum of the squares of the first $n$ natural numbers and the sum of the cubes is printed.
+Note that \texttt{for} statement is not needed; just use formulae for the sums of the squares and the cubes.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+n = int(raw_input("Enter n: "))
+# Add here!
+\end{minted}
+
+\item There are five people sitting around a table: \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, and \texttt{e}.
+Each person writes down his/her favorite integer.
+Then each person adds the numbers the two people sitting next to him/her, to the original number he/she wrote.
+The following code should print the numbers \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, and \texttt{e} achieved at the end.
+Add additional code to make the following code work.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+a = int(raw_input("Enter a: "))
+b = int(raw_input("Enter b: "))
+c = int(raw_input("Enter c: "))
+d = int(raw_input("Enter d: "))
+e = int(raw_input("Enter e: "))
+print "Favorite integers: ", a, b, c, d, e
+# Add here!
+print "Final integers: ", a, b, c, d, e
+\end{minted}
+
+\item You want to solve a quadratic equation $\texttt{a}x^2 + \texttt{b}x + \texttt{c} = 0$.
+Add additional code to make the following code work.
+Assume that $\texttt{b}^2 - 4\texttt{ac} > 0$.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+a = int(raw_input("Enter a: "))
+b = int(raw_input("Enter b: "))
+c = int(raw_input("Enter c: "))
+# Add here!
+# x1 = ...
+# x2 = ...
+print "Solutions for the quadratic equation are ", x1, " and ", x2
+\end{minted}
+
+\item Predict the output of the following expressions.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> 3*2**6+12
+???
+>>> 32/7+2**3/3
+???
+>>> 13/3%3+2.0
+???
+>>> 13/2/4.
+???
+>>> 13/2./4
+???
+>>> float(13/2)/4
+???
+>>> int(2**(1/2))+1
+???
+\end{minted}
+Choose all possible variable names in Python 2 from the following:
+\begin{itemize}
+\item \texttt{if}
+\item \texttt{sum}
+\item \texttt{max}
+\item \texttt{1st\_var}
+\item \texttt{var\_1}
+\item \texttt{this+that}
+\item \texttt{\_self}
+\item \texttt{변수}
+\item \texttt{r\&e}
+\end{itemize}
+
+\item The following code reads six real numbers \texttt{x1}, \texttt{y1}, \texttt{x2}, \texttt{y2}, \texttt{x3}, and \texttt{y3}.
+Assume that $(\texttt{xi}, \texttt{yi})$ (\texttt{i = 1, 2, 3}) are distinct points in a coordinate plane.
+Add additional code so that the code prints out the area of the triangle formed by the three points.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+x1 = int(raw_input("Enter x1: "))
+y1 = int(raw_input("Enter y1: "))
+x2 = int(raw_input("Enter x2: "))
+y2 = int(raw_input("Enter y2: "))
+x3 = int(raw_input("Enter x3: "))
+y3 = int(raw_input("Enter y3: "))
+# Add here!
+# area = ...
+print "Area of the triangle is", area
+\end{minted}
+
+\item Calculate the remainder of \texttt{a} when divided by \texttt{b}.
+Do not use \texttt{\%} but only \texttt{-}, \texttt{+}, and \texttt{/}.
+Assume that both \texttt{a} and \texttt{b} are positive integers.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+a = int(raw_input("Enter a:"))
+b = int(raw_input("Enter b:"))
+# Add here!
+# r = ...
+print "Remainder is", r
+\end{minted}
+
+\item The following code calculates the ceiling function $\lceil x \rceil = \min \{n \in \mathbb{Z} \mid n \geq x\}$ of a given positive real number \texttt{x}.
+Use of \texttt{int($\cdot$)}, \texttt{+}, and \texttt{-} is sufficient.
+Add additional code.
+\begin{itemize}
+\item Hint: Try plotting \texttt{int($\cdot$)} function.
+\end{itemize}
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+x = float(raw_input("Enter x:"))
+# Add here!
+# ceil_x = ...
+print "Ceil(x) =", ceil_x
+\end{minted}
+\end{enumerate}
+\end{document}

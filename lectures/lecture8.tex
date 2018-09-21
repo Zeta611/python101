@@ -1,0 +1,571 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\subsection{Recursion재귀법}
+아래와 같은 수열을 피보나치 수열Fibonacci sequence이라고 부릅니다:
+\[
+1, 1, 2, 3, 5, 8, 13, 21, \dots
+\]
+위 수열에서는 바로 이전 두 항이 그 다음 항을 그 합으로써 결정한다는 규칙을 쉽게 찾을 수 있습니다.
+이러한 규칙으로 수열을 생성하기 위해서는 처음 두 값이 1로 정해져 있어야 합니다.
+(물론, 0, 1로 정하여도 무방합니다.)
+이러한 두 값을 초항이라고 부릅니다.
+따라서, 피보나치 수열은 이러한 두 초항과 다음 항들을 생성하는 규칙을 사용해 다음과 같이 정의할 수 있습니다:
+\[
+f_n = \begin{cases}
+1 & \text{for $n \in \{1, 2\}$}\\
+f_{n - 1} + f_{n - 2} & \text{for $n \in \mathbb{N} \setminus \{1, 2\}$}
+\end{cases}
+\]
+위와 같이 수열을 귀납적으로 정의하면, 이를 계산하는 코드를 바로 구현할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def f(n):
+	if n <= 2:
+		return 1
+	return f(n - 1) + f(n - 2)
+\end{minted}
+이를 통해, 귀납적으로 정의되는 모든 수열을 쉽게 코드로 바꿀 수 있다는 사실을 알게 되었습니다.
+
+사실 많은 알고리즘적 문제는 이렇게 귀납적으로 정의할 수 있으며, 이렇게 작성한 코드를 재귀법recursion이라고 하고 이 때 사용한 함수를 재귀 함수라고 합니다.
+이러한 예시에는 다음에 살펴볼 유클리드 호제법, 하노이의 탑, 이진 검색, 지수 계산이 있습니다.
+하나하나씩 살펴보도록 합니다.
+
+\subsubsection{유클리드 호제법}
+유클리드 호제법은 두 수의 최대공약수greatest common divisor를 구하는 알고리즘입니다.
+두 수 $a$와 $b$가 정해졌을 때, 유클리드 호제법은 이 둘의 최대공약수를 다음의 규칙에 따라 귀납적으로 구합니다:
+\[
+\mathrm{gcd}(a, b) = \begin{cases}
+a & \text{if }b = 0\\
+\mathrm{gcd}(b, a\ \mathrm{mod}\ b) & \text{otherwise}
+\end{cases}
+\]
+이는 다음과 같이 바로 코드로 옮겨 적을 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def f(n):
+	if b == 0:
+		return a
+	return gcd(b, a%b)
+\end{minted}
+위에서 보았던 피보나치 수열을 코드로 구현한 것과 동일한 패턴을 가지는 것을 확인할 수 있습니다.
+즉, \texttt{if} 문으로 초기 조건을 처리해주고, 귀납식을 그대로 반환해주는 형태로 구성이 되어 있습니다.
+아래에서 볼 좀 더 복잡한 알고리즘의 경우에도 이를 응용한 형태입니다.
+
+\subsubsection{하노이의 탑}
+하노이의 탑은 세 개의 봉에 크기 순으로 쌓여진 디스크들을 규칙에 맞게 다른 봉으로 옮기는 문제를 말합니다.
+이 때, 모든 디스크들은 항상 크기 순으로 쌓여져 있어야 하고, 한 번에 하나씩만 옮길 수 있습니다.
+즉, 다음과 같은 움직임은 허용되지 않습니다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{"./lectures/lecture8_hanoi_rule"}
+\label{fig:lecture8hanoirule}
+\end{figure}
+
+만약 세 개의 디스크가 있는 경우, 최단 횟수로 디스크를 모두 옮기는 해법은 다음과 같습니다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{"./lectures/lecture8_hanoi_3"}
+\label{fig:lecture8hanoi3}
+\end{figure}
+
+$n$개의 디스크를 봉 1에서 봉 3으로 옮기는 상황을 가정합시다.
+가장 큰 $n$ 번째 디스크는 항상 맨 밑에 위치해야 하므로, 해당 디스크를 봉 1에서 봉 3으로 옮기기 위해서는 나머지 $(n - 1)$개의 디스크 모두가 봉 2에 위치해 있어야 합니다.
+따라서 $n$개의 디스크를 봉 1에서 봉 3으로 옮기기 위해서는 일단 위의 $(n - 1)$개의 디스크를 봉 1에서 봉 2로 옮기고, 가장 큰 디스크를 봉 1에서 봉 3으로 옮긴 후, 다시 $(n - 1)$개의 디스크를 봉 2에서 봉 3으로 옮겨야 합니다.
+이 때 $(n - 1)$개의 디스크를 옮기는 상황은 $n$개의 디스크를 옮기는 경우를 귀납적으로 정의한다는 사실을 알 수 있습니다.
+
+하노이 탑 문제는 다음과 같이 수학적으로 형식화할 수 있습니다.
+함수 $f: \mathbb{N} \times \{1, 2, 3\} \times \{1, 2, 3\} \rightarrow \{\text{list of moves}\}$를 귀납적으로 정의합니다:
+\[
+\begin{cases}f(0, \mathrm{from}, \mathrm{to}) &= []\\
+f(n, \mathrm{from}, \mathrm{to}) &= f(n - 1, \mathrm{from}, \mathrm{to}) + [(n, \mathrm{from}, \mathrm{to})] + f(n - 1, \mathrm{other}, \mathrm{to})\end{cases}
+\]
+이를 코드로 옮기면 아래와 같습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def hanoi(n, fr, to):
+	if n == 0:
+		return []
+	ot = 1 + 2 + 3 - fr - to
+	return hanoi(n - 1, fr, ot) + [(n, fr, to)] + hanoi(n - 1, ot, to)
+
+n = 5
+print hanoi(n, 1, 3)
+\end{minted}
+위에서는 디스크가 총 5개일 때 봉 1에서 봉 3으로 디스크를 옮기는 경우를 출력했습니다.
+약간 형태가 복잡해졌을 뿐, 위에서 보았던 코드와 동일한 패턴입니다.
+
+\subsubsection{이진 검색}
+이진 검색은 정렬된 리스트가 주어졌을 때 원소를 효율적으로 찾을 수 있는 알고리즘입니다.
+이는 후에 배울 분할정복법의 대표적인 예시로, $O(\log n)$의 시간복잡도를 가지고 있습니다.
+일반적으로 정렬되지 않은 리스트에서 어떤 원소를 찾기 위해서는 모든 원소를 순서대로 찾아보는 $O(n)$의 작업이 필요하지만, 정렬이 되어 있다는 사실이 주어지면 이진 검색을 통해 훨씬 효율적으로 원소를 찾을 수 있습니다.
+개괄적으로, 이진 검색은 가운데 원소를 본 후 만약 해당 원소가 찾고자 하는 값보다 큰 경우 오른쪽을 버리고, 작은 경우 왼쪽을 버리면서 검색을 진행합니다 (물론 원소는 오름차순 정렬이라고 가정합니다).
+
+이진 검색을 함수 $f: \{(\mathrm{sorted\ list}, \mathrm{value}, \mathrm{left}, \mathrm{right})\} \rightarrow \{\mathrm{index}\}$라고 할 때, 다음과 같이 귀납적으로 정의할 수 있습니다:
+\[
+f(a, v, l, r) = \begin{cases}
+-1 & \text{if } l = r \text{ and } a[r] \neq v\\
+r & \text{if } l = r \text{ and } a[r] = v\\
+f\left(a, v, l, \frac{l + r}{2} - 1\right) & \text{if } a\left[\frac{l + r}{2}\right] > v\\
+f\left(a, v, \frac{l + r}{2} + 1, r\right) & \text{if } a\left[\frac{l + r}{2}\right] < v
+\end{cases}
+\]
+이는 아래와 같이 코드로 옮길 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def search(a, value, left, right):
+	if not a:
+		return -1
+	if left == right:
+		if a[left] == value:
+			return left
+		return -1
+	mid = (left + right) / 2
+	if a[mid] > value:
+		return f(a, value, left, mid - 1)
+	if a[mid] < value:
+		return f(a, value, mid + 1, right)
+	return mid
+\end{minted}
+
+\subsubsection{지수 계산}
+암호학 등의 분야에서는 매우 큰 지수exponent를 다룰 일이 많기 때문에, 효율적인 지수 계산 알고리즘이 필요합니다.
+일반적으로 지수 계산을 함수로 구현하라고 하면, 아래와 같은 단순한 코드를 쉽게 떠올릴 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def power_simple(x, n):
+	p = 1
+	for _ in range(n):
+		p *= x
+	return p
+\end{minted}
+이 경우, 시간복잡도는 $O(n)$입니다.
+하지만 다음과 같이 귀납적으로 지수를 계산한다면 $O(\log n)$만에도 지수를 계산할 수 있습니다.
+지수 계산 함수 $x^n = f(x, n)$이라고 할 때,
+\[
+f(x, n) = \begin{cases}
+1 & \text{if } b = 0\\
+f\left(x, \frac x2 \right)^2 & \text{if } b \text{ is even}\\
+x f\left(x, \frac{b - 1}{2}\right)^2 & \text{if } b \text{ is odd}
+\end{cases}
+\]
+으로 정의할 수 있습니다.
+이는 바로 코드로 옮길 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def power(x, n):
+	if n == 0:
+		return 1
+	p = power(x, n/2)
+	if b % 2:
+		return p * p * x
+	return p * p
+\end{minted}
+이러한 지수 계산은 아래와 같이 피보나치 수열의 계산에도 사용할 수 있습니다.
+\[
+\begin{pmatrix}f_{n + 1} \\ f_n \end{pmatrix} = \begin{pmatrix}1 & 1 \\ 1 & 0 \end{pmatrix}^n \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+\]
+이를 통해 피보나치 수열의 계산을 $O(\log n)$으로 수행할 수 있다는 사실도 알 수 있습니다.
+
+재귀법은 작성하는데 간편하다는 장점이 있지만, 함수를 여러번 호출한다는 점에서 큰 오버헤드가 걸릴 수 있습니다.
+이에 따라, 가능하다면 반복법을 사용하는 것이 효율적입니다.
+아래에는 각각 재귀법과 반복법으로 피보나치 수열을 계산하는 방법이 나와 있습니다.
+
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def f_rec(n):
+	if n <= 2:
+		return 1
+	return f_rec(n - 1) + f_rec(n - 2)
+
+def f_iter(n):
+	f = [None] * (n + 1)
+	f[0], f[1] = 0, 1
+	for i in range(2, n + 1):
+		f[i] = f[i - 1] + f[i - 2]
+	return f[n]
+\end{minted}
+
+이렇게 재귀법을 반복법으로 바꾸어 해결하는 전략을 동적 계획법이라고 하는데, 나중에 더 자세히 알아보기로 합니다.
+
+\subsection{Python의 다양한 객체}
+\subsubsection{Tuple튜플}
+지금까지 우리는 어떤 데이터를 담는 자료형으로써 리스트list만을 사용했습니다.
+이러한 리스트는 가변적mutable으로, 어떤 원소를 새로 추가하거나 없앨 수 있었습니다.
+나아가 리스트는 원소들의 순서를 보존하고, 같은 값을 여러 번 추가할 수 있었습니다.
+예컨대, \texttt{[1, 2, 1]}과 \texttt{[1, 1, 2]}는 다른 리스트이며, \texttt{[1, 1, 1]}은 \texttt{[1]}과는 다른 리스트입니다.
+또, \texttt{.append($\cdot$)} 메소드를 통해 새로운 원소를 더하고, \texttt{.pop($\cdot$)} 등을 통해 원소를 제거할 수 있었습니다.
+Python에서는 이러한 가변적인 리스트 뿐만이 아니라, 불변의 리스트라고 볼 수 있는 튜플tuple 자료형을 제공합니다.
+아래 코드에서는 리스트와 튜플의 유사점과 차이점을 알아볼 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+
+a = [2, 4, 2, 9, 5]
+print type(a)  # <type 'list'>
+
+sum = 0
+for i in range(len(a)):
+	sum += a[i]
+
+for x in a:
+	sum += x
+
+a[1] = 10  # legal
+
+b = (2, 4, 2, 9, 5)
+print type(b)  # <type 'tuple'>
+
+sum = 0
+for i in range(len(b)):
+	sum += b[i]
+
+for x in b:
+	sum += x
+
+b[1] = 10  # illegal
+\end{minted}
+
+또한 튜플 자료형의 변수를 선언할 때에는 괄호를 뺄 수 있습니다.
+위에서 \texttt{b = (2, 4, 2, 9, 5)} 대신 \texttt{b = 2, 4, 2, 9, 5}로 정의하여도 무방합니다.
+단, 원소가 하나인 튜플을 정의할 때는 \texttt{(1)}의 형태가 아닌 \texttt{(1,)}으로 쉼표를 붙여주어야 합니다.
+이 때도 괄호는 생략하고 \texttt{b = 1,}와 같이 작성하여도 길이가 1인 튜플로 선언됩니다.
+나아가 리스트처럼 튜플도 수, 문자열, 튜플, 나아가 리스트까지 임의의 변수를 다 원소로 담을 수 있습니다.
+즉, \texttt{(1, (2, 4), "string", ["USACO", "KOI", (3, 1), None], True)}의 형태의 튜플을 사용할 수 있습니다.
+
+지금까지 swapping 등에서 보았던 다중 할당도 사실 튜플의 문법을 사용한 것입니다.
+파이썬에서는 \texttt{(a, b) = (1, 2)}와 같이 작성하는 것은 \texttt{a}와 \texttt{b}에 각각 1과 2를 대입하라는 것과 동일한 의미를 가집니다.
+나아가 위에서 튜플을 사용할 때 괄호를 생략해도 된다고 언급한 것을 상기하면 \texttt{a, b = 1, 2}와 동일한 표현임을 알 수 있습니다.
+즉, \texttt{a, b = b, a}를 통해 두 변수의 값을 swapping하는 것은 \texttt{(a, b) = (b, a)}와 완전히 동일한 과정입니다.
+단, 좌변의 튜플에 들어있는 모든 값들은 합당한 lvalue이어야 하며, 양변의 튜플 길이는 동일해야 합니다.
+\texttt{(a + 1, b) = (2, 4)}나 \texttt{(x, y) = (2, 5, 1)}은 올바르지 못한 표현입니다.
+정리하자면, 아래의 표현들은 모두 동일한 의미를 가집니다.
+\begin{itemize}
+	\item \texttt{a, b, c = 1, 2, 3}
+	\item \texttt{a, b, c = (1, 2, 3)}
+	\item \texttt{(a, b, c) = 1, 2, 3}
+	\item \texttt{(a, b, c) = (1, 2, 3)}
+	\item \texttt{t = 1, 2, 3; a, b, c = t}
+	\item \texttt{t = (1, 2, 3); a, b, c = t}
+	\item \texttt{t = 1, 2, 3; (a, b, c) = t}
+	\item \texttt{t = (1, 2, 3); (a, b, c) = t}
+\end{itemize}
+
+튜플에서 사용할 수 이용할 수 있는 연산자와 메소드는 리스트의 연산자 혹은 메소드 중 불변성을 벗어나지 않는 것들을 모두 적용할 수 있습니다.
+가령, 튜플에 아래의 연산을 모두 시행할 수 있습니다.
+\begin{itemize}
+	\item \texttt{+}, \texttt{*}
+	\item \texttt{a[i:j]}
+	\item \texttt{in}, \texttt{for}
+	\item \texttt{==}, \texttt{is}
+	\item \texttt{len($\cdot$)}, \texttt{min($\cdot$)}, \texttt{max($\cdot$)}, \texttt{sum($\cdot$)}
+\end{itemize}
+반면 아래의 modifier 메소드는 모두 사용할 수 없습니다:
+\begin{itemize}
+	\item \texttt{a[i] = x}
+	\item \texttt{.append($\cdot$)}
+	\item \texttt{.reverse($\cdot$)}
+	\item \texttt{.sort($\cdot$)}
+	\item \texttt{.remove($\cdot$)}
+	\item \texttt{.pop($\cdot$)}
+\end{itemize}
+
+튜플과 \texttt{for} 문을 활용해 다음과 같은 작업을 할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+a = [(1, 2, "abc"), (3, 4, (5, 6)), (7, True, [8, 9])
+for x, y, z in a:
+	print z
+\end{minted}
+위 코드를 실행하면 \texttt{"abc"}, \texttt{(5, 6)}, \texttt{[8, 9]}가 출력될 것입니다.
+
+튜플은 리스트와 자유롭게 형변환을 할 수 있습니다.
+어떤 튜플 \texttt{(1, 4, 2)}가 주어졌을 때, 이를 정렬하고 싶다면 불변 객체인 튜플을 가변 객체인 리스트로 형 변환하여 정렬한 후, 다시 튜플로 형 변환할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+a = (1, 4, 2)
+a = list(a)
+a.sort()
+a = tuple(a)
+\end{minted}
+
+이러한 튜플은 값을 변형하지 말아야 하는 경우나, 불변 객체가 반드시 필요한 경우에 사용할 수 있습니다.
+곧이어 설명할 집합set 자료형과 사전dictionary 자료형은 특별히 그 원소로써 가변 객체를 허용하지 않기 때문에 이를 사용할 수 있습니다.
+
+\subsubsection{Set집합}
+수학에서 집합은 가장 근본적인 대상 중에 하나입니다.
+특히, 현대 수학에서는 집합론을 통해 수학의 기초를 구성하고 있습니다.
+이러한 논의는 제쳐놓고, 집합의 naive한 정의를 들어보면 서로 다른 객체들의 순서를 무시한 모임이라고 설명할 수 있습니다.
+Python에서 집합은 리스트, 튜플, 혹은 문자열에 \texttt{set($\cdot$)}를 취하여 얻을 수 있습니다.
+예컨대, \texttt{set([1, 2, 2])}는 \texttt{set([1, 2])}를, \texttt{set("ABBBC")}는 \texttt{set(['A', 'C', 'B'])} 를 얻을 수 있습니다.
+만약 공집합을 얻고 싶다면 \texttt{set()}, \texttt{set(())}, \texttt{set([])}, \texttt{set("")} 등을 사용하면 됩니다.
+유의할 점은, \texttt{set([()])}는 빈순서쌍을 원소로 가지는 집합이라는 것입니다 ($\{\varnothing\}$를 생각해보면 이해가 될 것입니다.).
+
+집합 자료형에는 다음과 같은 연산자들이 있습니다.
+\begin{itemize}
+	\item \texttt{.add(e)}: 원소를 \texttt{e}를 없다면 새로 추가합니다.
+	\item \texttt{.remove(e)}: 원소 \texttt{e}를 제거하고, 없다면 에러를 일으킵니다.
+	\item \texttt{.clear()}: 모든 원소를 제거합니다.
+	\item \texttt{s1 | s2}: 두 집합의 합집합을 구합니다.
+	\item \texttt{s1 \& s2}: 두 집합의 교집합을 구합니다.
+	\item \texttt{s1 - s2}: 두 집합의 차집합을 구합니다.
+	\item \texttt{s1 < s2, s1 <= s2}: 두 집합의 포함 관계의 참 거짓을 구합니다.
+	\item \texttt{e in s}: \texttt{e}가 \texttt{s}의 원소인지의 참 거짓을 구합니다.
+	\item \texttt{e not in s}: \texttt{not (e in s)}의 값과 동일합니다.
+	\item \texttt{s1 == s2}: 두 집합이 동일한지의 참 거짓을 구합니다.
+\end{itemize}
+
+어떤 집합을 복사하기 위해서는 리스트와 동일하게 \texttt{.copy()} 연산자를 사용해야 합니다.
+아래 예시를 살펴봅시다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+s1 = set([1, 2, 3])
+s2 = s1
+s3 = s1.copy()
+s1.add(4)
+print s2  # aliased
+print s3  # copied
+\end{minted}
+이는 리스트와 동일한 모습을 보인다는 것을 알 수 있습니다.
+(대신, 리스트의 경우에는 \texttt{[:]}를 통해서도 복사를 할 수 있었습니다.)
+
+리스트와 마찬가지로 집합도 \texttt{for} 문에 사용할 수 있습니다.
+그러나, 그 순서는 정해져 있지 않고, \texttt{[i]}와 같은 인덱스로의 접근도 불가능합니다.
+그리고 위에서 리스트와 튜플이 형 변환이 가능했던 것과 같이, 집합 또한 이들과의 형 변환이 가능합니다.
+
+마지막으로는, 집합의 원소로는 앞서 간략히 언급했듯이 불변 객체만 올 수 있다는 것입니다.
+예컨대, 가변 객체인 리스트나 집합은 집합의 원소가 될 수 없습니다.
+\texttt{set([set([1, 2]), 3])}이나 \texttt{set([[1, 2], 3])}은 불가능한 것입니다.
+반면 튜플이나 문자열과 같은 불변 객체는 집합의 원소가 될 수 있습니다.
+따라서 어떤 객체들의 모임을 집합의 원소로 지정하고 싶을 때에는 튜플로 형 변환을 한 후 넣어야 합니다.
+
+\subsubsection{String문자열}
+이미 한 차례 문자열에 대해서 다룬 적이 있지만, 문자열의 포맷 지정과 추가적인 메소드에 대해서 언급할 내용이 있습니다.
+\begin{itemize}
+	\item \texttt{.startswith(prefix)}: 문자열이 \texttt{prefix}로 시작하는지 확인합니다.
+	\item \texttt{.endswith(suffix)}: 문자열이 \texttt{suffix}로 끝나는지 확인합니다.
+	\item \texttt{.find(str)}: 문자열이 \texttt{str}을 포함하는 첫 번째 인덱스를 반환하고, 없다면 -1을 반환합니다.
+	\item \texttt{.replace(old, new)}: 문자열의 \texttt{old}를 \texttt{new}로 치환한 문자열을 반환합니다.
+	\item \texttt{.strip()}: 문자열의 시작과 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+	\item \texttt{.lstrip()}: 문자열의 시작에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+	\item \texttt{.rstrip()}: 문자열의 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+	\item \texttt{.split()}: 문자열의 공백으로 구분된 단어들의 리스트를 반환합니다.
+	\item \texttt{.join(list)}: 주어진 문자열을 사이로 \texttt{list}의 문자열들을 잇습니다.
+\end{itemize}
+
+문자열의 포맷 지정은 다음과 같이 할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+print "Max between " + str(x0) + " and " + str(x1) + " is " + str(val)
+print "Max between %d and %d is %g" % (x0 ,x1, val)
+\end{minted}
+이 때, 다음과 같은 서식 지정자가 있습니다.
+\begin{itemize}
+	\item \texttt{\%d}: 정수
+	\item \texttt{\%g}: 실수
+	\item \texttt{\%.nf}: 소수점 아래 \texttt{n} 자리수까지 나타내는 실수
+	\item \texttt{\%s}: 문자열
+\end{itemize}
+서식 지정자를 활용해 좌측 혹은 우측 정렬을 할 수도 있습니다.
+\texttt{\%nf}와 같이 우측 정렬을, \texttt{\%-nf}와 같이 좌측 정렬을 할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+print "%3d - %3d : %10g" %(x0, x1, val)
+print "%3d - %-3d : %-10g" %(x0, x1, val)
+\end{minted}
+또한, 이와 소수점 아래 자리수에 대한 형식 지정자를 결합하여 \texttt{\%3.2g}와 같은 표현도 가능합니다.
+
+\subsubsection{Dictionary사전}
+사전dictionary은 일반화된 인덱스를 가지는 리스트로 생각할 수 있습니다.
+사전 자료형에서 이러한 인덱스를 키key라고 부르고, 해당 키에 대응되는 객체를 값value이라고 합니다.
+사전 자료형에서는 키를 통한 값의 접근이 매우 효율적으로 구현이 되어 있습니다.
+다음은 사전 자료형의 사용 예시입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+d = {2: ["a", "bc"], (2, 4): 27, "xy": {1:2.5, "a":3}}
+print d[2]
+print d[(2, 4)]
+print d["xy"]
+print d["xy"][1]
+\end{minted}
+위에서 볼 수 있듯이, 사전에서 키는 불변 객체이어야 하며, 값은 어떠한 객체이든지 올 수 있습니다.
+
+사전에 어떤 키와 값을 추가하는 것은 단순히 \texttt{d[key] = value}를 실행하는 것으로 충분합니다.
+또한 이미 있는 키의 값을 바꾸는 것도 동일하게 수행할 수 있습니다.
+반면 어떤 키와 값을 없애는 것은 \texttt{del d[key]}를 통해 실시할 수 있습니다.
+아래는 사용 예시입니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+d = {2: ["a", "bc"], (2, 4): 27, "xy": {1:2.5, "a":3}}
+d[(1, "p)] = "q"
+d[(2, 4)] += 1
+del d["xy"]
+print d
+\end{minted}
+
+사전의 원소의 개수는 리스트에서처럼 \texttt{len($\cdot$)}을 사용할 수 있으며, \textbf{어떤 키가 존재하는지 파악할 때는} \texttt{key in d}를 쓸 수 있습니다.
+값이 존재하는지 파악하기 위해서는 \texttt{.values()}를 통해 모든 값들의 리스트를 불러온 후 확인을 해야 합니다.
+또한 \texttt{.keys()}를 통해 모든 키들의 리스트를 불러올 수 있고, 키와 값의 쌍들의 리스트는 \texttt{.items()}를 통해 불러올 수 있습니다.
+
+집합을 출력하는 것과 같이 사전을 출력하는 것도 모두 무작위의 순서를 가지고 있습니다.
+만약 키를 정렬된 순서대로 값을 출력하고 싶다면, \texttt{.keys()}를 통해 키들의 리스트를 얻은 후, 정렬한 후 \texttt{for} 문을 통해 출력을 하는 방법을 생각할 수 있습니다.
+
+\subsection{Lambda람다 함수}
+Lambda람다 함수는 간단한 함수를 한 줄에 작성하도록 하는 문법입니다.
+람다 함수는 Lisp와 같은 함수형 언어에서부터 비롯되었는데, 다음과 같이 작성할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+lambda arguments: expression
+\end{minted}
+예컨대, 다음과 같은 함수
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def add(x, y):
+	return x + y
+
+print add(1, 2)  # 3
+\end{minted}
+과 같은 함수는 아래와 같이 람다 함수로 간결하게 표현할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> (lambda x, y: x + y)(10, 20)
+30
+\end{minted}
+위에서 보다시피 람다 함수는 이름이 명시되어 있지 않기 때문에, anonymous익명 함수라고도 불리웁니다.
+
+람다 함수는 간단한 함수를 사용할 때 편리하게 사용할 수 있으며, \texttt{map($\cdot$)}, \texttt{reduce($\cdot$)}, 그리고 \texttt{filter($\cdot$)}와 함께 사용할 때 빛을 발합니다.
+먼저 \texttt{map($\cdot$)} 함수를 살펴봅시다.
+\texttt{map($\cdot$)} 함수는 어떤 함수와 리스트, 튜플, 문자열과 같은 순서형 자료를 인자로 받으며, 리스트의 각 원소에 해당 함수를 적용시킨 새로운 리스트를 반환합니다.
+이를 사용해 0부터 4까지의 정수의 제곱을 담은 리스트를 다음과 같이 만들 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> map(lambda x: x ** 2, range(5))
+[0, 1, 4, 9, 16]
+\end{minted}
+\texttt{map($\cdot$)}은 주어진 리스트의 각 원소를 형 변환할 때도 아래와 같은 방법으로 \texttt{for} 문을 사용하지 않고 간단하게 사용할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> a = ['3', '5', '1', '8']
+>>> map(int, a)
+[3, 5, 1, 8]
+\end{minted}
+
+\texttt{reduce($\cdot$)} 함수는 어떤 함수와 순서형 자료를 인자로 받아, 순서형 자료의 원소들에 해당 함수를 누적하여 적용합니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> reduce(lambda x, y: x + y, range(5))
+10
+\end{minted}
+위의 예시에서는 먼저 0과 1을 더한 후, 그 결과에 다시 2를 더하고, 3을 더한 후, 4를 더하는 과정을 반복하여 그 값을 반환합니다.
+이를 응용하여 앞서 살펴본, 주어진 문자열을 뒤집는 과정을 한 줄에 구현할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> reduce(lambda x, y: y + x, "abcde")
+"edcba"
+\end{minted}
+
+마지막으로, \texttt{filter($\cdot$)}은 어떤 불리언 함수와 순서형 자료를 인자로 받아, 순서형 자료의 원소들 중 해당 불리언 함수의 반환값이 \texttt{True}인 값들만을 걸러서 동일한 자료형의 순서형 자료를 반환합니다.
+아래와 같이 사용할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+>>> filter(lambda x: x < 5, range(10))
+[0, 1, 2, 3, 4]
+>>> filter(lambda x: x < "b", "abcdABCD")
+'aABCD'
+>>> filter(lambda x: x % 2, range(10))
+[1, 3, 5, 7, 9] 
+\end{minted}
+\end{document}

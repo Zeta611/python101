@@ -1,0 +1,168 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+지난 시간에는 미리 정해진 동선을 따라 휴보가 이동하도록 조건문과 반복문 등을 사용하여 코드를 작성하는 법을 알아보았습니다.
+주어진 동선을 군수열 분석하듯이 잘라 루프를 구성하고, beeper를 놓거나 줍는 방식이었습니다.
+Beeper를 줍는 것은 beeper가 해당 격자점에 있을 경우(\texttt{on\_beeper()}) 판단하여 줍고, 놓는 것도 현재 휴보가 beeper를 가지고 있다면(\texttt{carries\_beeper()}) 자동으로 놓게 하였습니다.
+그렇다면 특정 조건을 만족시킬 때 휴보가 자동으로 이동하는 방법이 있을지 궁금할 것입니다.
+예컨대 휴보가 알아서 미로를 탐색하는 작업을 위해서는 벽의 위치와 같은 주변 환경에 따라 자동으로 휴보가 이동할 수 있는 코드가 필요합니다.
+이를 위해 이번 시간에는 \texttt{front\_is\_clear()}, \texttt{left\_is\_clear()}, 그리고 \texttt{right\_is\_clear()}와 같이 휴보의 앞과 옆에 장애물이 있는지 판단하는 메소드를 배울 것입니다.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"./lectures/lecture7_maze"}
+\label{fig:lecture7maze}
+\end{figure}
+
+조금 원론적으로는, 현재 휴보가 주변 환경을 감지하여(sense) 이를 바탕으로 동선을 결정한 후(control) 실행에 옮기는 과정(actuate)은 일반적인 자율 시스템 전반에 적용되는 과정입니다.
+집에서 사용하는 로봇 청소기나 무인 드론, 자율 주행 자동차 등 모두 sensor--controller--actuator의 과정을 따름을 알 수 있습니다.
+토이 로봇을 다룰 때에는 beeper의 유무, 벽의 유무를 파악하는 메소드가 sensor에 해당하고, 우리가 작성하는 코드가 controller, 그리고 토이 로봇을 움직이게 하는 메소드가 actuator에 해당합니다.
+
+\subsubsection{자율 이동}
+지난 번에 아래와 같이 beeper를 줍는 코드를 보았습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+for i in range(9):
+	hubo.move()
+	if hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+이를 beeper가 놓여 있는 만큼 주을 수 있도록 할 수 있게 \texttt{while} 반복문을 통해서 아래와 같이 바꾸었습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+for i in range(9):
+	hubo.move()
+	while hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+나아가 휴보가 앞으로 나아갈 수 있는 만큼 이동하면서 휴보가 이동하도록 다음과 같이 코드를 수정할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+while hubo.front_is_clear():
+	hubo.move()
+	while hubo.on_beeper():
+		hubo.pick_beeper()
+\end{minted}
+이렇게 코드를 수정하면 너비가 10인 공간 뿐만이 아니라 임의의 너비를 가진 공간에서 beeper를 줍도록 할 수 있습니다.
+이제 \texttt{front\_is\_clear()} 메소드가 어떤 역할을 가지는 대략적인 감이 올 것입니다.
+\texttt{front\_is\_clear()} 메소드는 \texttt{on\_beeper()} 등과 같은 불리언 함수로, 휴보 앞에 벽이 있는지를 파악합니다.
+만약 휴보 앞에 벽이 있어서 나아갈 수 없다면 \texttt{False}를, 있다면 \texttt{True}를 반환합니다.
+\texttt{front\_is\_clear()}만으로도 휴보 양 옆에 장애물이 있는지 판단할 수는 있습니다.
+\texttt{turn\_right()}과 같이 방향 전환을 하는 메소드와 결합하여 사용하는 방법입니다.
+하지만 \texttt{cs1\_robots} 패키지에는 이런 번거로움을 피하기 위해 \texttt{front\_is\_clear()} 메소드와 더불어 \texttt{right\_is\_clear()}과 \texttt{left\_is\_clear()} 메소드도 함께 준비되어 있습니다.
+각각 우측과 좌측에 벽이 있는지 판단하는 메소드입니다.
+
+이제 휴보가 자동으로 움직일 모든 준비가 끝났습니다.
+지금까지 배운 sensor와 관련된 메소드와 actuator와 관련된 메소드를 통해서 휴보가 자동으로 움직이도록 코드를 작성--즉 control--할 수 있습니다.
+여러 문제를 풀어보기에 앞서, 휴보가 주어진 공간의 외곽 모서리를 짚으며 이동하게 하는 코드를 작성하는 법을 차근차근 알아봅시다.
+이 때 휴보가 $(1, 1)$에서 반시계 방향으로 돌아간다고 합시다.
+
+\textbf{전체적인 구조 설계하기}---일단 코드를 작성하기에 앞서, 휴보가 어떤 방식으로 주어진 환경을 돌 수 있을지 대략적으로 생각해보아야 합니다.
+현재 다루는 환경은 직각의 벽으로만 공간으로만 이루어져 있으므로, 일단 앞으로 쭉 이동하다가 벽이 나오면 회전을 하면 될 것입니다.
+지형이 구체적으로 어떻게 생겼는지 모르기 때문에 \texttt{while} 반복문을 구성하여 조건에 따라 특정 명령을 반복 수행하도록 코드를 작성해야 합니다.
+지금까지는 다음과 같이 코드를 작성할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+while #조건:
+	# 이동하다가 벽이 나오면 회전
+\end{minted}
+
+\textbf{종료 조건 생각하기}---코드가 어떤 조건에서 terminate종료될 것인지 생각하는 것이 매우 중요합니다.
+자동으로 휴보가 움직이므로 \texttt{while} 문 등으로 코드가 반복 실행될 것이기 때문입니다.
+지난 시간에 이러한 문제를 다룰 때는 이동한 거리를 카운터 패턴으로 세어 해결했습니다.
+이 아이디어를 확장한다면 $x$ 방향 움직임과 $y$ 방향 움직임의 합이 0이 되면 닫힌 루프를 구성하여 시점에 도달했음을 판단할 수 있습니다.
+Beeper를 활용한 좀 더 단순한 접근법도 생각할 수 있습니다.
+처음 시작할 때 beeper를 내려놓고 해당 beeper 위에 돌아왔을 때 놓은 beeper를 다시 주은 후 \texttt{while} 문을 종료하면 됩니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+hubo.drop_beeper()
+hubo.move()
+while not hubo.on_beeper():
+	# 이동하다가 벽이 나오면 회전
+hubo.pick_beeper()
+\end{minted}
+
+\textbf{간단한 경우 생각하기}---처음부터 완벽한 코드를 작성할 필요는 없습니다.
+일단 직사각형 형태의 단순한 지형을 다루어 봅시다.
+$(1, 1)$에서 반시계로 이동하므로 벽이 나왔을 경우 좌회전만 하면 됩니다.
+따라서 다음과 같이 어렵지 않게 코드를 작성할 수 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+hubo.drop_beeper()
+hubo.move()
+while not hubo.on_beeper():
+	if hubo.front_is_clear():
+		hubo.move()
+	else:  # 좌회전을 해야 하는 경우
+		hubo.turn_right()
+hubo.pick_beeper()
+\end{minted}
+
+\textbf{예외의 경우 생각하여 일반화하기}---이제 직사각형 형태의 지형에서는 잘 작동하는 코드를 완성하였습니다.
+하지만 지형이 직사각형이라는 보장이 없습니다.
+다음과 같은 지형을 생각할 수 있기 때문입니다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"./lectures/lecture7_exception"}
+\label{fig:lecture7exception}
+\end{figure}
+
+이러한 경우, 기존 코드에서 어떤 부분을 수정해야 하는지 파악해야 합니다.
+일단 문제가 되는 빨간 동그라미 부분을 처리해야 합니다.
+이는 앞에는 장애물이 없음에도 불구하고 직진이 아니라 우회전을 해야 하는 부분입니다.
+하지만 현재 코드에서는 줄 4에서 이 경우를 걸러내지 못하고 무조건 직진을 하게 하는 것이 문제가 됩니다.
+코드를 어떻게 바꿔야 할지 생각을 하기 위해서는, 우회전을 해야 하는 경우와 기존처럼 직진을 하는 경우의 차이만을 생각하면 됩니다.
+구조적으로 생각하자면 휴보가 앞으로 직진을 하는 행동이 줄 5에 나와 있으므로, 이에 대한 조건식인 줄 4 이전에 우회전을 하는 경우를 고려하는 조건식을 넣으면 됩니다.
+이러한 경우, 가능의 여부를 생각하는 것이 도움이 될 수 있습니다.
+종종 가능의 여부와 필요의 여부가 일치하기 때문입니다.
+완전히 일치하지 않더라도 조건식을 생각하는데 도움이 될 수 있습니다.
+이 문제는 우회전을 할 수 있는지의 여부와 우회전을 해야 하는지의 여부가 일치합니다.
+오른쪽이 비어 있어야 우회전을 할 수 있는데, 이 경우가 바로 우회전을 해야 하는 상황입니다.
+따라서 아래와 같이 코드를 수정할 수 있습니다.
+
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+hubo.drop_beeper()
+hubo.move()
+while not hubo.on_beeper():
+	if hubo.right_is_clear():
+		hubo.turn_right()
+	elif hubo.front_is_clear():
+		hubo.move()
+	else:
+		hubo.turn_right()
+hubo.pick_beeper()
+\end{minted}
+
+결국 위 코드를 잘 보면 미로의 전형적인 해법인 ``벽 짚고 따라가기''인 것을 알 수 있습니다.
+하지만 처음부터 벽을 짚고 따라가는 아이디어를 코드로 구현하려고 하는 것보다는, 지금까지 한 단계씩 밟아온 것처럼 코드를 점진적으로 수정 및 보완하는 것이 더 쉽고 실수를 줄이는 방법입니다.
+
+\end{document}

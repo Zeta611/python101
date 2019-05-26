@@ -21,6 +21,19 @@
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{subcaption}
 \usepackage[normalem]{ulem}
+\usepackage{graphicx}
+
+\ifPDFTeX
+    \usepackage{newpxtext}
+    \usepackage{tgadventor}
+    \usepackage{inconsolata}
+\else\ifLuaOrXeTeX
+    \setmainfont{TeX Gyre Pagella}
+    \setsansfont{TeX Gyre Adventor}
+    \setmonofont{Ubuntu Mono}
+    \setkomainfont(NanumMyeongjo)[](UnBatang)
+    \setkosansfont(NanumBarunGothic)
+\fi\fi
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -44,13 +57,13 @@
 \begin{document}
 
 \begin{center}\sffamily
-\text{ }\\[1cm]
+\text{}\\[1cm]
 \huge Python 및 정보과학 입문 교재
 
 \vspace{.1cm}
-\Large Python 2.7 및 기본적인 알고리즘에 대한 이해\\[.6cm]
+\Large Python 3.7 및 기본적인 알고리즘에 대한 이해\\[.6cm]
 	\begin{tabular} {c c}
-		교재 제작 & v3.0\\
+		교재 제작 & v3.1\\
 		이재호 & \today
 	\end{tabular}
 \end{center}
@@ -65,30 +78,36 @@
 
 \section{Functions함수와 Conditionals조건문}
 
-\subfile{lectures/lecture2}
+% \subfile{lectures/lecture2}
 
 \section{Boolean Functions불리언 함수와 Loops반복문 기본}
 
-\subfile{lectures/lecture3}
+% \subfile{lectures/lecture3}
 
 \section{Lists리스트, Strings문자열, Counters카운터}
 
-\subfile{lectures/lecture4}
+% \subfile{lectures/lecture4}
 
 \section{Quantifiers한정자와 While 문}
 
-\subfile{lectures/lecture5}
+% \subfile{lectures/lecture5}
 
 \section{Loops반복문 응용과 파일 입출력}
 
-\subfile{lectures/lecture6}
+% \subfile{lectures/lecture6}
 
-\section{토이 로봇 활용 (선택)}
-\subfile{lectures/lecture7}
+% \section{토이 로봇 활용 (선택)}
+% \subfile{lectures/lecture7}
 
 \section{Recursion재귀법, Python의 다양한 객체, 그리고 Lambda람다 함수}
-\subfile{lectures/lecture8}
+% \subfile{lectures/lecture8}
 
-\section{}
+\section{Object-Oriented Programming객체 지향 프로그래밍}
+
+\section{정렬 알고리즘}
+
+\section{Divide-and-Conquer분할 정복법}
+
+\section{Dynamic Programming동적 계획법}
 
 \end{document}

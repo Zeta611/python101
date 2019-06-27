@@ -22,6 +22,7 @@
 \usepackage{subcaption}
 \usepackage[normalem]{ulem}
 \usepackage{graphicx}
+\usepackage{physics}
 
 \ifPDFTeX
     \usepackage{newpxtext}
@@ -34,6 +35,8 @@
     \setkomainfont(NanumMyeongjo)[](UnBatang)
     \setkosansfont(NanumBarunGothic)
 \fi\fi
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -90,7 +93,7 @@ Free Documentation License".
 
 \section{Functions함수와 Conditionals조건문}
 
-% \subfile{lectures/lecture2}
+\subfile{lectures/lecture2}
 
 \section{Boolean Functions불리언 함수와 Loops반복문 기본}
 

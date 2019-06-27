@@ -10,15 +10,15 @@
 아래의 진도표는 회차 당 세 시간 수업을 기준으로 한 것으로, 가변적일 수 있습니다.
 
 \begin{description}
-    \item[1회차] Python 소개 및 기본 요소
-    \item[2회차] Functions함수와 Conditionals조건문
-    \item[3회차] Boolean Functions불리언 함수와 Loops반복문 기본
-    \item[4회차] Lists리스트, Strings문자열, Counters카운터
-    \item[5회차] Quantifiers한정자와 While 문
-    \item[6회차] Loops반복문 응용과 파일 입출력
-    \item[\sout{7회차}] \sout{Toy Robot}
-    \item[7회차] 재귀법Recursion과 Python의 다양한 객체
-    \item[8회차] 람다Lambda 함수
+  \item[1회차] Python 소개 및 기본 요소
+  \item[2회차] Functions함수와 Conditionals조건문
+  \item[3회차] Boolean Functions불리언 함수와 Loops반복문 기본
+  \item[4회차] Lists리스트, Strings문자열, Counters카운터
+  \item[5회차] Quantifiers한정자와 While 문
+  \item[6회차] Loops반복문 응용과 파일 입출력
+  \item[\sout{7회차}] \sout{Toy Robot}
+  \item[7회차] 재귀법Recursion과 Python의 다양한 객체
+  \item[8회차] 람다Lambda 함수
 \end{description}
 
 기본적으로 알고리즘보다는 언어 자체의 문법과 활용에 초점을 맞춘 커리큘럼이므로, 알고리즘을 본격적으로 다루기 위해서는 자료 구조와 알고리즘에 대해서 깊게 다루는 서적을 읽어보시는 것을 추천드립니다.
@@ -40,9 +40,9 @@ NumPy와 Matplotlib 등의 패키지를 활용한다면 Matlab이나 Mathematica
 
 \subsection{Python이란?}
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{./figures/xkcd_python}
-    \caption*{흔히 Python을 ``batteries included''(배터리가 들어간) 언어라고 합니다.}\label{fig:meme}
+  \centering
+  \includegraphics[width=0.6\linewidth]{./figures/xkcd_python}
+  \caption*{흔히 Python을 ``batteries included''(배터리가 들어간) 언어라고 합니다.}\label{fig:meme}
 \end{figure}
 Python은 1991년에 Guido van Rossum이 발표한 프로그래밍 언어로, 문법이 굉장히 쉬우면서도 높은 생산성을 가지고 있는 언어입니다.\footnote{그가 1989년 크리스마스 연휴에 취미로 Python을 제작하였던 것이 그 시작입니다.}
 특히 pseudocode의사코드와 유사하기 때문에 비교적 배우기 쉬워, 많은 학교에서 프로그래밍 입문 수업 언어로 Python을 채택하고 있습니다.
@@ -107,9 +107,9 @@ int main(void) {
 \subsubsection{Hello, World}
 
 \begin{figure}[htpb]
-    \centering
-    \includegraphics[width=0.8\linewidth]{./figures/hello_world.png}
-    \caption*{K\&R \textit{The C Programming Language}의 첫 프로그램}
+  \centering
+  \includegraphics[width=0.8\linewidth]{./figures/hello_world.png}
+  \caption*{K\&R \textit{The C Programming Language}의 첫 프로그램}
 \end{figure}
 
 1978년에 씌여진 K\&R이라고 불리우는 \textit{The C Programming Language}에서 예시로 사용된 이후 첫 프로그램은 보통 \texttt{Hello, World!}를 출력하는 것으로 시작됩니다.
@@ -446,29 +446,34 @@ print(n**.5)
 
 \subsection{예제}
 \begin{enumerate}
-\item Add additional code to the following so that the difference between the sum of the squares of the first $n$ natural numbers and the sum of the cubes is printed.
-Note that \texttt{for} statement is not needed; just use formulae for the sums of the squares and the cubes.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \item 1부터 $n$까지 자연수의 제곱의 합과 세제곱의 합의 차이를 구하는 코드를
+    작성하세요.
+    단, 아직 배우지 않은 \verb|for| 문 없이 다음의 공식을 사용하세요:
+    \begin{align*}
+      \sum^{n}_{k = 1} k^2 &= \frac{n(n + 1)(2n + 1)}{6}\\
+      \sum^{n}_{k = 1} k^3 &= \left(\frac{n(n + 1)}{2}\right)^2
+    \end{align*}
+    \begin{minted}[mathescape,
+                   linenos,
+                   breaklines,
+                   numbersep=5pt,
+                   frame=lines,
+                   framesep=2mm]{python}
 n = int(input("Enter n: "))
 # Add here!
-\end{minted}
+    \end{minted}
 
-\item There are five people sitting around a table: \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, and \texttt{e}.
-Each person writes down his/her favorite integer.
-Then each person adds the numbers the two people sitting next to him/her, to the original number he/she wrote.
-The following code should print the numbers \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, and \texttt{e} achieved at the end.
-Add additional code to make the following code work.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \item 원탁 주위에 \verb|a|, \verb|b|, \verb|c|, \verb|d|, \verb|e|가 앉아
+    있습니다.
+    각자는 자신이 좋아하는 정수를 종이에 적은 후, 양 옆에 앉은 사람의 정수를
+    더합니다.
+    최종적으로 각자가 얻게된 수를 출력하도록 다음 코드를 완성하세요:
+    \begin{minted}[mathescape,
+                   linenos,
+                   breaklines,
+                   numbersep=5pt,
+                   frame=lines,
+                   framesep=2mm]{python}
 a = int(input("Enter a: "))
 b = int(input("Enter b: "))
 c = int(input("Enter c: "))
@@ -477,17 +482,18 @@ e = int(input("Enter e: "))
 print("Favorite integers: ", a, b, c, d, e)
 # Add here!
 print("Final integers: ", a, b, c, d, e)
-\end{minted}
+    \end{minted}
 
-\item You want to solve a quadratic equation $\texttt{a}x^2 + \texttt{b}x + \texttt{c} = 0$.
-Add additional code to make the following code work.
-Assume that $\texttt{b}^2 - 4\texttt{ac} > 0$.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \item 이차방정식 $\verb|a|x^2 + \verb|b|x + \verb|c| = 0$의 해를 구하는
+    코드를 작성하세요.
+    단, 판별식 $\verb|b|^2 - 4\verb|ac| > 0$이라고 가정합니다.
+
+    \begin{minted}[mathescape,
+                   linenos,
+                   breaklines,
+                   numbersep=5pt,
+                   frame=lines,
+                   framesep=2mm]{python}
 a = int(input("Enter a: "))
 b = int(input("Enter b: "))
 c = int(input("Enter c: "))
@@ -495,10 +501,10 @@ c = int(input("Enter c: "))
 # x1 = ...
 # x2 = ...
 print("Solutions for the quadratic equation are ", x1, " and ", x2)
-\end{minted}
+    \end{minted}
 
-\item Predict the output of the following expressions.
-\begin{minted}[mathescape,
+  \item 다음 표현의 값을 예상하세요.
+    \begin{minted}[mathescape,
                linenos,
                breaklines,
                numbersep=5pt,
@@ -514,30 +520,43 @@ print("Solutions for the quadratic equation are ", x1, " and ", x2)
 ???
 >>> int(2**(1/2))+1
 ???
-\end{minted}
+    \end{minted}
 
-\item Choose all possible variable names in Python 2 from the following:
-\begin{itemize}
-\item \texttt{if}
-\item \texttt{sum}
-\item \texttt{max}
-\item \texttt{1st\_var}
-\item \texttt{var\_1}
-\item \texttt{this+that}
-\item \texttt{\_self}
-\item \texttt{변수}
-\item \texttt{r\&e}
-\end{itemize}
+  \item Python 3에서 가능한 변수명을 모두 고르세요.
+    \begin{itemize}
+      \item \texttt{if}
+      \item \texttt{sum}
+      \item \texttt{max}
+      \item \texttt{1st\_var}
+      \item \texttt{var\_1}
+      \item \texttt{this+that}
+      \item \texttt{\_self}
+      \item \texttt{변수}
+      \item \texttt{r\&e}
+    \end{itemize}
 
-\item The following code reads six real numbers \texttt{x1}, \texttt{y1}, \texttt{x2}, \texttt{y2}, \texttt{x3}, and \texttt{y3}.
-Assume that $(\texttt{xi}, \texttt{yi})$ (\texttt{i = 1, 2, 3}) are distinct points in a coordinate plane.
-Add additional code so that the code prints out the area of the triangle formed by the three points.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \item 다음 코드는 여섯 개의 실수 \verb|x1|, \verb|x2|, \verb|x3|, \verb|y1|,
+    \verb|y2|, \verb|y3|을 입력받습니다.
+    \verb|i|가 \verb|1|, \verb|2|, \verb|3|을 취할 때 $(\verb|xi|,
+    \verb|yi|)$가 좌표평면에서 서로 다른 세 점을 나타내는 좌표라고 가정합니다.
+    이때 세 점이 이루는 삼각형의 면적을 계산하는 코드를 작성하세요.\\
+    참고로,
+    \begin{itemize}
+      \small
+      \item 세 변의 길이가 $a$, $b$, $c$인 삼각형의 면적은 $s = \frac{a + b +
+        c}{2}$일 때 $\sqrt{s(s - a)(s - b)(s - c)}$입니다.
+      \item 또한, 어떤 두 벡터 $\vec{u}$와 $\vec{v}$가 이루는 삼각형의 면적은
+        $\frac12 \norm{\vec{u} \times \vec{v}} = \frac12 \norm{\vec{u}}
+        \norm{\vec{v}} \cos \theta$입니다.
+      \item 이때, $\cos \theta = \frac{\vec{u} \cdot \vec{v}}{\norm{\vec{v}}
+    \norm{\vec{u}}}$입니다.
+    \end{itemize}
+    \begin{minted}[mathescape,
+                   linenos,
+                   breaklines,
+                   numbersep=5pt,
+                   frame=lines,
+                   framesep=2mm]{python}
 x1 = int(input("Enter x1: "))
 y1 = int(input("Enter y1: "))
 x2 = int(input("Enter x2: "))
@@ -547,12 +566,11 @@ y3 = int(input("Enter y3: "))
 # Add here!
 # area = ...
 print("Area of the triangle is", area)
-\end{minted}
+    \end{minted}
 
-\item Calculate the remainder of \texttt{a} when divided by \texttt{b}.
-Do not use \texttt{\%} but only \texttt{-}, \texttt{+}, and \texttt{/}.
-Assume that both \texttt{a} and \texttt{b} are positive integers.
-\begin{minted}[mathescape,
+  \item \verb|a|를 \verb|b|로 나눈 나머지를 \verb|%| 없이 사칙연산과 \verb|//|
+  만으로 구하세요.
+    \begin{minted}[mathescape,
                linenos,
                breaklines,
                numbersep=5pt,
@@ -563,24 +581,25 @@ b = int(input("Enter b:"))
 # Add here!
 # r = ...
 print("Remainder is", r)
-\end{minted}
+    \end{minted}
 
-\item The following code calculates the ceiling function $\lceil x \rceil = \min \{n \in \mathbb{Z} \mid n \geq x\}$ of a given positive real number \texttt{x}.
-Use of \texttt{int($\cdot$)}, \texttt{+}, and \texttt{-} is sufficient.
-Add additional code.
-\begin{itemize}
-\item Hint: Try plotting \texttt{int($\cdot$)} function.
-\end{itemize}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \item[참고.] 다음 코드는 양의 실수에 대해 올림 함수 $\lceil x \rceil = \min
+    \{n \in \mathbb{Z} \mid n \geq x\}$를 계산합니다.
+    \verb|int(·)|, \verb|+|, \verb|-|만을 사용하여 구현하세요.\footnote{정답:
+    \raisebox{\depth}{\rotatebox{180}{\texttt{int(x - int(x) - 1) + int(x) + 1}}}}
+    \begin{itemize}
+      \item 힌트: \verb|int(·)| 함수의 그래프를 그려보세요.
+    \end{itemize}
+    \begin{minted}[mathescape,
+                   linenos,
+                   breaklines,
+                   numbersep=5pt,
+                   frame=lines,
+                   framesep=2mm]{python}
 x = float(input("Enter x:"))
 # Add here!
 # ceil_x = ...
 print("Ceil(x) =", ceil_x)
-\end{minted}
+    \end{minted}
 \end{enumerate}
 \end{document}

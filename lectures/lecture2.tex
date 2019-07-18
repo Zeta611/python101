@@ -374,8 +374,8 @@ def abs(x):
         return -x
 \end{minted}
 
-위와 같이, 수학에서 정의역에 따라 다르게 정의되는 조각적-정의된
-(piecewise-defined) 함수를 코드로 작성하기 위해서는 조건문이 필요합니다.
+위의 조각적-정의된 (piecewise-defined) 함수의 예시 같이, 수학에서 정의역에 따라
+다르게 정의되는 수식을 코드로 작성하기 위해서는 조건문이 필요합니다.
 하지만 조건문은 이와 같이 수식을 계산하는 일을 넘어, 경우를 나눠야 하는 모든
 종류의 상황에 적용됩니다.
 예를 들어, 어떤 프로그램에서 사용자가 로그인하였을 때와 그렇지 않았을 때
@@ -386,6 +386,24 @@ def abs(x):
 행동을 조절하기 위해서 조건문이 필요합니다.
 이처럼, 컴퓨터가 상황에 따라 다른 연산을 하도록 하는 일에 조건문을 사용할 수
 있습니다.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def check_obstacle(distance):
+    if distance < 10:
+        print("앞에 장애물이 있습니다!")
+    else:
+        print("앞에 장애물이 없습니다.")
+\end{minted}
+
+이 예시에서 \verb|distance < 10|의 부분은 크게 설명하지 않아도 어떤 의미인지
+파악하실 수 있을 것입니다.
+이렇게 \verb|if| 뒤에 오는 부분은 \verb|True| 혹은 \verb|False| 두 종류의 값을
+가질 수 있는데, 이는 이제 소개해드릴 \textbf{Boolean불리언}이라는 자료형을
+가집니다.
 
 \subsubsection{Boolean Type불리언 자료형과 Expressions표현}
 지금까지 소개한 \texttt{int}, \texttt{float} 등의 자료형 외에도 자주 쓰게 될
@@ -444,6 +462,9 @@ Boole의 이름을 따온 것입니다.}입니다.  불리언 자료형은 어�
 모든 관계 연산자들은 논리 연산자들보다는 순위가 높고, 산술 연산자들보다는 낮습니다.
 이전과 같이 우선 순위가 겹친다면 좌에서 우로 순서가 결정됩니다.
 
+지금까지 불리언 자료형에 대한 논리 연산자와 그 우선순위를 살펴보았는데요, 이제
+조건문과 함께 사용해서 그 사용 예시를 더 자세히 살펴봅시다.
+
 \subsubsection{\texttt{if-else} Conditionals조건문}
 \texttt{if-else} statements문의 기본적인 형태는 아래와 같습니다.
 \begin{minted}[mathescape,
@@ -471,12 +492,12 @@ else:
                framesep=2mm]{python}
 x = 76
 if x % 3 == 0 and x % 2 == 0:
-    print(x, "is divisible by 6")
+    print(x, "은(는) 6의 배수입니다.")
 else:
-    print(x, "is indivisible by 6")
+    print(x, "은(는) 6의 배수가 아닙니다.")
 \end{minted}
-실제로 실행해보면 76은 6의 배수가 아니기에 \texttt{76 is indivisible by 6}이
-출력되는 것을 볼 수 있습니다.
+실제로 실행해보면 76은 6의 배수가 아니기에 \texttt{76은(는) 6의 배수가
+아닙니다.}가 출력되는 것을 볼 수 있습니다.
 
 만약 6의 배수가 아니라면, 적어도 3의 배수인지, 혹은 2의 배수인지까지 판별하고
 싶다면 어떻게 해야 할까요?
@@ -528,21 +549,24 @@ else:
 만약 \texttt{if-elif-...-elif-else}를 훑는 중간에 참인 것이 나오면, 해당
 조건에서 실행되는 명령을 수행한 후 이후의 경우는 모두 건너뛰게 됩니다.
 
-또한 흥미로운 사실은, \texttt{if-else} 문에서 불리언 표현 대신 \texttt{int}
-등의 자료형을 가진 변수를 넣어도 된다는 것입니다.  \texttt{0}은 거짓,
-\texttt{0} 이외의 모든 수는 참의 값을 가집니다.  그렇다고 이러한 값들이 정확히
-\texttt{True} 혹은 \texttt{False}의 값을 가지는 것은 아닙니다.  실제로
-\texttt{0 == False}, \texttt{1 == True}의 시행 결과는 \texttt{True}가 나오지만,
-\texttt{2 == True}에 대한 결괏값은 \texttt{False}이기 때문입니다.  또한
+참고로, \texttt{if-else} 문에서 불리언 표현 대신 \texttt{int} 등의 자료형을 가진
+변수를 넣어도 됩니다. 예컨대
+\texttt{0}은 거짓, \texttt{0} 이외의 모든 수는 참의 값을 가집니다.
+그렇다고 이러한 값들이 정확히
+\texttt{True} 혹은 \texttt{False}의 값을 가지는 것은 아닙니다. (실제로
+\texttt{0 == False}, \texttt{1 == True}이지만)
+\texttt{2 == True}에 대한 결과값은 \texttt{False}입니다.  또한
 문자열의 경우 \texttt{""} 외의 하나 이상의 문자를 담고 있는 문자열은 참입니다.
 \texttt{""}는 거짓에 해당합니다.
-아직은 배우지 않았지만, 문자열과 마찬가지로 list리스트 또한 하나 이상의 값을
-담고 있는 경우 참, 그렇지 않은 \texttt{[]}은 거짓입니다.  이는 사실
-\texttt{bool}형이 \texttt{int}형의 부분이기 때문인데, \texttt{True}는 정확히
-\texttt{1}과, \texttt{False}는 정확히 \texttt{0}과 동일합니다.\footnote{사실
-Python 2에서는 \texttt{True}와 \texttt{False}가 키워드로 지정이 되어 있지 않아
-일반 변수명으로 사용하여 아무 값으로나 재지정할 수 있습니다. 따라서 사용자가
-\texttt{True = 3}과 같은 식으로 값을 배정할 수 있습니다. 반면 Python 3에서는
+이는 Python에서 \texttt{if} 문을 조금 더 간편하게 쓸 수 있도록 하지만, 특별한
+이유가 있지 않는 이상 불리언 표현을 사용하는 것이 혼란을 줄일 수 있습니다.
+
+사실 \texttt{bool}형은 \texttt{int}형의 부분으로, \texttt{True}는
+정확히 \texttt{1}과, \texttt{False}는 정확히 \texttt{0}과
+동일합니다.\footnote{Python 2에서는 \texttt{True}와 \texttt{False}가 키워드로
+지정이 되어 있지 않아 일반 변수명으로 사용하여 아무 값으로나 재지정할 수
+있었습니다.
+반면 Python 3에서는
 \texttt{True}와 \texttt{False} 모두 키워드라 값을 지정하려고 하면 syntax 에러가
 발생하게 됩니다.} 따라서, 다음과 같은 결과가 나옵니다.
 \begin{minted}[mathescape,
@@ -558,7 +582,10 @@ Python 2에서는 \texttt{True}와 \texttt{False}가 키워드로 지정이 되�
 >>> (6 % 2 == 0) + False
 1
 \end{minted}
-그리고 이 사실을 활용하여 다음과 같은 (유의미한) 코드를 쓸 수 있습니다.
+어디까지나 \emph{가능하다는} 사실을 알려주는 코드이고, 실제로는 이렇게 쓸
+이유가 없습니다.
+
+그러나 논의된 내용을 바탕으로 다음과 같은 (유의미한) 코드를 쓸 수는 있습니다.
 \begin{minted}[mathescape,
                linenos,
                breaklines,
@@ -571,19 +598,18 @@ if money:
 else:
     print("I don't have money")
 \end{minted}
-\textbf{단, 여기서 중요한 사실은 불리언 \texttt{True}와 참인 표현이 같지 않다는
-것입니다. 예컨대 \texttt{True != 100}입니다.}
 
 \subsubsection{Multiple Exit Points 다중 반환점}
 한 함수에 \texttt{if-else} 문을 넣어 경우별로 값을 반환하도록 만들 수 있습니다.
+상기하자면, 반환한다는 것은 함수에서 값을 뱉어내는 것이었습니다.
+즉, \verb|if-else| 문을 사용해 함수 정의의 여러 곳에서 값을 뱉어낼 수 있습니다.
 \textbf{2.2 Conditionals조건문} 처음에 제시한 \texttt{abs($\cdot$)} 함수가 그
 예시로, \texttt{x >= 0}일 경우 \texttt{x}를 반환하고 그렇지 않은 경우
 \texttt{-x}를 반환하였습니다.  이러한 함수에는 여러 개의 \texttt{return}을
-사용하였기 때문에 multiple exit points다중 반환점\footnote{한국어로 적절한
-번역이 없어서 다중 반환점이라는 표현을 사용하였습니다.}이 있다고 표현하기도
-합니다.  함수에 여러 개의 반환점이 있으면 경우에 따라 실수를 하여 예기치 못한
-버그가 생길 수 있기 때문에, 다중 반환점을 쓰는 것이 바람직한가에 대한 논쟁이
-있습니다.  하지만, 적절한 상황에서 사용한다면 분명 편리할 것입니다.  만약
+사용하였기 때문에 multiple exit points다중 반환점이 있다고 표현하기도
+합니다.\footnote{함수에 여러 개의 반환점이 있으면 경우에 따라 실수를 하여 예기치
+ 못한 버그가 생길 수 있기 때문에, 다중 반환점을 쓰는 것이 바람직한가에 대한 논쟁이
+있습니다. 하지만, 적절한 상황에서 사용한다면 분명 편리할 것입니다.} 만약
 \texttt{abs($\cdot$)} 함수를 하나의 반환점만을 사용한다면 아래와 같게 나타낼 수
 있습니다.
 \begin{minted}[mathescape,
@@ -599,9 +625,8 @@ def abs(x):
         y = -x
     return y
 \end{minted}
-2.2절 처음에서 제시한 코드와 위 코드의 우열을 가릴 수는 없습니다.
-자신이 편한 방식을 택하면 됩니다.
-다만 다중 반환점을 2.2절 처음에서 제시한 코드와 다르게, \texttt{else} 없이
+2.2절 처음에 제시한 코드와 위 코드는 정확하게 같은 방식으로 작동합니다.
+또한 2.2절 처음에서 제시한 코드를 변형하여 \texttt{else} 없이
 아래와 같이 다시 쓸 수 있습니다.
 \begin{minted}[mathescape,
                linenos,
@@ -614,9 +639,14 @@ def abs(x):
         return x
     return -x
 \end{minted}
-둘 다 다중 반환점을 사용하였지만, 약간의 의미 차이가 있습니다.  위 코드의
-경우에는 가능한 경우를 모두 걸러서 마지막 경우에는 \texttt{-x}를 반환하라는
-의미가 있습니다.  이렇게 다중 반환점을 사용할 경우, 일반적으로는 다음과 같이
+위 코드의 경우에는 가능한 경우를 모두 걸러서 마지막 경우에는 \texttt{-x}를
+반환하라는 코드로 읽을 수 있습니다.
+함수를 읽어나갈 때, \verb|return|을 만나는 순간 함수가 해당 값을 반환하고
+종료되기 때문에 위와 같은 코드를 작성할 수 있습니다.
+즉, \textbf{\texttt{return}은 함수에서 값을 반환하는 동시에, 함수의 수행을
+종료하라는 마크로 볼 수 있습니다.}
+
+다중 반환점을 사용할 경우, 일반적으로는 다음과 같이
 함수를 만들 수 있습니다.
 \begin{minted}[mathescape,
                linenos,
@@ -636,8 +666,56 @@ def abs(x):
 \end{minted}
 
 \subsection{예제}
+이하 예제에서 \textsf{[물리]} 혹은 \textsf{[수학]}과 같이 표시된 문제는 물리학
+혹은 수학에서 등장하는 복잡한 연산을 코딩으로 해결할 수 있다는 것을 보여주기
+위한 것으로, 선택적으로 해결하시면 됩니다.
 \begin{enumerate}
-  \item 정규분포를 표현하기 위해 사용되는 가우시안 함수는
+  \item 이름 \verb|name|을 문자열로 받아서 \verb|제 이름은 {name}입니다.|와 같이
+    출력하는 함수 \verb|introduce(name)|를 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def introduce(name):
+    # Add here!
+
+print(introduce("귀도 반 로섬"))  # 제 이름은 귀도 반 로섬입니다.
+print(introduce("앨런 튜링"))     # 제 이름은 앨런 튜링입니다.
+print(introduce("폰 노이만"))     # 제 이름은 폰 노이만입니다.
+\end{minted}
+
+  \item 두 수 \verb|a|와 \verb|b|를 받아 덧셈, 뺄셈, 곱셈, 나눗셈을 해주는 함수
+    \verb|add(a, b)|, \verb|subtract(a, b)|, \verb|multiply(a, b)|,
+    \verb|divide(a, b)|를 각각 작성하세요.
+
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def add(a, b):
+    # Add here!
+
+def subtract(a, b):
+    # Add here!
+
+def multiply(a, b):
+    # Add here!
+
+def divide(a, b):
+    # Add here!
+
+
+print(add(1, 2))       # 3
+print(subtract(1, 2))  # -1
+print(multiply(1, 2))  # 2
+print(divide(1, 2))    # 0.5
+\end{minted}
+
+  \item \textsf{[수학]} 정규분포를 표현하기 위해 사용되는 가우시안 함수는
     \[
     g(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac12 \left(\frac{x - \mu}{\sigma}\right)^2},
     \]
@@ -658,7 +736,7 @@ print(gaussian(0, 1, 0))                # 0.3989422804014327
 print(gaussian(-2, math.sqrt(0.5), 0))  # 0.010333492677046037
 \end{minted}
 
-\item 전하가 각각 $q_1$과 $q_2$인 두 물체 사이의 쿨롱힘은 거리 $r$에 따른 함수
+\item \textsf{[물리]} 전하가 각각 $q_1$과 $q_2$인 두 물체 사이의 쿨롱힘은 거리 $r$에 따른 함수
 \[
   F_C(r) = \frac{1}{4\pi \varepsilon_0} \frac{q_1 q_2}{r^2}\ \text{where $\varepsilon_0 = 8.854\,187\,817 \times 10^{-12}\ \mathrm{F \cdot m^{-1}}$}.
 \]
@@ -702,8 +780,9 @@ print(gravity(e_m, p_m, a_0))
 print(total_force(e_c, p_c, e_m, p_m, a_0))
 \end{minted}
 
-\item When $a \neq 0$, a function $f(x) = ax^2 + bx + c$ has an extremum.
-Write a function \texttt{extremum(a, b, c)} that returns the extremum of a function $f(x) = \texttt{a}x^2 + \texttt{b}x + c$.
+\item \textsf{[수학]} $a \neq 0$일 경우, 함수 $f(x) = ax^2 + bx + c$는 극값을 가진다.
+함수 $f(x) = \texttt{a}x^2 + \texttt{b}x + c$은 극값을 반환하는 
+\texttt{extremum(a, b, c)}를 작성하세요.
 \begin{minted}[mathescape,
                linenos,
                breaklines,
@@ -721,9 +800,8 @@ print(extremum(1, -5, 10))  # 3.75
 print(extremum(3, 7, 5))    # 0.916666666667
 \end{minted}
 
-\item An integer \texttt{n} where $1 \leq \texttt{n} \leq 9999$ is given. Write
-  a function \texttt{reverse(n)} that returns an integer with reversed digits
-  of \texttt{n}.
+\item 세 수 \verb|a|, \verb|b|, \verb|c| 중에서 가장 작은 수를 반환하는 
+  \texttt{least(a, b, c)}를 작성하세요.
 \begin{minted}[mathescape,
                linenos,
                breaklines,
@@ -732,10 +810,81 @@ print(extremum(3, 7, 5))    # 0.916666666667
                framesep=2mm]{python}
 # Add here!
 
-print reverse(3702)  # 2073
-print reverse(370)   # 73
-print reverse(37)    # 73
-print reverse(3)     # 3
+print(least(1, 2, 3))  # 1
+print(least(2, 1, 3))  # 1
+print(least(1, 1, 2))  # 1
+\end{minted}
+
+\item 입력 받은 수 \verb|n|이 짝수이면 \verb|{n}은 짝수입니다.|, 홀수이면
+  \verb|{n}은 홀수입니다.|를 출력하는 함수 \verb|check_parity(n)|을 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+# Add here!
+
+check_parity(2)    # 2는 짝수입니다.
+check_parity(101)  # 101은 홀수입니다.
+\end{minted}
+
+\item 입력 받은 문자 \verb|direction|이 \verb|w|일 경우 \verb|전진|,
+  \verb|a|일 경우 \verb|좌회전|, \verb|s|일 경우 \verb|후진|, \verb|d|일 경우
+  \verb|우회전|을 출력하는 함수 \verb|navigate(direction)|을 작성하세요.
+  단, 이외의 문자가 입력되었을 경우에는 \verb|알 수 없는 명령입니다.|를
+ \begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+# Add here!
+
+navigate('w')  # 전진
+navigate('a')  # 좌회전
+navigate('s')  # 후진
+navigate('d')  # 우회전
+navigate('z')  # 알 수 없는 명령입니다.
+\end{minted}
+
+\item 다음을 반환하는 함수 \texttt{quadrant(x, y)}를 작성하세요:
+\begin{itemize}
+  \item \texttt{"제1사분면"} if $\texttt{x} > 0\ \&\ \texttt{y} > 0$
+  \item \texttt{"제2사분면"} if $\texttt{x} < 0\ \&\ \texttt{y} > 0$
+  \item \texttt{"제3사분면"} if $\texttt{x} < 0\ \&\ \texttt{y} < 0$
+  \item \texttt{"제4사분면"} if $\texttt{x} > 0\ \&\ \texttt{y} < 0$
+\item \texttt{"경계선"} otherwise
+\end{itemize}
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+# Add here!
+
+print(quadrant(10, 5))   # 제1사분면
+print(quadrant(-5, 3))   # 제2사분면
+print(quadrant(-5, -7))  # 제3사분면
+print(quadrant(3, -5))   # 제4사분면
+print(quadrant(0, -3))   # 경계선
+\end{minted}
+
+\item 10000보다 작은 자연수 \texttt{n}에 대해서, 각 자릿수를 거꾸로 출력하는
+  함수 \texttt{reverse(n)}를 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+# Add here!
+
+print(reverse(3702))  # 2073
+print(reverse(370))   # 73
+print(reverse(37))    # 73
+print(reverse(3))     # 3
 \end{minted}
 
 \item 10 이상 990 이하의 10의 배수 \verb|n|이 주어졌을 때, 10, 50, 100, 500원
@@ -755,62 +904,8 @@ print(count_coins(260))  # 4
 print(count_coins(70))   # 3
 \end{minted}
 
-\item Write a function \texttt{least(a, b, c)} that returns the least number
-  among three numbers \texttt{a}, \texttt{b}, and \texttt{c}.  The type of the
-  numbers can be \texttt{int} or \texttt{float}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-
-print(least(1, 2, 3))  # 1
-print(least(2, 1, 3))  # 1
-print(least(1, 1, 2))  # 1
-\end{minted}
-
-\item Write a function \texttt{count(n1, n2, n3, n4)} that counts the number of
-  the multiple of 2 or 3 but not 6. Assume inputs are \texttt{int} type.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-
-print(count(1, 6, 3, 4))    # 2
-print(count(12, 3, 5, 15))  # 2
-\end{minted}
-
-\item Write a function \texttt{quadrant(x, y)} that returns:
-\begin{itemize}
-  \item \texttt{"First Quadrant"} if $\texttt{x} > 0\ \&\ \texttt{y} > 0$
-  \item \texttt{"Second Quadrant"} if $\texttt{x} < 0\ \&\ \texttt{y} > 0$
-  \item \texttt{"Third Quadrant"} if $\texttt{x} < 0\ \&\ \texttt{y} < 0$
-  \item \texttt{"Fourth Quadrant"} if $\texttt{x} > 0\ \&\ \texttt{y} < 0$
-\item \texttt{"On the Boundary"} otherwise
-\end{itemize}
-Assume \texttt{x} and \texttt{y} are \texttt{float} type.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-
-print(quadrant(10, 5))   # First Quadrant
-print(quadrant(-5, 3))   # Second Quadrant
-print(quadrant(-5, -7))  # Third Quadrant
-print(quadrant(3, -5))   # Fourth Quadrant
-print(quadrant(0, -3))   # On the Boundary
-\end{minted}
-
-\item Write a function \texttt{ceiling(x)} that returns $\lceil\texttt{x}\rceil$.
-Use \texttt{if-else} statements.
+\item \textsf{[수학]} 함수 \texttt{ceiling(x)}이 $\lceil\texttt{x}\rceil$을
+  반환하도록 작성하세요.
 \begin{minted}[mathescape,
                linenos,
                breaklines,
@@ -824,7 +919,7 @@ print(ceil(-0.3))  # 0
 print(ceil(0.01))  # 1
 \end{minted}
 
-\item Write a function \texttt{min\_x(a, b, c)} that returns the integer $x$ that minimizes $\texttt{a}x^2 + \texttt{b}x + \texttt{c}$.
+\item \textsf{[수학]} Write a function \texttt{min\_x(a, b, c)} that returns the integer $x$ that minimizes $\texttt{a}x^2 + \texttt{b}x + \texttt{c}$.
 Assume that \texttt{a}, \texttt{b}, and \texttt{c} are \texttt{float} type, where $\texttt{a} > 0$ and $\texttt{b} < 0$.
 If such $x$ is not unique, return the smallest one.
 \begin{minted}[mathescape,
@@ -845,7 +940,23 @@ print(min_x(9, -15, 0))   # 1
 print(min_x(7, -13, 3))   # 1
 \end{minted}
 
-\item \texttt{"S"}, \texttt{"R"}, and \texttt{"P"} represent scissors, rock,
+\item \textsf{[수학]} Write a function \texttt{area\_triangle(a, b)} that returns the area of a
+  triangle formed by $y = \texttt{a}x + \texttt{b}$, $x$-axis, and $y$-axis.
+  Return 0 if no triangle is formed. Assume \texttt{a} and \texttt{b} are
+  either \texttt{int} or \texttt{float} type.
+
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def area_triangle(a, b):
+    # Add here!
+
+\end{minted}
+
+\item[심화] \texttt{"S"}, \texttt{"R"}, and \texttt{"P"} represent scissors, rock,
   and paper, respectively.  Write a function \texttt{rock\_paper\_scissors(a,
   b)} that returns \texttt{"a"} if \texttt{a} wins, \texttt{"b"} if \texttt{b}
   wins, or \texttt{Tie} if the game is tied, where \texttt{a} and \texttt{b}
@@ -872,7 +983,7 @@ print(rock_paper_scissors("P","R"))  # a
 print(rock_paper_scissors("P","S"))  # b
 \end{minted}
 
-\item \texttt{gold1}, \texttt{silver1}, and \texttt{bronze1} represent the
+\item[도전] \texttt{gold1}, \texttt{silver1}, and \texttt{bronze1} represent the
   numbers of gold, silver, and bronze medals of the first country,
   respectively.  \texttt{gold2}, \texttt{silver2}, and \texttt{bronze2}
   represent the numbers of gold, silver, and bronze medals of the second
@@ -902,19 +1013,5 @@ print(better(10,20,4, 10,20,5))  # Second
 print(better(10,20,5, 10,20,5))  # Tie
 \end{minted}
 
-\item Write a function \texttt{area\_triangle(a, b)} that returns the area of a
-  triangle formed by $y = \texttt{a}x + \texttt{b}$, $x$-axis, and $y$-axis.
-  Return 0 if no triangle is formed. Assume \texttt{a} and \texttt{b} are
-  either \texttt{int} or \texttt{float} type.
 \end{enumerate}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def area_triangle(a, b):
-    # Add here!
-
-\end{minted}
 \end{document}

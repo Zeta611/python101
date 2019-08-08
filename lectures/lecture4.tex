@@ -17,12 +17,12 @@
                frame=lines,
                framesep=2mm]{python}
 def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
-	summ = 0
-	summ += n1
-	summ += n2
-	...
-	summ += n10
-	return summ
+    summ = 0
+    summ += n1
+    summ += n2
+    ...
+    summ += n10
+    return summ
 \end{minted}
 심지어 \texttt{for} 문을 활용할 수도 없습니다.
 다음과 같은 문법은 허용되지 않기 때문입니다.
@@ -33,10 +33,10 @@ def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
                frame=lines,
                framesep=2mm]{python}
 def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
-	summ = 0
-	for i in range(1, 11):
-		summ += ni
-	return summ
+    summ = 0
+    for i in range(1, 11):
+        summ += ni
+    return summ
 \end{minted}
 위에서 \texttt{ni}는 단지 새로운 변수 \texttt{ni}라는 이름을 가진 변수에 불과합니다.
 그러나 리스트를 사용한다면, 단지 10개의 변수가 아니라 임의의 개수의 변수를 받아서--엄밀하게는 임의의 개수의 변수를 담고 있는 하나의 리스트형 변수를 받아서--계산을 할 수 있습니다.
@@ -47,10 +47,10 @@ def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
                frame=lines,
                framesep=2mm]{python}
 def sum_arb(numbers):
-	summ = 0
-	for i in range(len(numbers)):
-		summ += numbers[i]
-	return summ
+    summ = 0
+    for i in range(len(numbers)):
+        summ += numbers[i]
+    return summ
 \end{minted}
 
 요약하자면, 묶음의 데이터를 한 번에 처리할 수 있는 방법이 리스트와 \texttt{for} 문을 활용하는 것입니다.
@@ -97,20 +97,19 @@ numbers = [None] * 10
 numbers = [None] * 10
 
 for i in range(len(numbers)):
-	numbers[i] = (i + 1) * 3
+    numbers[i] = (i + 1) * 3
 \end{minted}
 \texttt{len($\cdot$)} 함수가 처음 등장했는데, 이는 리스트의 길이를 반환합니다.
 위의 예시에서 \texttt{len(numbers)}는 \texttt{10}을 반환합니다.
 코드를 보다 일반적이고 명료하게 나타내기 위하여 리스트의 길이를 숫자 \texttt{10}과 같이 직접 치는 것보다는 \texttt{len($\cdot$)}을 사용하는 것이 좋습니다.
 또한 리스트의 원소를 접근하는 방식은 \texttt{리스트\_명[원소\_첨자]}입니다.
 \texttt{원소\_첨자}는 \texttt{0}에서 \texttt{len(리스트\_명) - 1}까지의 값을 가집니다.
-즉, \textbf{리스트의 첫 원소를 호출하려면 \texttt{리스트\_명[1]}이 아닌 \texttt{리스트\_명[0]}을, \texttt{n}번째 원소를 호출하려면 \texttt{리스트\_명[n]}이 아닌 \texttt{리스트\_명[n - 1]}을, 마지막 원소를 호출하려면 \texttt{리스트\_명[len(리스트\_명)]}이 아닌 \texttt{리스트\_명[len(리스트\_명) - 1]}을 사용해야 합니다.}
+즉, 리스트의 첫 원소를 호출하려면 \texttt{리스트\_명[1]}이 아닌 \texttt{리스트\_명[0]}을, \texttt{n}번째 원소를 호출하려면 \texttt{리스트\_명[n]}이 아닌 \texttt{리스트\_명[n - 1]}을, 마지막 원소를 호출하려면 \texttt{리스트\_명[len(리스트\_명)]}이 아닌 \texttt{리스트\_명[len(리스트\_명) - 1]}을 사용해야 합니다.
 정리하자면, \texttt{리스트\_명[n]}은 \texttt{리스트\_명}의 $\texttt{n} + 1$번째 원소를 가리킵니다.
 
 마지막으로는 리스트의 크기도 정해지지 않은 경우입니다.
 물론, 위 두 경우처럼 개수나 원소가 정해진 경우에도 사용할 수 있는 일반적인 방법입니다.
 리스트의 \texttt{append($\cdot$)} method메소드\footnote{객체에 관련된 함수를 뜻하는 말입니다. 객체 지향 프로그래밍을 배울 때 알아볼 것입니다. 지금으로는 단순히 어떤 변수에 딸린 함수라고 생각하면 됩니다.}를 사용하는 것입니다.
-\sout{단, 1학기 정보과학1 과정에서는 이 방법을 사용해야만 하는 문제가 나오지 않을 것이기 때문에 간단하게만 살펴봅니다.}
 \begin{minted}[mathescape,
                linenos,
                breaklines,
@@ -120,7 +119,7 @@ for i in range(len(numbers)):
 numbers = []
 
 for i in range(len(numbers)):
-	numbers.append((i + 1) * 3)
+    numbers.append((i + 1) * 3)
 \end{minted}
 처음에 아무것도 담지 않은 리스트 \texttt{[]}에다가, \texttt{.append($\cdot$)}를 통해 새로운 원소를 뒤에 하나씩 추가하는 방법입니다.
 예컨대, \texttt{a = [1, 2, 3]}일 때 \texttt{a.append(4)}를 수행하면 \texttt{a}는 \texttt{[1, 2, 3, 4]}가 됩니다.
@@ -187,7 +186,7 @@ None
                frame=lines,
                framesep=2mm]{python}
 for i in range(4):
-	print numbers[(i + 2)%4]
+    print numbers[(i + 2)%4]
 \end{minted}
 위 예시는 \texttt{numbers[2]}, \texttt{numbers[3]}, \texttt{numbers[0]}과 \texttt{numbers[1]}을 차례대로 출력합니다.
 
@@ -323,8 +322,8 @@ width = 4
 table = [[None]*width for i in range(height)]
 
 for i in range(height):
-	for j in range(width):
-		table[i][j] = i + 2*j + 1
+    for j in range(width):
+        table[i][j] = i + 2*j + 1
 \end{minted}
 위 과정을 통해서 
 \[
@@ -352,9 +351,9 @@ depth = 2
 table = [[[None]*width for j in range(height)] for i in range(depth)]
 
 for i in range(depth):
-	for j in range(height):
-		for k in range(width):
-			table[i][j][k] = i + 2*j + k + 1
+    for j in range(height):
+        for k in range(width):
+            table[i][j][k] = i + 2*j + k + 1
 \end{minted}
 
 \subsubsection{알아두면 유용한 내장 함수}
@@ -438,19 +437,19 @@ None
                numbersep=5pt,
                frame=lines,
                framesep=2mm]{python}
->>> s = "USACO"
+>>> s = "WEIZMANN"
 >>> s[2]
-'A'
+'I'
 >>> s[1:4]
-'SAC'
+'EIZ'
 >>> s * 3
-'USACOUSACOUSACO'
->>> s = s + "KOI"
+'WEIZMANNWEIZMANNWEIZMANN'
+>>> s = s + "PYTHON"
 >>> s
-'USACOKOI'
->>> "USACO" > "KOI"
+'WEIZMANNPYTHON'
+>>> "WEIZMANN" > "PYTHON"
 True
->>> 'ACOK' in s
+>>> 'MANN' in s
 True
 \end{minted}
 
@@ -465,14 +464,14 @@ True
                numbersep=5pt,
                frame=lines,
                framesep=2mm]{python}
->>> s = "USACO"
->>> s[0] = "u"
+>>> s = "WEIZMANN"
+>>> s[0] = "w"
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: 'str' object does not support item assignment
->>> s += "KOI"
+>>> s += "PYTHON"
 >>> s
-"USACOKOI"
+"WEIZMANNPYTHON"
 \end{minted}
 
 \subsubsection{알아두면 유용한 내장 함수들}
@@ -496,449 +495,450 @@ TypeError: 'str' object does not support item assignment
                numbersep=5pt,
                frame=lines,
                framesep=2mm]{python}
->>> s = "uSaCo".upper()
+>>> s = "wEiZmANN".upper()
 >>> s
-'USACO'
->>> s = "uSaCo".lower()
+'WEIZMANN'
+>>> s = "weiZManN".lower()
 >>> s
-'usaco'
->>> s = "uSaCo".capitalize()
+'weizmann'
+>>> s = "weizmAN".capitalize()
 >>> s
-'Usaco'
->>> "USACO12".isupper()
+'Weizmann'
+>>> "WEIZMANN12".isupper()
 True
->>> "usacO1".islower()
+>>> "weizmanN12".islower()
 False
 >>> "1242".isdigit()
 True
 >>> l = "Hello World!".split()
 >>> l
 ['Hello', 'World!']
->>> s = "USACO"
->>> s.find("AC")
+>>> s = "WEIZMANN"
+>>> s.find("IZ")
 2
 \end{minted}
 
-\subsection{Counters카운터와 Toy Robot토이 로봇}
-리스트를 배웠기 때문에, 조금 더 자유로운 반복문의 활용이 가능합니다.
-이번 절에서는 지금까지 예제에서 살펴본 counter카운터 패턴에 대해 집중적으로 살펴볼 것이며, \texttt{cs1robots} 패키지를 통해 토이 로봇을 이용해볼 것입니다.
-
-카운터 패턴은 주어진--리스트로써 표현된--집합에서 특정 조건을 만족하는 원소의 개수를 구하는데 사용할 수 있습니다.
-아래는 \texttt{numbers}라는 수에서 7의 배수의 개수를 세는 함수 \texttt{count\_seven(numbers)}입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def count_seven(numbers):
-	cnt = 0
-	for i in range(len(numbers)):
-		if numbers[i]%7 == 0:
-			cnt += 1
-	return cnt
-
-num = [1, 7, 2, 4, 3, 5, 34, 12, 42, 26]
-print count_seven(num)  # 2
-\end{minted}
-\texttt{for} 문을 통해서 각 원소에 대해 반복적인 시행을 표현하고, 내부에 \texttt{if} 문을 두어 특정 조건에만 명령이 수행되도록 하는 일반적인 패턴에 개수를 세는 역할을 부여한 것이 카운터 패턴입니다.
-
-또한 \texttt{for} 문을 활용하여 toy robot의 움직임을 제어해볼 것입니다.
-이를 위해 첫 시간에 \texttt{C:\textbackslash Python27\textbackslash Lib\textbackslash site-packages} 폴더에 복사한 \texttt{cs1robots} 패키지를 사용할 것입니다.
-\texttt{cs1robots} 패키지를 통해 로봇 객체\footnote{컴퓨터의 메모리에 할당된 공간을 포괄적으로 객체라고 하는데, object를 번역한 말입니다. 지금으로서는 간단히 대상이라고 생각해도 무방합니다.}를 불러올 때 앞으로 \texttt{hubo}라는 이름을 붙일 것입니다.
-사실 일반적인 변수처럼 \texttt{a}, \texttt{my\_robot} 등 어떠한 이름을 붙여도 상관은 없으나, 수업 중에 \texttt{hubo}라고 관용적으로 붙이니 여기서도 이를 따르겠습니다.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_example"}
-\label{fig:lecture4example}
-\end{figure}
-\texttt{hubo}는 앞으로 이동, 좌로 회전, 우로 회전에 해당하는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()} 등의 기본적인 동작을 취할 수 있습니다.
-이번 절을 마치고 나면 \texttt{for} 문을 통해 \texttt{hubo}가 다양한 동작을 수행하도록 코드를 작성할 수 있을 것입니다.
-
-\subsubsection{Counters카운터 패턴}
-카운터 패턴은 모두 아래와 같은 형식을 따릅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-cnt = 0
-for i in range(len(리스트_명)):
-	if 조건(리스트_명[i]):
-		cnt += 1
-\end{minted}
-어떤 주어진 리스트 \texttt{리스트\_명}가 주어졌을 때, 해당 리스트의 모든 원소에 대해(줄 2) 어떤 조건 \texttt{조건}을 원소 \texttt{리스트\_명[i]}이 만족한다면(줄 3) \texttt{cnt}의 값을 하나씩 늘리는(줄 4) 것입니다.
-위에서 보았던 7의 배수의 개수를 세는 예시도 마찬가지입니다.
-\texttt{numbers[i]\%7 == 0}의 조건이었는데, 7의 배수이면 \texttt{True}를, 아니면 \texttt{False}를 반환하는 함수를 정의한다면 \texttt{조건(리스트\_명[i])}의 형태로 만들 수 있습니다.
-불리언 함수를 배울 때 언급하였듯, 조건이 복잡한 경우에는 함수를 정의하는 방식으로 코드를 작성해야 합니다.
-예컨대 소수의 개수를 세는 카운터 패턴의 경우, 소수를 판별하는 불리언 함수 \texttt{is\_prime($\cdot$)}과 같은 함수를 정의하여 \texttt{if is\_prime(리스트\_명[i]):}와 같이 사용하면 됩니다.
-주어진 리스트에서 소수의 개수를 세는 함수가 아래 예시에 나와 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def is_prime(p):
-	for i in range(2, p/2):
-		if p%i == 0:
-			return False
-	return True
-	
-def count_prime(numbers):
-	cnt = 0
-	for i in range(len(numbers)):
-		if is_prime(numbers[i]):
-			cnt += 1
-	return cnt
-
-num = [217, 287, 181, 143, 163, 319, 233, 399, 203]
-print count_prime(num)  # 3
-\end{minted}
-
-\subsubsection{Toy Robot토이 로봇 (선택)}
-지금까지 수업을 통해 배운 함수, 조건문, 루프, 리스트 등의 개념을 종합적으로 활용하여 toy robot토이 로봇을 의도한 대로 움직이게 할 것입니다.
-Python 쉘에서 진행한 모든 Python 명령은 CLI\footnote{Command Line Interface, 즉 텍스트 기반의 명령행 인터페이스를 뜻한다.} 기반이었다면, 토이 로봇은 코드를 실행시키면 GUI\footnote{Graphic User Interface}인 창이 나올 것입니다.
-일단 다음과 같은 코드를 작성해봅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-from cs1robots import *
-create_world()
-\end{minted}
-이를 실행시키면, 아래와 같은 창이 뜹니다.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_emptyworld"}
-\label{fig:lecture4emptyworld}
-\end{figure}
-이것이 앞으로 로봇이 활동을 할 기본 ``세계''입니다.
-기본적으로 가로세로 10칸의 공간이 생성됩니다.
-
-위 코드에 \texttt{hubo = Robot()}를 추가하면, 로봇(앞으로 휴보라고 지칭하겠습니다)이 $(1, 1)$에 생성되는 것을 확인할 수 있습니다.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubo"}
-\label{fig:lecture4hubo}
-\end{figure}
-
-휴보를 앞으로 한 칸 움직이게 하기 위해서는 \texttt{hubo.move()}를 실행하고, 좌로 90도 회전하기 위해서는 \texttt{hubo.turn\_left()}를, 우로 90도 회전하기 위해서는 \texttt{hubo.turn\_right()}를 실행하면 됩니다.
-아래는 휴보를 좌로 회전시킨 후 앞으로 한 번 전진한 후의 모습입니다.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_huboleftmove"}
-\label{fig:lecture4huboleftmove}
-\end{figure}
-
-만약 휴보가 이동한 경로를 가시화하고 싶다면 \texttt{hubo.set\_trace("blue")}와 같이 \texttt{set\_trace($\cdot$)} 메소드와 함께 인자로는 색상을 문자열로 입력하면 됩니다.
-또한 휴보가 이동을 하는 것을 천천히 보려면 \texttt{hubo.set\_pause(0.5)}처럼 \texttt{set\_pause($\cdot$)} 메소드와 매 명령마다 정지할 시간을 초 단위의 인자를 입력하면 됩니다.
-휴보가 한 변의 길이가 2인 정사각형의 경로를 따라 이동하는 코드와 그 후의 모습이 아래에 나타나 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-from cs1robots import *
-create_world()
-
-hubo = Robot()
-hubo.set_trace("blue")
-hubo.set_pause(0.5)
-
-def move_square():
-	for i in range(4):
-		hubo.move()
-		hubo.move()
-		hubo.turn_left()
-
-move_square()
-\end{minted}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubosquare"}
-\label{fig:lecture4hubosquare}
-\end{figure}
-
-조금 더 복잡한 종류의 명령도 얼마든지 가능합니다.
-월드의 모양을 한 변의 길이 10짜리인 단조로운 정사각형이 아니라 칸 사이에 벽을 넣어 미로와 같은 지형을 만들 수 있는데, 계단형 지형을 살펴봅시다.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubostairs"}
-\label{fig:lecture4hubostairs}
-\end{figure}
-위 그림에서 나타난 움직임을 구현하는 코드는 아래와 같습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-hubo.move()
-for i in range(4):
-	hubo.turn_left()
-	hubo.move()
-	hubo.turn_right()
-	hubo.move()
-	hubo.move()
-\end{minted}
-
-\subsection{예제}
-\begin{enumerate}
-\item Write a function \texttt{sum\_squares(a)} that returns the sum of squares of the elements in the given list \texttt{a}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def sum_squares(a):
-	n = len(a)
-	s = 0
-	# Add here!
-
-print sum_squares([3, 5, 4])  # 50
-print sum_squares([2, 5, 4, 0, 1, -1, 5, 1])  # 73
-\end{minted}
-
-\item Write function \texttt{compute\_polynomial(a, x)} that returns
-\[
-\sum_{i = 0}^{\texttt{n} - 1} \texttt{a[}i\texttt{]} \cdot \texttt{x}^i
-\]
-where \texttt{a} is an integer list of length \texttt{n} and \texttt{x} is an integer.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def compute_polynomial(a, x):
-	\ Add here!
-
-print compute_polynomial([3, 5, 4], 5)  # 128
-print compute_polynomial([2, 0, 4, 0, 1, -1, 5, 1], 3)  # 5708
-\end{minted}
-
-\item Write a function \texttt{harmonic\_mean(a)} that returns the harmonic mean of values in \texttt{a}, where \texttt{a} is a list of positive integers of length.
-A harmonic mean of given numbers $a_1, a_2, \dots, a_n$ is
-\[
-\frac{n}{\sum_{i = 1}^{n} \frac{1}{a_i}}.
-\]
-Also, write a function \texttt{geometric\_mean(a)} that returns the geometric mean of values in \texttt{a}.
-A geometric mean of given numbers $a_1, a_2, \dots, a_n$ is
-\[
-\sqrt[n]{\Pi_{i = 1}^{n} a_i}.
-\]
-
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def harmonic_mean(a):
-	# Add here!
-	
-def geometric_mean(a):
-	# Add here!
-
-numbers = [2, 4, 3, 10, 7, 2, 5, 6]
-print harmonic_mean(numbers)  # 3.64820846906
-print geometric_mean(numbers)  # 4.22116731332
-\end{minted}
-
-\item Write a function \texttt{reverse(a)} that returns a list with the same length of \texttt{a} where its order is reversed, e.g., \texttt{reverse([1, 5, 3, 7, 6])} returns \texttt{[6, 7, 3, 5, 1]}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def reverse(a):
-	n = len(a)
-	b = [None] * n
-	# Add here!
-
-print reverse([3, 1, 5, 2, 4])  # [4, 2, 5, 1, 3]
-print reverse([7, 6, 3, 1, 5, 8, 2, 4])  # [4, 2, 8, 1, 3, 6, 7]
-\end{minted}
-
-\item Write a function \texttt{fibonacci(n)} that returns a list of first \texttt{n} Fibnonacci numbers where \texttt{n} is a positive integer.
-Assume that the first two terms of Fibonacci sequence are both 1.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def fibonacci(n):
-	# Add here!
-	
-print fibonacci(10)  # [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
-\end{minted}
-
-\item Write a function \texttt{area(points)} that returns an area of a polygon given by the list \texttt{points}.
-\texttt{points} is a list of points where each point is represented by a list of x coordinate and y coordinate, e.g., \texttt{[3, 4]}.
-An example of \texttt{points} that represents the below polygon is \texttt{[[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]}.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q6"}
-\label{fig:lecture4q6}
-\end{figure}
-Note that the area of the polygon represented by points $(x_i, y_i)$ where $i = 0, 1, \dots, n - 1$ can be calculated via the so-called shoelace formula:
-\[
-\frac 12 \left| \sum_{i = 0}^{n - 1} x_i \left(y_{(i + 1)\ \mathrm{mod}\ n} - y_{(i - 1)\ \mathrm{mod}\ n}\right)\right|
-\]
-Also, write a function \texttt{perimeter(points)} that returns a perimeter of the given polygon represented by \texttt{points}.
-You may want to define your own functions other than \texttt{area} and \texttt{perimeter}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-
-def area(points):
-	# Add here!
-	
-def perimeter(points):
-	# Add here!
-	
-points = [[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]
-print area(points)  # 22.0
-print perimeter(points)  # 23.8533258314
-\end{minted}
-
-\item Write a function \texttt{find\_min(a)} that returns the least element of the list \texttt{a}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def find_min(a):
-	# Add here!
-	
-print find_min([7.2, 5, 21, -1, 4, 0.4])  # -1
-\end{minted}
-
-\item Write a function \texttt{closest\_pair(points)} that returns a distance of the closest pair of points given in \texttt{points}.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q8"}
-\label{fig:lecture4q8}
-\end{figure}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-	
-print closest_pair([[4, -4], [7, 5], [2, 1], [-2, -1], [-3, 5]])  # 4.472135955
-\end{minted}
-
-\item Write a function \texttt{count\_range(numbers, lower, upper)} that returns the number of integers in \texttt{numbers} which are in the range from \texttt{lower} to \texttt{upper}, where \texttt{numbers} is a list of integers.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def count_range(numbers, lower, upper):
-	# Add here!
-	
-print count_range([8, 9, 10, 2, 4, 5, 9, 7, 2, 3, 7],  3, 7)  # 5
-\end{minted}
-
-\item Write a function \texttt{count\_within\_circle(points, radius)} that returns the number of points $(x, y)$ in \texttt{points} that is within $x^2 + y^2 \leq \texttt{radius}^2$.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def count_within_circle(points, radius):
-	# Add here!
-	
-points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
-print count_within_circle(points, 3)  # 2
-print count_within_circle(points, 5)  # 4
-print count_within_circle(points, 8)  # 9
-\end{minted}
-
-\item Write a boolean function \texttt{within\_rect(top, bottom, left, right, x, y)} where integers \texttt{top}, \texttt{bottom}, \texttt{left}, \texttt{right} represent an axis-aligned rectangle, e.g., the rectangle represented by \texttt{(top, bottom, left, right) = (2, -4, -5, 6)} is
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q11"},
-\label{fig:lecture4q11}
-\end{figure}
-and \texttt{x} and \texttt{y} are integers.
-The function should return \texttt{True} if and only if the point $(\texttt{x}, \texttt{y})$ is in the rectangle including the boundary.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def within_rect(top, bottom, left, right, x, y):
-	# Add here!
-	
-print within_rect(2, -4, -5, 6, -5, 2)  # True
-print within_rect(2, -4, -5, 6, 6, -1)  # True
-print within_rect(2, -4, -5, 6, 0, 1)  # True
-print within_rect(2, -4, -5, 6, -6, 0)  # False
-print within_rect(2, -4, -5, 6, 0, 3)  # False
-\end{minted}
-Write a function \texttt{count\_within\_rect(top, bottom, left, right, points)} using \texttt{within\_rect} implemented above that returns the number of points within the rectangle including boundary, where \texttt{points} is a list of points in the plane.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def count_within_rect(top, bottom, left, right, points):
-	# Add here!
-	
-points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
-print count_within_rect(2,-4,-5,6, points)  # 7
-\end{minted}
-
-\item Write a function \texttt{count\_leap\_year(numbers)} that returns the number of leap years in list \texttt{numbers}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def count_leap_years(numbers):
-	# Add here!
-	
-print count_leap_years([2008, 2011, 2012, 2000])  # 3
-print count_leap_years([2100, 2300, 2400, 2200])  # 1
-\end{minted}
-
-\item Write a function \texttt{count\_composite(numbers)} that returns the number of composites in list \texttt{numbers}.
-You may want to add your own function other than \texttt{count\_composite}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-# Add here!
-
-def count_composite(numbers):
-	# Add here!
-	
-numbers = [217, 287, 181, 143, 163, 319, 233, 399, 203]
-print count_composite(numbers)  # 1
-\end{minted}
-\end{enumerate}
+\subsection{Turtle}
+% \subsection{Counters카운터와 Toy Robot토이 로봇}
+% 리스트를 배웠기 때문에, 조금 더 자유로운 반복문의 활용이 가능합니다.
+% 이번 절에서는 지금까지 예제에서 살펴본 counter카운터 패턴에 대해 집중적으로 살펴볼 것이며, \texttt{cs1robots} 패키지를 통해 토이 로봇을 이용해볼 것입니다.
+%
+% 카운터 패턴은 주어진--리스트로써 표현된--집합에서 특정 조건을 만족하는 원소의 개수를 구하는데 사용할 수 있습니다.
+% 아래는 \texttt{numbers}라는 수에서 7의 배수의 개수를 세는 함수 \texttt{count\_seven(numbers)}입니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def count_seven(numbers):
+%     cnt = 0
+%     for i in range(len(numbers)):
+%         if numbers[i]%7 == 0:
+%             cnt += 1
+%     return cnt
+%
+% num = [1, 7, 2, 4, 3, 5, 34, 12, 42, 26]
+% print count_seven(num)  # 2
+% \end{minted}
+% \texttt{for} 문을 통해서 각 원소에 대해 반복적인 시행을 표현하고, 내부에 \texttt{if} 문을 두어 특정 조건에만 명령이 수행되도록 하는 일반적인 패턴에 개수를 세는 역할을 부여한 것이 카운터 패턴입니다.
+%
+% 또한 \texttt{for} 문을 활용하여 toy robot의 움직임을 제어해볼 것입니다.
+% 이를 위해 첫 시간에 \texttt{C:\textbackslash Python27\textbackslash Lib\textbackslash site-packages} 폴더에 복사한 \texttt{cs1robots} 패키지를 사용할 것입니다.
+% \texttt{cs1robots} 패키지를 통해 로봇 객체\footnote{컴퓨터의 메모리에 할당된 공간을 포괄적으로 객체라고 하는데, object를 번역한 말입니다. 지금으로서는 간단히 대상이라고 생각해도 무방합니다.}를 불러올 때 앞으로 \texttt{hubo}라는 이름을 붙일 것입니다.
+% 사실 일반적인 변수처럼 \texttt{a}, \texttt{my\_robot} 등 어떠한 이름을 붙여도 상관은 없으나, 수업 중에 \texttt{hubo}라고 관용적으로 붙이니 여기서도 이를 따르겠습니다.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_example"}
+% \label{fig:lecture4example}
+% \end{figure}
+% \texttt{hubo}는 앞으로 이동, 좌로 회전, 우로 회전에 해당하는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()} 등의 기본적인 동작을 취할 수 있습니다.
+% 이번 절을 마치고 나면 \texttt{for} 문을 통해 \texttt{hubo}가 다양한 동작을 수행하도록 코드를 작성할 수 있을 것입니다.
+%
+% \subsubsection{Counters카운터 패턴}
+% 카운터 패턴은 모두 아래와 같은 형식을 따릅니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% cnt = 0
+% for i in range(len(리스트_명)):
+%     if 조건(리스트_명[i]):
+%         cnt += 1
+% \end{minted}
+% 어떤 주어진 리스트 \texttt{리스트\_명}가 주어졌을 때, 해당 리스트의 모든 원소에 대해(줄 2) 어떤 조건 \texttt{조건}을 원소 \texttt{리스트\_명[i]}이 만족한다면(줄 3) \texttt{cnt}의 값을 하나씩 늘리는(줄 4) 것입니다.
+% 위에서 보았던 7의 배수의 개수를 세는 예시도 마찬가지입니다.
+% \texttt{numbers[i]\%7 == 0}의 조건이었는데, 7의 배수이면 \texttt{True}를, 아니면 \texttt{False}를 반환하는 함수를 정의한다면 \texttt{조건(리스트\_명[i])}의 형태로 만들 수 있습니다.
+% 불리언 함수를 배울 때 언급하였듯, 조건이 복잡한 경우에는 함수를 정의하는 방식으로 코드를 작성해야 합니다.
+% 예컨대 소수의 개수를 세는 카운터 패턴의 경우, 소수를 판별하는 불리언 함수 \texttt{is\_prime($\cdot$)}과 같은 함수를 정의하여 \texttt{if is\_prime(리스트\_명[i]):}와 같이 사용하면 됩니다.
+% 주어진 리스트에서 소수의 개수를 세는 함수가 아래 예시에 나와 있습니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def is_prime(p):
+%     for i in range(2, p/2):
+%         if p%i == 0:
+%             return False
+%     return True
+%
+% def count_prime(numbers):
+%     cnt = 0
+%     for i in range(len(numbers)):
+%         if is_prime(numbers[i]):
+%             cnt += 1
+%     return cnt
+%
+% num = [217, 287, 181, 143, 163, 319, 233, 399, 203]
+% print count_prime(num)  # 3
+% \end{minted}
+%
+% \subsubsection{Toy Robot토이 로봇 (선택)}
+% 지금까지 수업을 통해 배운 함수, 조건문, 루프, 리스트 등의 개념을 종합적으로 활용하여 toy robot토이 로봇을 의도한 대로 움직이게 할 것입니다.
+% Python 쉘에서 진행한 모든 Python 명령은 CLI\footnote{Command Line Interface, 즉 텍스트 기반의 명령행 인터페이스를 뜻한다.} 기반이었다면, 토이 로봇은 코드를 실행시키면 GUI\footnote{Graphic User Interface}인 창이 나올 것입니다.
+% 일단 다음과 같은 코드를 작성해봅니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% from cs1robots import *
+% create_world()
+% \end{minted}
+% 이를 실행시키면, 아래와 같은 창이 뜹니다.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_emptyworld"}
+% \label{fig:lecture4emptyworld}
+% \end{figure}
+% 이것이 앞으로 로봇이 활동을 할 기본 ``세계''입니다.
+% 기본적으로 가로세로 10칸의 공간이 생성됩니다.
+%
+% 위 코드에 \texttt{hubo = Robot()}를 추가하면, 로봇(앞으로 휴보라고 지칭하겠습니다)이 $(1, 1)$에 생성되는 것을 확인할 수 있습니다.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubo"}
+% \label{fig:lecture4hubo}
+% \end{figure}
+%
+% 휴보를 앞으로 한 칸 움직이게 하기 위해서는 \texttt{hubo.move()}를 실행하고, 좌로 90도 회전하기 위해서는 \texttt{hubo.turn\_left()}를, 우로 90도 회전하기 위해서는 \texttt{hubo.turn\_right()}를 실행하면 됩니다.
+% 아래는 휴보를 좌로 회전시킨 후 앞으로 한 번 전진한 후의 모습입니다.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_huboleftmove"}
+% \label{fig:lecture4huboleftmove}
+% \end{figure}
+%
+% 만약 휴보가 이동한 경로를 가시화하고 싶다면 \texttt{hubo.set\_trace("blue")}와 같이 \texttt{set\_trace($\cdot$)} 메소드와 함께 인자로는 색상을 문자열로 입력하면 됩니다.
+% 또한 휴보가 이동을 하는 것을 천천히 보려면 \texttt{hubo.set\_pause(0.5)}처럼 \texttt{set\_pause($\cdot$)} 메소드와 매 명령마다 정지할 시간을 초 단위의 인자를 입력하면 됩니다.
+% 휴보가 한 변의 길이가 2인 정사각형의 경로를 따라 이동하는 코드와 그 후의 모습이 아래에 나타나 있습니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% from cs1robots import *
+% create_world()
+%
+% hubo = Robot()
+% hubo.set_trace("blue")
+% hubo.set_pause(0.5)
+%
+% def move_square():
+%     for i in range(4):
+%         hubo.move()
+%         hubo.move()
+%         hubo.turn_left()
+%
+% move_square()
+% \end{minted}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubosquare"}
+% \label{fig:lecture4hubosquare}
+% \end{figure}
+%
+% 조금 더 복잡한 종류의 명령도 얼마든지 가능합니다.
+% 월드의 모양을 한 변의 길이 10짜리인 단조로운 정사각형이 아니라 칸 사이에 벽을 넣어 미로와 같은 지형을 만들 수 있는데, 계단형 지형을 살펴봅시다.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubostairs"}
+% \label{fig:lecture4hubostairs}
+% \end{figure}
+% 위 그림에서 나타난 움직임을 구현하는 코드는 아래와 같습니다.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% hubo.move()
+% for i in range(4):
+%     hubo.turn_left()
+%     hubo.move()
+%     hubo.turn_right()
+%     hubo.move()
+%     hubo.move()
+% \end{minted}
+%
+% \subsection{예제}
+% \begin{enumerate}
+% \item Write a function \texttt{sum\_squares(a)} that returns the sum of squares of the elements in the given list \texttt{a}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def sum_squares(a):
+%     n = len(a)
+%     s = 0
+%     # Add here!
+%
+% print sum_squares([3, 5, 4])  # 50
+% print sum_squares([2, 5, 4, 0, 1, -1, 5, 1])  # 73
+% \end{minted}
+%
+% \item Write function \texttt{compute\_polynomial(a, x)} that returns
+% \[
+% \sum_{i = 0}^{\texttt{n} - 1} \texttt{a[}i\texttt{]} \cdot \texttt{x}^i
+% \]
+% where \texttt{a} is an integer list of length \texttt{n} and \texttt{x} is an integer.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def compute_polynomial(a, x):
+%     \ Add here!
+%
+% print compute_polynomial([3, 5, 4], 5)  # 128
+% print compute_polynomial([2, 0, 4, 0, 1, -1, 5, 1], 3)  # 5708
+% \end{minted}
+%
+% \item Write a function \texttt{harmonic\_mean(a)} that returns the harmonic mean of values in \texttt{a}, where \texttt{a} is a list of positive integers of length.
+% A harmonic mean of given numbers $a_1, a_2, \dots, a_n$ is
+% \[
+% \frac{n}{\sum_{i = 1}^{n} \frac{1}{a_i}}.
+% \]
+% Also, write a function \texttt{geometric\_mean(a)} that returns the geometric mean of values in \texttt{a}.
+% A geometric mean of given numbers $a_1, a_2, \dots, a_n$ is
+% \[
+% \sqrt[n]{\Pi_{i = 1}^{n} a_i}.
+% \]
+%
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def harmonic_mean(a):
+%     # Add here!
+%
+% def geometric_mean(a):
+%     # Add here!
+%
+% numbers = [2, 4, 3, 10, 7, 2, 5, 6]
+% print harmonic_mean(numbers)  # 3.64820846906
+% print geometric_mean(numbers)  # 4.22116731332
+% \end{minted}
+%
+% \item Write a function \texttt{reverse(a)} that returns a list with the same length of \texttt{a} where its order is reversed, e.g., \texttt{reverse([1, 5, 3, 7, 6])} returns \texttt{[6, 7, 3, 5, 1]}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def reverse(a):
+%     n = len(a)
+%     b = [None] * n
+%     # Add here!
+%
+% print reverse([3, 1, 5, 2, 4])  # [4, 2, 5, 1, 3]
+% print reverse([7, 6, 3, 1, 5, 8, 2, 4])  # [4, 2, 8, 1, 3, 6, 7]
+% \end{minted}
+%
+% \item Write a function \texttt{fibonacci(n)} that returns a list of first \texttt{n} Fibnonacci numbers where \texttt{n} is a positive integer.
+% Assume that the first two terms of Fibonacci sequence are both 1.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def fibonacci(n):
+%     # Add here!
+%
+% print fibonacci(10)  # [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+% \end{minted}
+%
+% \item Write a function \texttt{area(points)} that returns an area of a polygon given by the list \texttt{points}.
+% \texttt{points} is a list of points where each point is represented by a list of x coordinate and y coordinate, e.g., \texttt{[3, 4]}.
+% An example of \texttt{points} that represents the below polygon is \texttt{[[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]}.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q6"}
+% \label{fig:lecture4q6}
+% \end{figure}
+% Note that the area of the polygon represented by points $(x_i, y_i)$ where $i = 0, 1, \dots, n - 1$ can be calculated via the so-called shoelace formula:
+% \[
+% \frac 12 \left| \sum_{i = 0}^{n - 1} x_i \left(y_{(i + 1)\ \mathrm{mod}\ n} - y_{(i - 1)\ \mathrm{mod}\ n}\right)\right|
+% \]
+% Also, write a function \texttt{perimeter(points)} that returns a perimeter of the given polygon represented by \texttt{points}.
+% You may want to define your own functions other than \texttt{area} and \texttt{perimeter}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% # Add here!
+%
+% def area(points):
+%     # Add here!
+%
+% def perimeter(points):
+%     # Add here!
+%
+% points = [[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]
+% print area(points)  # 22.0
+% print perimeter(points)  # 23.8533258314
+% \end{minted}
+%
+% \item Write a function \texttt{find\_min(a)} that returns the least element of the list \texttt{a}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def find_min(a):
+%     # Add here!
+%
+% print find_min([7.2, 5, 21, -1, 4, 0.4])  # -1
+% \end{minted}
+%
+% \item Write a function \texttt{closest\_pair(points)} that returns a distance of the closest pair of points given in \texttt{points}.
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q8"}
+% \label{fig:lecture4q8}
+% \end{figure}
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% # Add here!
+%
+% print closest_pair([[4, -4], [7, 5], [2, 1], [-2, -1], [-3, 5]])  # 4.472135955
+% \end{minted}
+%
+% \item Write a function \texttt{count\_range(numbers, lower, upper)} that returns the number of integers in \texttt{numbers} which are in the range from \texttt{lower} to \texttt{upper}, where \texttt{numbers} is a list of integers.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def count_range(numbers, lower, upper):
+%     # Add here!
+%
+% print count_range([8, 9, 10, 2, 4, 5, 9, 7, 2, 3, 7],  3, 7)  # 5
+% \end{minted}
+%
+% \item Write a function \texttt{count\_within\_circle(points, radius)} that returns the number of points $(x, y)$ in \texttt{points} that is within $x^2 + y^2 \leq \texttt{radius}^2$.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def count_within_circle(points, radius):
+%     # Add here!
+%
+% points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
+% print count_within_circle(points, 3)  # 2
+% print count_within_circle(points, 5)  # 4
+% print count_within_circle(points, 8)  # 9
+% \end{minted}
+%
+% \item Write a boolean function \texttt{within\_rect(top, bottom, left, right, x, y)} where integers \texttt{top}, \texttt{bottom}, \texttt{left}, \texttt{right} represent an axis-aligned rectangle, e.g., the rectangle represented by \texttt{(top, bottom, left, right) = (2, -4, -5, 6)} is
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q11"},
+% \label{fig:lecture4q11}
+% \end{figure}
+% and \texttt{x} and \texttt{y} are integers.
+% The function should return \texttt{True} if and only if the point $(\texttt{x}, \texttt{y})$ is in the rectangle including the boundary.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def within_rect(top, bottom, left, right, x, y):
+%     # Add here!
+%
+% print within_rect(2, -4, -5, 6, -5, 2)  # True
+% print within_rect(2, -4, -5, 6, 6, -1)  # True
+% print within_rect(2, -4, -5, 6, 0, 1)  # True
+% print within_rect(2, -4, -5, 6, -6, 0)  # False
+% print within_rect(2, -4, -5, 6, 0, 3)  # False
+% \end{minted}
+% Write a function \texttt{count\_within\_rect(top, bottom, left, right, points)} using \texttt{within\_rect} implemented above that returns the number of points within the rectangle including boundary, where \texttt{points} is a list of points in the plane.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def count_within_rect(top, bottom, left, right, points):
+%     # Add here!
+%
+% points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
+% print count_within_rect(2,-4,-5,6, points)  # 7
+% \end{minted}
+%
+% \item Write a function \texttt{count\_leap\_year(numbers)} that returns the number of leap years in list \texttt{numbers}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% def count_leap_years(numbers):
+%     # Add here!
+%
+% print count_leap_years([2008, 2011, 2012, 2000])  # 3
+% print count_leap_years([2100, 2300, 2400, 2200])  # 1
+% \end{minted}
+%
+% \item Write a function \texttt{count\_composite(numbers)} that returns the number of composites in list \texttt{numbers}.
+% You may want to add your own function other than \texttt{count\_composite}.
+% \begin{minted}[mathescape,
+%                linenos,
+%                breaklines,
+%                numbersep=5pt,
+%                frame=lines,
+%                framesep=2mm]{python}
+% # Add here!
+%
+% def count_composite(numbers):
+%     # Add here!
+%
+% numbers = [217, 287, 181, 143, 163, 319, 233, 399, 203]
+% print count_composite(numbers)  # 1
+% \end{minted}
+% \end{enumerate}
 \end{document}

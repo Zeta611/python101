@@ -405,23 +405,21 @@ def find_min_value():
 최댓값을 구하는 것도 마찬가지로, 줄 8의 부등호 방향을 반대로 바꾸면 최댓값을 구하는 코드가 됩니다.
 어떤 주어진 값에서 제일 작거나 큰 값을 찾을 때 자주 사용하는 패턴입니다.
 
-% \subsection{예제}
-% \begin{enumerate}
-% \item Write a function \texttt{is\_odd(n)} that returns \texttt{True} if integer \texttt{n} is odd and \texttt{False} if integer \texttt{n} is even.
-% One line of code is sufficient.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def is_odd(n):
-%     # Add here!
-%
-% print type(is_odd(4))
-% print is_odd(12)  # False
-% print is_odd(1)   # True
-% \end{minted}
+\subsection{예제}
+\begin{enumerate}
+\item 짝수일 때 \verb|True|를 반환하는 함수 \verb|is_odd(n)|을 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def is_odd(n):
+    # Add here!
+
+print(is_odd(12))  # False
+print(is_odd(1))   # True
+\end{minted}
 % Write a function \texttt{exactly\_two\_even(n1, n2, n3)} by using \texttt{is\_odd($\cdot$)} above. \texttt{exactly\_two\_even(n1, n2, n3)} returns \texttt{True} if exactly two of \texttt{n1}, \texttt{n2}, and \texttt{n3} are even and \texttt{False} otherwise.
 % \begin{minted}[mathescape,
 %                linenos,
@@ -440,7 +438,7 @@ def find_min_value():
 % print exactly_two_even(2, 5, 8)   # True
 % print exactly_two_even(2, 18, 4)  # False
 % \end{minted}
-%
+
 % \item Write a function \texttt{triangle(a, b, c)} that returns \texttt{True} if it is possible to form a triangle with sides of lengths \texttt{a}, \texttt{b}, and \texttt{c}.
 % Assume \texttt{a}, \texttt{b}, and \texttt{c} are positive integers.
 % \begin{minted}[mathescape,
@@ -456,7 +454,7 @@ def find_min_value():
 % print triangle(1, 1, 1)  # True
 % print triangle(3, 1, 1)  # False
 % \end{minted}
-%
+
 % \item Write a function \texttt{acute(x1, y1, x2, y2, x3, y3)} that returns \texttt{True} if three points \texttt{(x1, y1)}, \texttt{(x2, y2)}, and \texttt{(x3, y3)} form an acute-angled triangle(예각 삼각형) and \texttt{False} otherwise.
 % \begin{minted}[mathescape,
 %                linenos,
@@ -486,23 +484,24 @@ def find_min_value():
 % print intersect(1, 1, 3, 4, 3, 2)  # True
 % print intersect(1, 1, 3, 2, 1, 2)  # False
 % \end{minted}
-%
-% \item If a year is divisible by four, it is a leap year(윤년).
-% However, if the year is divisible by 100 but not by 400, it is not a leap year.
-% Write a function \texttt{leap\_year(year)} that returns \texttt{True} if \texttt{year} is a leap year and \texttt{False} otherwise.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% # Add here!
-%
-% print leap_year(2008), leap_year(2011)  # True False
-% print leap_year(2000), leap_year(2100)  # True False
-% print leap_year(2300), leap_year(2400)  # False True
-% print leap_year(2012), leap_year(2200)  # True False
-% \end{minted}
+
+\item 어떤 수가 4의 배수이면 기본적으로 윤년입니다. 그러나 해당 연도가 100으로
+  나누어지면서 400으로는 안 나누어진다면, 윤년이 아닙니다. 윤년일 경우에
+  \verb|True|를 반환하고 아닐 경우에는 \verb|False|를 반환하는 함수
+  \verb|leap_year|을 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+# Add here!
+
+print(leap_year(2008), leap_year(2011))  # True False
+print(leap_year(2000), leap_year(2100))  # True False
+print(leap_year(2300), leap_year(2400))  # False True
+print(leap_year(2012), leap_year(2200))  # True False
+\end{minted}
 % Write a function \texttt{num\_days(year, month)} that returns the number of days in month \texttt{month} of year \texttt{year}, using \texttt{leap\_year($\cdot$)}.
 % \texttt{month} is given by an integer.
 % \begin{minted}[mathescape,
@@ -548,7 +547,53 @@ def find_min_value():
 % print blood(50, 36, 11, 8, 45, 42, 10, 3)  # False
 % print blood(50, 36, 11, 3, 45, 38, 10, 7)  # True
 % \end{minted}
-%
+
+\item 구구단 표를 작성하는 함수 \verb|print_tables()|를 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+1 2 3 4 5 6 7 8 9
+2 4 6 8 10 12 14 16 18
+...
+9 18 27 36 45 54 63 72 81
+\end{minted}
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def print_tables():
+    # Add here!
+
+print_tables()
+\end{minted}
+
+
+\item 주어진 수 \verb|n|에 따라 \verb|좌회전|, \verb|직진|을 줄마다 출력하는
+  \verb|turn_left_and_move(n)|를 작성하세요.
+\begin{minted}[mathescape,
+               linenos,
+               breaklines,
+               numbersep=5pt,
+               frame=lines,
+               framesep=2mm]{python}
+def turn_left_and_move(n):
+    # Add here!
+
+turn_left_and_move(3)
+# 좌회전
+# 직전
+# 좌회전
+# 직전
+# 좌회전
+# 직전
+\end{minted}
+
+
 % \item The following output is desired:
 % \begin{minted}[mathescape,
 %                linenos,
@@ -580,7 +625,7 @@ def find_min_value():
 %
 % print_tables()
 % \end{minted}
-%
+
 % \item Write a function \texttt{sum\_interval(a, b)} that returns $\texttt{a} + (\texttt{a} + 1) + \dots + \texttt{b}$ where \texttt{a} and \texttt{b} are integers.
 % \begin{minted}[mathescape,
 %                linenos,
@@ -594,7 +639,7 @@ def find_min_value():
 % print sum_interval(5, 10)
 % print sum_interval(15, 100)
 % \end{minted}
-%
+
 % \item The following relation is known\footnote{Gottfried Wilhelm Leibniz이 발견하였다.}:
 % $$
 % \pi = 4\left(\frac11 - \frac13 + \frac 15 - \frac17 + \frac19 - \dots\right)
@@ -611,7 +656,7 @@ def find_min_value():
 %
 % print calculate_pi(1000)
 % \end{minted}
-%
+
 % \item Write a function \texttt{within\_circ(r)} that returns the number of integer lattice points within a circle of radius \texttt{r} centered at the origin.
 % The following relation results from an Monte Carlo method:
 % $$
@@ -725,5 +770,5 @@ def find_min_value():
 %
 % print sum_amicable(10000)  # 31626
 % \end{minted}
-% \end{enumerate}
+\end{enumerate}
 \end{document}

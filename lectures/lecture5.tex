@@ -56,10 +56,10 @@
                frame=lines,
                framesep=2mm]{python}
 def all_positive(numbers):
-	for i in range(len(numbers)):
-		if not numbers[i] > 0:
-			return False
-	return True
+    for i in range(len(numbers)):
+        if not numbers[i] > 0:
+            return False
+    return True
 \end{minted}
 지난 시간에 예제로 풀어보았던 소수를 판별하는 함수도 전체 한정자의 예시입니다.
 1과 자기 자신이 아닌 약수가 하나라도 존재한다면 \texttt{False}를 반환하는 경우이기 때문입니다.
@@ -76,10 +76,10 @@ def all_positive(numbers):
                frame=lines,
                framesep=2mm]{python}
 def some_positive(numbers):
-	for i in range(len(numbers)):
-		if numbers[i] > 0:
-			return True
-	return False
+    for i in range(len(numbers)):
+        if numbers[i] > 0:
+            return True
+    return False
 \end{minted}
 
 \subsubsection{예시}
@@ -91,12 +91,12 @@ def some_positive(numbers):
                frame=lines,
                framesep=2mm]{python}
 def sum_squares(n):
-	sqrt_n = int(n**.5)
-	for x in range(1, sqrt_n + 1):
-		for y in range(x, sqrt_n + 1):
-			if n == x**2 + y**2:
-				return True
-	return False
+    sqrt_n = int(n**.5)
+    for x in range(1, sqrt_n + 1):
+        for y in range(x, sqrt_n + 1):
+            if n == x**2 + y**2:
+                return True
+    return False
 \end{minted}
 두 수의 제곱의 합을 확인해야 하므로 2중 루프를 구성하였다는 것 외에는 존재 한정자 패턴과 차이가 없습니다.
 만약 $\texttt{x}^2 + \texttt{y}^2 = n^2$이라면 $\texttt{x}, \texttt{y} \leq \sqrt n$일 것이므로 \texttt{sqrt\_n = int(n**.5)}로 정의하여 줄 3, 4에서 \texttt{for} 루프의 범위를 제한하였습니다.
@@ -111,10 +111,10 @@ def sum_squares(n):
                frame=lines,
                framesep=2mm]{python}
 def all_sum_squares(numbers):
-	for i in range(len(numbers)):
-		if not sum_squares(numbers[i]):
-			return False
-	return True
+    for i in range(len(numbers)):
+        if not sum_squares(numbers[i]):
+            return False
+    return True
 \end{minted}
 
 마지막으로 주어진 수열이 증가 수열인지를 확인하는 함수 \texttt{inc\_seq($\cdot$)}입니다.
@@ -125,10 +125,10 @@ def all_sum_squares(numbers):
                frame=lines,
                framesep=2mm]{python}
 def inc_seq(numbers):
-	for i in range(len(numbers) - 1):
-		if not numbers[i] <= numbers[i + 1]:
-			return False
-	return True
+    for i in range(len(numbers) - 1):
+        if not numbers[i] <= numbers[i + 1]:
+            return False
+    return True
 \end{minted}
 전체 한정자 패턴과 동일하지만, 주의할 점은 줄 2에서 \texttt{range($\cdot$)}의 범위를 \texttt{len(numbers) - 1}로 해야 \texttt{IndexError}가 나지 않습니다.
 이는 줄 3에서 다음 인덱스의 원소와 현 인덱스의 원소를 비교하기 때문입니다.
@@ -143,11 +143,11 @@ def inc_seq(numbers):
                frame=lines,
                framesep=2mm]{python}
 def maximum(numbers):  # def minimum(numbers):
-	m = numbers[0]
-	for i in range(len(numbers)):
-		if numbers[i] > m:  # if numbers[i] < m:
-			m = numbers[i]
-	return m
+    m = numbers[0]
+    for i in range(len(numbers)):
+        if numbers[i] > m:  # if numbers[i] < m:
+            m = numbers[i]
+    return m
 \end{minted}
 \item 카운터 패턴
 \begin{minted}[mathescape,
@@ -157,11 +157,11 @@ def maximum(numbers):  # def minimum(numbers):
                frame=lines,
                framesep=2mm]{python}
 def cnt_odd(numbers):
-	cnt = 0
-	for i in range(len(numbers)):
-		if numbers[i] % 2:
-			cnt += 1
-	return cnt
+    cnt = 0
+    for i in range(len(numbers)):
+        if numbers[i] % 2:
+            cnt += 1
+    return cnt
 \end{minted}
 \item 한정자 패턴
 \begin{minted}[mathescape,
@@ -171,10 +171,10 @@ def cnt_odd(numbers):
                frame=lines,
                framesep=2mm]{python}
 def all_odd(numbers):  # def some_odd(numbers):
-	for i in range(len(numbers)):
-		if not numbers[i] % 2:  # if numbers[i] % 2:
-			return False  # return True
-	return True  # return False
+    for i in range(len(numbers)):
+        if not numbers[i] % 2:  # if numbers[i] % 2:
+            return False  # return True
+    return True  # return False
 \end{minted}
 \end{enumerate}
 
@@ -198,9 +198,9 @@ Beepers는 휴보가 놓고 주을 수 있는 물체로, 격자점마다 위치�
                frame=lines,
                framesep=2mm]{python}
 for i in range(9):
-	hubo.move()
-	if hubo.on_beeper():
-		hubo.pick_beeper()
+    hubo.move()
+    if hubo.on_beeper():
+        hubo.pick_beeper()
 \end{minted}
 \begin{figure}[H]
 \centering
@@ -231,9 +231,9 @@ for i in range(9):
 hubo = Robot(beepers = 6)
 
 for i in range(9):
-	hubo.move()
-	if hubo.carries_beeper():
-		hubo.drop_beeper()
+    hubo.move()
+    if hubo.carries_beeper():
+        hubo.drop_beeper()
 \end{minted}
 \begin{figure}[H]
 \centering
@@ -269,9 +269,9 @@ for i in range(9):
                frame=lines,
                framesep=2mm]{python}
 def gcd(m, n):
-	while n:  # > 0
-		m, n = n, m%n
-	return m
+    while n:  # > 0
+        m, n = n, m%n
+    return m
 \end{minted}
 \texttt{n}이 0이 아닐 때, 즉 0이 되기 직전까지 줄 3의 내용을 실행하는 것입니다.
 결국 \texttt{n}이 0이 되었을 때 \texttt{m}이 최대 공약수일 것이므로 \texttt{m}을 반환하는 코드입니다.
@@ -290,9 +290,9 @@ def gcd(m, n):
                frame=lines,
                framesep=2mm]{python}
 for i in range(9):
-	hubo.move()
-	if hubo.on_beeper():
-		hubo.pick_beeper()
+    hubo.move()
+    if hubo.on_beeper():
+        hubo.pick_beeper()
 \end{minted}
 \begin{figure}[H]
 \centering
@@ -315,9 +315,9 @@ for i in range(9):
                frame=lines,
                framesep=2mm]{python}
 for i in range(9):
-	hubo.move()
-	while hubo.on_beeper():
-		hubo.pick_beeper()
+    hubo.move()
+    while hubo.on_beeper():
+        hubo.pick_beeper()
 \end{minted}
 \begin{figure}[H]
 \centering
@@ -344,7 +344,7 @@ for i in range(9):
 hubo = Robot(beepers = 50)
 
 while hubo.carries_beepers():
-	hubo.drop_beeper()
+    hubo.drop_beeper()
 hubo.move()
 \end{minted}
 \begin{figure}[H]
@@ -365,17 +365,17 @@ hubo.move()
 cnt = 0
 
 while not hubo.on_beeper():
-	hubo.move()
-	cnt += 1
+    hubo.move()
+    cnt += 1
 
 while hubo.on_beeper():
-	hubo.pick_beeper()
+    hubo.pick_beeper()
 
 hubo.turn_right()
 hubo.turn_right()
 
 for i in range(cnt):
-	hubo.move()
+    hubo.move()
 \end{minted}
 줄 1에서 4까지는 \texttt{while} 문에서 카운터 패턴이 적용된 것을 볼 수 있습니다.
 이는 나중에 휴보가 돌아올 때 몇 칸을 \texttt{move()}해야 할지 세야 하기 때문입니다.
@@ -394,11 +394,11 @@ for i in range(cnt):
                frame=lines,
                framesep=2mm]{python}
 def sum_three_squares(n):
-	m = int(n**.5)
-	# Add here!
-	
+    m = int(n**.5)
+    # Add here!
+    
 for n in range(20, 31):
-	print n, sum_three_squares(n)
+    print n, sum_three_squares(n)
 
 """
 20 False
@@ -423,10 +423,10 @@ for n in range(20, 31):
                frame=lines,
                framesep=2mm]{python}
 def sum_three_squares(n):
-	# Add here!
-	
+    # Add here!
+    
 for n in range(20, 31):
-	print n, sum_three_dist_squares(n)
+    print n, sum_three_dist_squares(n)
 
 """
 20 False
@@ -452,10 +452,10 @@ You may want to add your own function other than \texttt{sum\_two\_primes}.
                frame=lines,
                framesep=2mm]{python}
 def sum_two_primes(n):
-	# Add here!
-	
+    # Add here!
+    
 for n in range(20, 31):
-	print n, sum_two_primes(n)
+    print n, sum_two_primes(n)
 
 """
 20 True
@@ -481,10 +481,10 @@ You may want to add your own function other than \texttt{sum\_two\_prime\_square
                frame=lines,
                framesep=2mm]{python}
 def sum_two_primes(n):
-	# Add here!
-	
+    # Add here!
+    
 for n in range(20, 31):
-	print n, sum_two_primes(n)
+    print n, sum_two_primes(n)
 
 """
 50 True
@@ -511,10 +511,10 @@ You may want to add your own function other than \texttt{sum\_two\_prime\_square
                frame=lines,
                framesep=2mm]{python}
 def some_prime(numbers):
-	# Add here!
+    # Add here!
 
 def all_prime(numbers):
-	# Add here!
+    # Add here!
                
 num1 = [217, 287, 143, 163, 319]
 num2 = [217, 287, 143, 169, 319]
@@ -532,7 +532,7 @@ print some_prime(num3), all_prime(num3)  # True True
                frame=lines,
                framesep=2mm]{python}
 def all_distinct(numbers):
-	# Add here!
+    # Add here!
 
 print all_distinct([1, 3, 2, 5, 2, 1])  # False
 print all_distinct([1, 0, 2, 5, 3, 4])  # True
@@ -545,7 +545,7 @@ Write a function \texttt{all\_within\_range(numbers, lower, upper)} that returns
                frame=lines,
                framesep=2mm]{python}
 def all_within_range(numbers, lower, upper):
-	# Add here!
+    # Add here!
 
 print all_within_range([1, 0, 2, 6, 3, 4], 0, 5)  # False
 print all_within_range([1, 0, 2, 5, 3, 4], 0, 5)  # True
@@ -559,7 +559,7 @@ An integer list $a_0, a_1, \dots, a_{n - 1}$ is a permutation if all numbers are
                frame=lines,
                framesep=2mm]{python}
 def is_permutation(numbers, lower, upper):
-	# Add here!
+    # Add here!
 
 print is_permutation([1, 3, 2, 5, 2, 1])  # False
 print is_permutation([1, 0, 2, 5, 3, 4])  # True
@@ -574,7 +574,7 @@ print is_permutation([1, 0, 2, 6, 3, 4])  # False
                frame=lines,
                framesep=2mm]{python}
 def count_sevens(n):
-	# Add here!
+    # Add here!
 
 print count_sevens(1723)  # 1
 print count_sevens(1357924770)  # 3
@@ -594,13 +594,13 @@ Then the GCD is the other number.
                frame=lines,
                framesep=2mm]{python}
 def gcd(a, b):
-	if a < b:
-		a, b = b, a
-	
-	while b != 0:
-		# Add here!
-	
-	return # Add here!
+    if a < b:
+        a, b = b, a
+    
+    while b != 0:
+        # Add here!
+    
+    return # Add here!
 
 print gcd(36, 20)  # 4
 print gcd(2408208, 2790876)  # 132

@@ -42,7 +42,7 @@ Python 콘솔에 \texttt{range}의 형을 알아보기 위해 \texttt{type(range
                framesep=2mm]{python}
 l = [2, 4, 1, 7, 3]
 for i in range(len(l)):
-	print l[i]
+    print l[i]
 \end{minted}
 하지만 이제는 \texttt{range($\cdot$)} 대신에 아래와 같이 구성을 할 수 있습니다.
 \begin{minted}[mathescape,
@@ -53,7 +53,7 @@ for i in range(len(l)):
                framesep=2mm]{python}
 l = [2, 4, 1, 7, 3]
 for i in [0, 1, 2, 3, 4]:
-	print l[i]
+    print l[i]
 \end{minted}
 나아가 리스트의 원소를 인덱스를 통해 접근하지 않고, 직접 접근할 수 있습니다.
 \begin{minted}[mathescape,
@@ -64,7 +64,7 @@ for i in [0, 1, 2, 3, 4]:
                framesep=2mm]{python}
 l = [2, 4, 1, 7, 3]
 for e in l:
-	print e
+    print e
 \end{minted}
 
 수학적으로 표현하자면, 전자는 $\sum_{\texttt{i} \in |\texttt{l}|} \texttt{l[i]}$에, 후자는 $\sum_{\texttt{e} \in \texttt{l}} \texttt{e}$에 대응됩니다. 이러한 두 가지 방식은 각각 장단점이 있습니다.
@@ -81,7 +81,7 @@ for e in l:
                framesep=2mm]{python}
 l = [2, 4, 1, 7, 3]
 for i in range(len(l)):
-	l[i] += 1
+    l[i] += 1
 
 print l  # [3, 5, 2, 8, 4]
 \end{minted}
@@ -93,7 +93,7 @@ print l  # [3, 5, 2, 8, 4]
                framesep=2mm]{python}
 l = [2, 4, 1, 7, 3]
 for e in l:
-	e += 1
+    e += 1
 
 print l  # [2, 4, 1, 7, 3]
 \end{minted}
@@ -111,9 +111,9 @@ print l  # [2, 4, 1, 7, 3]
                frame=lines,
                framesep=2mm]{python}
 for i in range(8):
-	if i == 5:
-		break
-	print i,
+    if i == 5:
+        break
+    print i,
 
 # 0 1 2 3 4
 \end{minted}
@@ -124,9 +124,9 @@ for i in range(8):
                frame=lines,
                framesep=2mm]{python}
 for i in range(8):
-	if i == [3, 5]:
-		continue
-	print i,
+    if i == [3, 5]:
+        continue
+    print i,
 
 # 0 1 2 4 6 7
 \end{minted}
@@ -143,14 +143,14 @@ for i in range(8):
                framesep=2mm]{python}
 i = 0
 while i < 5:
-	j = 0
-	while j < 5:
-		if i > 0:
-			break
-		print j,
-		j += 1
-	print i,
-	i += 1
+    j = 0
+    while j < 5:
+        if i > 0:
+            break
+        print j,
+        j += 1
+    print i,
+    i += 1
 
 # 0 1 2 3 4 0 1 2 3 4
 \end{minted}
@@ -162,14 +162,14 @@ while i < 5:
                framesep=2mm]{python}
 i = 0
 while i < 5:
-	j = 0
-	while j < 5:
-		if i > 0:
-			continue
-		print j,
-		j += 1
-	print i,
-	i += 1
+    j = 0
+    while j < 5:
+        if i > 0:
+            continue
+        print j,
+        j += 1
+    print i,
+    i += 1
 
 # infinite loop
 \end{minted}
@@ -180,15 +180,15 @@ while i < 5:
                frame=lines,
                framesep=2mm]{python}
 for i in range(5):
-	if i > 0:
-		continue
-	j = 0
-	while j < 5:
-		if i > 0:
-			break
-		print j,
-		j += 1
-	print i,
+    if i > 0:
+        continue
+    j = 0
+    while j < 5:
+        if i > 0:
+            break
+        print j,
+        j += 1
+    print i,
 
 # 0 1 2 3 4 0
 \end{minted}
@@ -218,17 +218,17 @@ words = content.split()
                frame=lines,
                framesep=2mm]{python}
 def longest_word(filename):
-	words = open(filename, "r").read().split()
-	
-	maxword = ""
-	maxlen = 0
-	
-	for word in words:
-		if maxlen < len(word):
-			maxword = word
-			maxlen = len(word)
+    words = open(filename, "r").read().split()
+    
+    maxword = ""
+    maxlen = 0
+    
+    for word in words:
+        if maxlen < len(word):
+            maxword = word
+            maxlen = len(word)
 
-	return maxword
+    return maxword
 \end{minted}
 
 이번에는 파일에서 문자열을 읽어들여 처리를 하는 다양한 방법에 대해서 알아보고, 파일에 문자열을 입력하는 법도 알아볼 것입니다.
@@ -244,14 +244,14 @@ f = open("./input.txt", "r")
 print type(f)  # <type 'file'>
 
 for i in range(5):
-	s = f.readline().strip()
-	print s
+    s = f.readline().strip()
+    print s
 
 print
 
 for line in f:
-	s = line.strip()
-	print s
+    s = line.strip()
+    print s
 \end{minted}
 위 코드에서 \texttt{for} 문에 바로 파일 \texttt{f}를 사용할 수 있다는 것을 보았습니다.
 이는 \texttt{for} 문에서 파일을 사용하면 자동으로 \texttt{readline()}을 불러오기 때문입니다.
@@ -267,10 +267,10 @@ for line in f:
 f = open("./multiply.txt", "w")
 
 for i in range(1, 10):
-	for j in range(1, 10):
-		s = str(i * j) + " "
-		f.write(s)
-	f.write("\n")
+    for j in range(1, 10):
+        s = str(i * j) + " "
+        f.write(s)
+    f.write("\n")
 
 f.close()
 \end{minted}
@@ -281,9 +281,9 @@ f.close()
 
 이외에도 다음과 같은 메소드를 활용할 수 있습니다.
 \begin{itemize}
-	\item \texttt{.read()}: 전체 내용을 하나의 문자열로 가져옵니다.
-	\item \texttt{.readlines()}: 각 줄의 내용을 문자열로 가지는 리스트를 반환합니다.
-	\item \texttt{.writelines()}: 리스트의 각 원소를 줄로 가지도록 파일에 작성합니다.
+    \item \texttt{.read()}: 전체 내용을 하나의 문자열로 가져옵니다.
+    \item \texttt{.readlines()}: 각 줄의 내용을 문자열로 가지는 리스트를 반환합니다.
+    \item \texttt{.writelines()}: 리스트의 각 원소를 줄로 가지도록 파일에 작성합니다.
 \end{itemize}
 따라서, 위의 \texttt{.read()}와 문자열의 \texttt{.split()} 메소드를 통해 다음과 같이 파일을 읽을 수 있습니다.
 \begin{minted}[mathescape,
@@ -296,7 +296,7 @@ f = open("./input.txt", "w")
 s = f.read().split()
 
 for word in s:
-	print word
+    print word
 \end{minted}
 
 

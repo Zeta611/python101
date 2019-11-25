@@ -25,9 +25,9 @@ f_{n - 1} + f_{n - 2} & \text{for $n \in \mathbb{N} \setminus \{1, 2\}$}
                frame=lines,
                framesep=2mm]{python}
 def f(n):
-	if n <= 2:
-		return 1
-	return f(n - 1) + f(n - 2)
+    if n <= 2:
+        return 1
+    return f(n - 1) + f(n - 2)
 \end{minted}
 이를 통해, 귀납적으로 정의되는 모든 수열을 쉽게 코드로 바꿀 수 있다는 사실을 알게 되었습니다.
 
@@ -52,9 +52,9 @@ a & \text{if }b = 0\\
                frame=lines,
                framesep=2mm]{python}
 def f(n):
-	if b == 0:
-		return a
-	return gcd(b, a%b)
+    if b == 0:
+        return a
+    return gcd(b, a%b)
 \end{minted}
 위에서 보았던 피보나치 수열을 코드로 구현한 것과 동일한 패턴을 가지는 것을 확인할 수 있습니다.
 즉, \texttt{if} 문으로 초기 조건을 처리해주고, 귀납식을 그대로 반환해주는 형태로 구성이 되어 있습니다.
@@ -98,10 +98,10 @@ f(n, \mathrm{from}, \mathrm{to}) &= f(n - 1, \mathrm{from}, \mathrm{to}) + [(n, 
                frame=lines,
                framesep=2mm]{python}
 def hanoi(n, fr, to):
-	if n == 0:
-		return []
-	ot = 1 + 2 + 3 - fr - to
-	return hanoi(n - 1, fr, ot) + [(n, fr, to)] + hanoi(n - 1, ot, to)
+    if n == 0:
+        return []
+    ot = 1 + 2 + 3 - fr - to
+    return hanoi(n - 1, fr, ot) + [(n, fr, to)] + hanoi(n - 1, ot, to)
 
 n = 5
 print hanoi(n, 1, 3)
@@ -132,18 +132,18 @@ f\left(a, v, \frac{l + r}{2} + 1, r\right) & \text{if } a\left[\frac{l + r}{2}\r
                frame=lines,
                framesep=2mm]{python}
 def search(a, value, left, right):
-	if not a:
-		return -1
-	if left == right:
-		if a[left] == value:
-			return left
-		return -1
-	mid = (left + right) / 2
-	if a[mid] > value:
-		return f(a, value, left, mid - 1)
-	if a[mid] < value:
-		return f(a, value, mid + 1, right)
-	return mid
+    if not a:
+        return -1
+    if left == right:
+        if a[left] == value:
+            return left
+        return -1
+    mid = (left + right) / 2
+    if a[mid] > value:
+        return f(a, value, left, mid - 1)
+    if a[mid] < value:
+        return f(a, value, mid + 1, right)
+    return mid
 \end{minted}
 
 \subsubsection{지수 계산}
@@ -156,10 +156,10 @@ def search(a, value, left, right):
                frame=lines,
                framesep=2mm]{python}
 def power_simple(x, n):
-	p = 1
-	for _ in range(n):
-		p *= x
-	return p
+    p = 1
+    for _ in range(n):
+        p *= x
+    return p
 \end{minted}
 이 경우, 시간복잡도는 $O(n)$입니다.
 하지만 다음과 같이 귀납적으로 지수를 계산한다면 $O(\log n)$만에도 지수를 계산할 수 있습니다.
@@ -180,12 +180,12 @@ x f\left(x, \frac{b - 1}{2}\right)^2 & \text{if } b \text{ is odd}
                frame=lines,
                framesep=2mm]{python}
 def power(x, n):
-	if n == 0:
-		return 1
-	p = power(x, n/2)
-	if b % 2:
-		return p * p * x
-	return p * p
+    if n == 0:
+        return 1
+    p = power(x, n/2)
+    if b % 2:
+        return p * p * x
+    return p * p
 \end{minted}
 이러한 지수 계산은 아래와 같이 피보나치 수열의 계산에도 사용할 수 있습니다.
 \[
@@ -204,16 +204,16 @@ def power(x, n):
                frame=lines,
                framesep=2mm]{python}
 def f_rec(n):
-	if n <= 2:
-		return 1
-	return f_rec(n - 1) + f_rec(n - 2)
+    if n <= 2:
+        return 1
+    return f_rec(n - 1) + f_rec(n - 2)
 
 def f_iter(n):
-	f = [None] * (n + 1)
-	f[0], f[1] = 0, 1
-	for i in range(2, n + 1):
-		f[i] = f[i - 1] + f[i - 2]
-	return f[n]
+    f = [None] * (n + 1)
+    f[0], f[1] = 0, 1
+    for i in range(2, n + 1):
+        f[i] = f[i - 1] + f[i - 2]
+    return f[n]
 \end{minted}
 
 이렇게 재귀법을 반복법으로 바꾸어 해결하는 전략을 동적 계획법이라고 하는데, 나중에 더 자세히 알아보기로 합니다.
@@ -239,10 +239,10 @@ print type(a)  # <type 'list'>
 
 sum = 0
 for i in range(len(a)):
-	sum += a[i]
+    sum += a[i]
 
 for x in a:
-	sum += x
+    sum += x
 
 a[1] = 10  # legal
 
@@ -251,10 +251,10 @@ print type(b)  # <type 'tuple'>
 
 sum = 0
 for i in range(len(b)):
-	sum += b[i]
+    sum += b[i]
 
 for x in b:
-	sum += x
+    sum += x
 
 b[1] = 10  # illegal
 \end{minted}
@@ -274,33 +274,33 @@ b[1] = 10  # illegal
 \texttt{(a + 1, b) = (2, 4)}나 \texttt{(x, y) = (2, 5, 1)}은 올바르지 못한 표현입니다.
 정리하자면, 아래의 표현들은 모두 동일한 의미를 가집니다.
 \begin{itemize}
-	\item \texttt{a, b, c = 1, 2, 3}
-	\item \texttt{a, b, c = (1, 2, 3)}
-	\item \texttt{(a, b, c) = 1, 2, 3}
-	\item \texttt{(a, b, c) = (1, 2, 3)}
-	\item \texttt{t = 1, 2, 3; a, b, c = t}
-	\item \texttt{t = (1, 2, 3); a, b, c = t}
-	\item \texttt{t = 1, 2, 3; (a, b, c) = t}
-	\item \texttt{t = (1, 2, 3); (a, b, c) = t}
+    \item \texttt{a, b, c = 1, 2, 3}
+    \item \texttt{a, b, c = (1, 2, 3)}
+    \item \texttt{(a, b, c) = 1, 2, 3}
+    \item \texttt{(a, b, c) = (1, 2, 3)}
+    \item \texttt{t = 1, 2, 3; a, b, c = t}
+    \item \texttt{t = (1, 2, 3); a, b, c = t}
+    \item \texttt{t = 1, 2, 3; (a, b, c) = t}
+    \item \texttt{t = (1, 2, 3); (a, b, c) = t}
 \end{itemize}
 
 튜플에서 사용할 수 이용할 수 있는 연산자와 메소드는 리스트의 연산자 혹은 메소드 중 불변성을 벗어나지 않는 것들을 모두 적용할 수 있습니다.
 가령, 튜플에 아래의 연산을 모두 시행할 수 있습니다.
 \begin{itemize}
-	\item \texttt{+}, \texttt{*}
-	\item \texttt{a[i:j]}
-	\item \texttt{in}, \texttt{for}
-	\item \texttt{==}, \texttt{is}
-	\item \texttt{len($\cdot$)}, \texttt{min($\cdot$)}, \texttt{max($\cdot$)}, \texttt{sum($\cdot$)}
+    \item \texttt{+}, \texttt{*}
+    \item \texttt{a[i:j]}
+    \item \texttt{in}, \texttt{for}
+    \item \texttt{==}, \texttt{is}
+    \item \texttt{len($\cdot$)}, \texttt{min($\cdot$)}, \texttt{max($\cdot$)}, \texttt{sum($\cdot$)}
 \end{itemize}
 반면 아래의 modifier 메소드는 모두 사용할 수 없습니다:
 \begin{itemize}
-	\item \texttt{a[i] = x}
-	\item \texttt{.append($\cdot$)}
-	\item \texttt{.reverse($\cdot$)}
-	\item \texttt{.sort($\cdot$)}
-	\item \texttt{.remove($\cdot$)}
-	\item \texttt{.pop($\cdot$)}
+    \item \texttt{a[i] = x}
+    \item \texttt{.append($\cdot$)}
+    \item \texttt{.reverse($\cdot$)}
+    \item \texttt{.sort($\cdot$)}
+    \item \texttt{.remove($\cdot$)}
+    \item \texttt{.pop($\cdot$)}
 \end{itemize}
 
 튜플과 \texttt{for} 문을 활용해 다음과 같은 작업을 할 수 있습니다.
@@ -312,7 +312,7 @@ b[1] = 10  # illegal
                framesep=2mm]{python}
 a = [(1, 2, "abc"), (3, 4, (5, 6)), (7, True, [8, 9])
 for x, y, z in a:
-	print z
+    print z
 \end{minted}
 위 코드를 실행하면 \texttt{"abc"}, \texttt{(5, 6)}, \texttt{[8, 9]}가 출력될 것입니다.
 
@@ -344,16 +344,16 @@ Python에서 집합은 리스트, 튜플, 혹은 문자열에 \texttt{set($\cdot
 
 집합 자료형에는 다음과 같은 연산자들이 있습니다.
 \begin{itemize}
-	\item \texttt{.add(e)}: 원소를 \texttt{e}를 없다면 새로 추가합니다.
-	\item \texttt{.remove(e)}: 원소 \texttt{e}를 제거하고, 없다면 에러를 일으킵니다.
-	\item \texttt{.clear()}: 모든 원소를 제거합니다.
-	\item \texttt{s1 | s2}: 두 집합의 합집합을 구합니다.
-	\item \texttt{s1 \& s2}: 두 집합의 교집합을 구합니다.
-	\item \texttt{s1 - s2}: 두 집합의 차집합을 구합니다.
-	\item \texttt{s1 < s2, s1 <= s2}: 두 집합의 포함 관계의 참 거짓을 구합니다.
-	\item \texttt{e in s}: \texttt{e}가 \texttt{s}의 원소인지의 참 거짓을 구합니다.
-	\item \texttt{e not in s}: \texttt{not (e in s)}의 값과 동일합니다.
-	\item \texttt{s1 == s2}: 두 집합이 동일한지의 참 거짓을 구합니다.
+    \item \texttt{.add(e)}: 원소를 \texttt{e}를 없다면 새로 추가합니다.
+    \item \texttt{.remove(e)}: 원소 \texttt{e}를 제거하고, 없다면 에러를 일으킵니다.
+    \item \texttt{.clear()}: 모든 원소를 제거합니다.
+    \item \texttt{s1 | s2}: 두 집합의 합집합을 구합니다.
+    \item \texttt{s1 \& s2}: 두 집합의 교집합을 구합니다.
+    \item \texttt{s1 - s2}: 두 집합의 차집합을 구합니다.
+    \item \texttt{s1 < s2, s1 <= s2}: 두 집합의 포함 관계의 참 거짓을 구합니다.
+    \item \texttt{e in s}: \texttt{e}가 \texttt{s}의 원소인지의 참 거짓을 구합니다.
+    \item \texttt{e not in s}: \texttt{not (e in s)}의 값과 동일합니다.
+    \item \texttt{s1 == s2}: 두 집합이 동일한지의 참 거짓을 구합니다.
 \end{itemize}
 
 어떤 집합을 복사하기 위해서는 리스트와 동일하게 \texttt{.copy()} 연산자를 사용해야 합니다.
@@ -387,15 +387,15 @@ print s3  # copied
 \subsubsection{String문자열}
 이미 한 차례 문자열에 대해서 다룬 적이 있지만, 문자열의 포맷 지정과 추가적인 메소드에 대해서 언급할 내용이 있습니다.
 \begin{itemize}
-	\item \texttt{.startswith(prefix)}: 문자열이 \texttt{prefix}로 시작하는지 확인합니다.
-	\item \texttt{.endswith(suffix)}: 문자열이 \texttt{suffix}로 끝나는지 확인합니다.
-	\item \texttt{.find(str)}: 문자열이 \texttt{str}을 포함하는 첫 번째 인덱스를 반환하고, 없다면 -1을 반환합니다.
-	\item \texttt{.replace(old, new)}: 문자열의 \texttt{old}를 \texttt{new}로 치환한 문자열을 반환합니다.
-	\item \texttt{.strip()}: 문자열의 시작과 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
-	\item \texttt{.lstrip()}: 문자열의 시작에 있는 공백 문자를 모두 제거한 값을 반환합니다.
-	\item \texttt{.rstrip()}: 문자열의 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
-	\item \texttt{.split()}: 문자열의 공백으로 구분된 단어들의 리스트를 반환합니다.
-	\item \texttt{.join(list)}: 주어진 문자열을 사이로 \texttt{list}의 문자열들을 잇습니다.
+    \item \texttt{.startswith(prefix)}: 문자열이 \texttt{prefix}로 시작하는지 확인합니다.
+    \item \texttt{.endswith(suffix)}: 문자열이 \texttt{suffix}로 끝나는지 확인합니다.
+    \item \texttt{.find(str)}: 문자열이 \texttt{str}을 포함하는 첫 번째 인덱스를 반환하고, 없다면 -1을 반환합니다.
+    \item \texttt{.replace(old, new)}: 문자열의 \texttt{old}를 \texttt{new}로 치환한 문자열을 반환합니다.
+    \item \texttt{.strip()}: 문자열의 시작과 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+    \item \texttt{.lstrip()}: 문자열의 시작에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+    \item \texttt{.rstrip()}: 문자열의 끝에 있는 공백 문자를 모두 제거한 값을 반환합니다.
+    \item \texttt{.split()}: 문자열의 공백으로 구분된 단어들의 리스트를 반환합니다.
+    \item \texttt{.join(list)}: 주어진 문자열을 사이로 \texttt{list}의 문자열들을 잇습니다.
 \end{itemize}
 
 문자열의 포맷 지정은 다음과 같이 할 수 있습니다.
@@ -410,10 +410,10 @@ print "Max between %d and %d is %g" % (x0 ,x1, val)
 \end{minted}
 이 때, 다음과 같은 서식 지정자가 있습니다.
 \begin{itemize}
-	\item \texttt{\%d}: 정수
-	\item \texttt{\%g}: 실수
-	\item \texttt{\%.nf}: 소수점 아래 \texttt{n} 자리수까지 나타내는 실수
-	\item \texttt{\%s}: 문자열
+    \item \texttt{\%d}: 정수
+    \item \texttt{\%g}: 실수
+    \item \texttt{\%.nf}: 소수점 아래 \texttt{n} 자리수까지 나타내는 실수
+    \item \texttt{\%s}: 문자열
 \end{itemize}
 서식 지정자를 활용해 좌측 혹은 우측 정렬을 할 수도 있습니다.
 \texttt{\%nf}와 같이 우측 정렬을, \texttt{\%-nf}와 같이 좌측 정렬을 할 수 있습니다.
@@ -490,7 +490,7 @@ lambda arguments: expression
                frame=lines,
                framesep=2mm]{python}
 def add(x, y):
-	return x + y
+    return x + y
 
 print add(1, 2)  # 3
 \end{minted}

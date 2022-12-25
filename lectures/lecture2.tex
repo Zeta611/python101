@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\subsection{Functions함수}
+\section{Functions함수}
 오늘날 프로그래밍의 기본 중 기본은 functions함수라고 말할 수 있습니다.  함수를
 전혀 사용하지 않고 프로그래밍을 하는 것이 가능은 하지만, 함수를 쓰면 다양한
 이점이 있습니다.  일단 프로그램을 역할에 따라 여러 부분으로 나누어 구조적
@@ -54,7 +54,7 @@ print(t_rel(pos, time, vel))
 수학의 다변수 함수와 유사하게 받아들이면 됩니다.
 본격적으로 함수를 어떻게 정의하고 사용해야 하는지 알아봅시다.
 
-\subsubsection{Indentation들여쓰기}
+\subsection{Indentation들여쓰기}
 Python에서는 indentation들여쓰기가 구문을 나누는 중요한 syntax입니다.  C, C++
 등의 언어에서는 들여쓰기를 하지 않아도 중괄호\verb|{·}|와
 세미콜론 \verb|;|으로 명령을 구분하고, 들여쓰기는 완전히 가독성만을 위한
@@ -81,7 +81,7 @@ IDE나 텍스트 에디터 설정에서 탭 키를 soft tab (띄어쓰기 여러
 Indentation으로 들어가면 Show Indent Guides 항목에 체크를 하면 됩니다.
 PyCharm에서는 기본적으로 indentation guide를 보여줄 것입니다.
 
-\subsubsection{Built-in Functions내장 함수}
+\subsection{Built-in Functions내장 함수}
 사실 이번에 함수를 처음 접하는 것이 아닙니다.  지난 시간에도 여러 함수를
 보았는데요, \texttt{type($\cdot$)}이나 형 변환을 위해 사용한
 \texttt{int($\cdot$)} 등이 바로 함수입니다.  이러한 함수는 사용자가 직접
@@ -166,7 +166,7 @@ import sin}을 하여 바로 \texttt{math.} 없이 \texttt{sin} 함수를 사용
 불러옵니다. 이러한 경우, \texttt{np.sin}과 같은 형식으로 패키지를 사용할 수
 있습니다.}
 
-\subsubsection{User-Defined Functions사용자 정의 함수}
+\subsection{User-Defined Functions사용자 정의 함수}
 본인이 원하는 함수가 없다면 직접 정의를 해서 함수를 만들 수 있습니다.
 함수는 반환 값이 있는 것과 그렇지 않은 것 두 종류가 있습니다.
 아래는 원의 반지름을 받아서 면적을 반환하는 함수
@@ -267,7 +267,7 @@ main()
 방금 정의한 \texttt{main()} 함수는 매개 변수를 가지지 않는데, 이러한 종류의
 함수는 매개 변수 없이 항상 동일한 기능을 하게 됩니다.
 
-\subsubsection{Parameters매개 변수와 Arguments전달 인자}
+\subsection{Parameters매개 변수와 Arguments전달 인자}
 함수를 정의할 때 사용되는 매개 변수들은 함수 정의 밖에서 호출될 수 없습니다.
 일종의 블랙 박스로 생각하면 되는데, 함수 안에서 정의되는 local variable지역
 변수는 그 안에서만 사용을 할 수 있습니다.  예를 들어 예시에서 본
@@ -349,7 +349,7 @@ print(x)  # NameError: name 'x' is not defined
 \end{minted}
 함수 \texttt{mult($\cdot$)}와 \texttt{div($\cdot$)}, 그리고 줄 9 이후의 \texttt{a}, \texttt{b}, \texttt{x}는 서로 무관하며, 줄 12에서는 함수 \texttt{mult($\cdot$)}와 \texttt{div($\cdot$)}의 변수 영역 밖에서 \texttt{x}가 정의된 적이 없으므로 오류가 발생합니다.
 
-\subsection{Conditionals조건문}
+\section{Conditionals조건문}
 그렇다면, 입력값(전달 인자)에 따라서 반환값이 달라지는 함수를 만들 때에는 어떻게 해야 할까요?
 단순히, 절댓값 함수를 구현하려고 해도 다음과 같이 경우가 갈리게 됩니다.
 $$
@@ -405,7 +405,7 @@ def check_obstacle(distance):
 가질 수 있는데, 이는 이제 소개해드릴 \textbf{Boolean불리언}이라는 자료형을
 가집니다.
 
-\subsubsection{Boolean Type불리언 자료형과 Expressions표현}
+\subsection{Boolean Type불리언 자료형과 Expressions표현}
 지금까지 소개한 \texttt{int}, \texttt{float} 등의 자료형 외에도 자주 쓰게 될
 자료형은 Boolean type불리언 자료형\footnote{영국의 수학자이자 논리학자인 George
 Boole의 이름을 따온 것입니다.}입니다.  불리언 자료형은 어떤 표현의 참/거짓을
@@ -465,7 +465,7 @@ Boole의 이름을 따온 것입니다.}입니다.  불리언 자료형은 어�
 지금까지 불리언 자료형에 대한 논리 연산자와 그 우선순위를 살펴보았는데요, 이제
 조건문과 함께 사용해서 그 사용 예시를 더 자세히 살펴봅시다.
 
-\subsubsection{\texttt{if-else} Conditionals조건문}
+\subsection{\texttt{if-else} Conditionals조건문}
 \texttt{if-else} statements문의 기본적인 형태는 아래와 같습니다.
 \begin{minted}[mathescape,
                linenos,
@@ -599,7 +599,7 @@ else:
     print("I don't have money")
 \end{minted}
 
-\subsubsection{Multiple Exit Points 다중 반환점}
+\subsection{Multiple Exit Points 다중 반환점}
 한 함수에 \texttt{if-else} 문을 넣어 경우별로 값을 반환하도록 만들 수 있습니다.
 상기하자면, 반환한다는 것은 함수에서 값을 뱉어내는 것이었습니다.
 즉, \verb|if-else| 문을 사용해 함수 정의의 여러 곳에서 값을 뱉어낼 수 있습니다.
@@ -665,7 +665,7 @@ def abs(x):
     return ...
 \end{minted}
 
-\subsection{예제}
+\section{예제}
 이하 예제에서 \textsf{[물리]} 혹은 \textsf{[수학]}과 같이 표시된 문제는 물리학
 혹은 수학에서 등장하는 복잡한 연산을 코딩으로 해결할 수 있다는 것을 보여주기
 위한 것으로, 선택적으로 해결하시면 됩니다.

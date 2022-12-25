@@ -2,14 +2,14 @@
 
 \begin{document}
 
-\subsection{Boolean Functions불리언 함수}
+\section{Boolean Functions불리언 함수}
 지난 시간에는 조건문을 배우면서 불리언 자료형에 대해 알아보았습니다.
 그렇다면 불리언 자료형인 \texttt{True}와 \texttt{False}를 반환하는 Boolean functions불리언 함수도 생각해볼 수 있습니다.
 이미 함수와 조건문을 배웠기 때문에, 이번 절의 내용은 매우 간단합니다.
 지난 시간의 복습이라고 보아도 무방합니다.
 이번 절에서는 불리언 함수를 정의하고 사용할 때 무엇을 주의해야 하는 지에 대해 간략히 알아봅니다.
 
-\subsubsection{Boolean Functions불리언 함수의 예시}
+\subsection{Boolean Functions불리언 함수의 예시}
 불리언 함수는 불리언 자료형 \texttt{True}와 \texttt{False}를 반환하는 함수입니다.
 불리언 함수는 길고 복잡한 조건문을 간략하게 표현할 때 유용합니다.
 아래는 길이 \texttt{a}, \texttt{b}, \texttt{c}를 가지는 선분이 삼각형을 이룰 수 있는지 판별하는 조건문입니다.
@@ -67,7 +67,7 @@ def check_obstacle(distance):
 반면 함수를 정의한 후 \verb|check_obstacle(distance)|와 같이 사용했다면 단 한
 곳만 수정하면 될 것입니다.
 
-\subsubsection{유의 사항}
+\subsection{유의 사항}
 불리언 \texttt{True}는 문자열 \texttt{"True"}가 아닙니다.
 마찬가지로 불리언 \texttt{False}는 문자열 \texttt{"False"}가 아닙니다.
 \begin{minted}[mathescape,
@@ -183,7 +183,7 @@ False
 따라서 \texttt{float}끼리의 비교는 \texttt{>}와 \texttt{<}만 신뢰할 수 있으며, 되도록이면 \texttt{int} 상태에서 비교를 하는 것이 좋습니다.
 예를 들어 두 정수 격자점 사이의 거리를 비교할 때는 제곱근을 씌우지 않은 상태에서 비교를 해야 정확합니다.
 
-\subsection{Loops반복문 기본}
+\section{Loops반복문 기본}
 컴퓨터는 인간보다 단순 반복 계산을 빠르게 수행할 수 있습니다.
 이번 절에서 배울 loops반복문을 익히면 손으로는 할 수 없는 많은 계산을 Python으로 수행할 수 있을 것입니다.
 나아가 \emph{지금까지 배운 함수, \texttt{if-else} 문과 같이 사용한다면, 원하는
@@ -231,7 +231,7 @@ def summ(m, n):
 이처럼 \texttt{for} 반복문의 기본은 \texttt{range($\cdot$)}이라고 볼 수 있습니다.
 이번 절에서는 \texttt{range($\cdot$)} 함수를 활용하여, 조건문을 활용한 반복문이나 nested loops중첩 반복문에 대해 자세히 알아봅니다.
 
-\subsubsection{\texttt{range($\cdot$)} 함수를 활용한 \texttt{for} 반복문}
+\subsection{\texttt{range()} 함수를 활용한 \texttt{for} 반복문}
 \texttt{range($\cdot$)} 함수\footnote{\texttt{range($\cdot$)}는 리스트를 반환하는 함수로, 리스트에 대해서는 다음 시간에 자세히 알아볼 것입니다.}는 인자를 한 개에서 세 개까지 넣을 수 있습니다.
 일단 하나를 넣는 경우를 봅니다.
 \begin{minted}[mathescape,
@@ -343,7 +343,7 @@ for i in range(1, 10, 2):
 Python의 내장 \verb|print()| 함수에서는 \verb|end|에 값을 넣어 값을 출력한 후
 뒤에 붙일 문자를 직접 지정할 수 있습니다.
 
-\subsubsection{예시}
+\subsection{예시}
 이제는 \texttt{for} 문을 사용한 다양한 예시를 살펴보겠습니다.
 아래는 팩토리얼을 계산하는 함수를 \texttt{for} 문을 통해 만든 것입니다.
 \begin{minted}[mathescape,
@@ -405,7 +405,7 @@ def find_min_value():
 최댓값을 구하는 것도 마찬가지로, 줄 8의 부등호 방향을 반대로 바꾸면 최댓값을 구하는 코드가 됩니다.
 어떤 주어진 값에서 제일 작거나 큰 값을 찾을 때 자주 사용하는 패턴입니다.
 
-\subsection{예제}
+\section{예제}
 \begin{enumerate}
 \item 짝수일 때 \verb|True|를 반환하는 함수 \verb|is_odd(n)|을 작성하세요.
 \begin{minted}[mathescape,

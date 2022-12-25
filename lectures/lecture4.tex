@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\subsection{Lists리스트}
+\section{Lists리스트}
 지난 시간에 반복문을 통해서 단순 반복 작업을 Python으로 수행하는 법에 대해서 알아보았습니다.
 하지만 지난 시간에서 \texttt{for} 문의 활용은 단순히 값을 대입하여, 해당 값을 그대로 사용하는 것에 그쳤습니다.
 만약 \texttt{i}를 4로 대입하는 경우에는 4를 그대로 사용하여 일반항을 계산하는 작업을 하였던 것입니다.
@@ -56,7 +56,7 @@ def sum_arb(numbers):
 요약하자면, 묶음의 데이터를 한 번에 처리할 수 있는 방법이 리스트와 \texttt{for} 문을 활용하는 것입니다.
 이제 리스트의 정의와, 이를 어떻게 다룰 수 있을지 자세히 알아봅니다.
 
-\subsubsection{리스트의 생성}
+\subsection{리스트의 생성}
 리스트의 생성은 세 가지 경우로 나눌 수 있습니다.
 첫 번째 경우는 리스트에 어떤 원소가 들어갈 것인지 이미 정해진 경우입니다.
 이러한 경우, 직접 원소를 입력하여 리스트를 생성할 수 있습니다.
@@ -125,7 +125,7 @@ for i in range(10):
 예컨대, \texttt{a = [1, 2, 3]}일 때 \texttt{a.append(4)}를 수행하면 \texttt{a}는 \texttt{[1, 2, 3, 4]}가 됩니다.
 간단히 ``리스트 버전의 \texttt{+=} 연산''이라고 생각하면 됩니다.
 
-\subsubsection{리스트의 elements원소와 indices인덱스}
+\subsection{리스트의 elements원소와 indices인덱스}
 리스트 \texttt{리스트\_명}의 element원소 \texttt{리스트\_명[원소\_첨자]}에서 \texttt{원소\_첨자}는 index인덱스\footnote{복수형은 indices입니다.}라고 합니다.
 지금까지는 수열처럼 첨자라고 했는데, 앞으로는 인덱스라고 부릅니다.
 인덱스는 \texttt{0}부터 \texttt{len(리스트\_명) - 1}까지의 값 이외에도, \texttt{-len(리스트\_명)}에서부터 \texttt{-1}까지 사용할 수 있습니다.
@@ -190,7 +190,7 @@ for i in range(4):
 \end{minted}
 위 예시는 \texttt{numbers[2]}, \texttt{numbers[3]}, \texttt{numbers[0]}과 \texttt{numbers[1]}을 차례대로 출력합니다.
 
-\subsubsection{리스트의 연산}
+\subsection{리스트의 연산}
 리스트에서 유용한 연산 중에는 slicing슬라이싱이 있습니다.
 슬라이싱이란 리스트의 부분 리스트를 만드는 연산으로, 아래와 같이 사용할 수 있습니다.
 \begin{minted}[mathescape,
@@ -284,7 +284,7 @@ True
 [1, 2, 1, 2, 1, 2]
 \end{minted}
 
-\subsubsection{Multi-Dimensional 다차원 리스트}
+\subsection{Multi-Dimensional 다차원 리스트}
 다차원 리스트는 리스트들의 리스트입니다.
 이는 matrix행렬을 Python으로 구현하고자 할 때 유용하게 사용할 수 있습니다.
 (일단 행렬은 아래와 같이 행과 열에 맞추어 수들을 나열한 수학적 객체라고 생각하시면 됩니다.)
@@ -356,7 +356,7 @@ for i in range(depth):
             table[i][j][k] = i + 2*j + k + 1
 \end{minted}
 
-\subsubsection{알아두면 유용한 내장 함수}
+\subsection{알아두면 유용한 내장 함수}
 리스트 \texttt{l}가 주어졌을 때,
 \begin{itemize}
 \item \texttt{sum(l)}: \texttt{l}의 모든 원소의 합을 반환합니다.
@@ -423,7 +423,7 @@ None
 [1, 3, 'hi']
 \end{minted}
 
-\subsection{Strings문자열}
+\section{Strings문자열}
 문자열은 리스트와 비슷하게 다룰 수 있습니다.
 지금까지 문자열은 단순히 어떤 문구를 출력하기 위해 사용하는 정도로 그쳤었다면, 이제는 문자열을 가지고 연산을 하는 법을 알아볼 것입니다.
 리스트 \texttt{l}의 \texttt{i} 번째 원소를 접근하기 위하여 \texttt{l[i - 1]}을 사용하였다면, 어떠한 문자열 \texttt{s}의 \texttt{i} 번째 문자를 접근하기 위하여 동일한 방식으로 \texttt{s[i - 1]}을 사용할 수 있다.
@@ -453,7 +453,7 @@ True
 True
 \end{minted}
 
-\subsubsection{문자열의 연산}
+\subsection{문자열의 연산}
 리스트와의 차이라면 리스트는 mutable가변 객체이고, 문자열은 immutable불변 객체라는 것입니다.
 이에 따라 한 문자열을 통해 새로운 값을 만들고 싶다면 새로운 문자열을 정의하는 방식을 사용해야 하며, 기존의 문자열을 수정하는 것은 불가능합니다.
 반면, \texttt{+=}이나 \texttt{*=}을 사용하는 것은 가능합니다.
@@ -474,7 +474,7 @@ TypeError: 'str' object does not support item assignment
 "WEIZMANNPYTHON"
 \end{minted}
 
-\subsubsection{알아두면 유용한 내장 함수들}
+\subsection{알아두면 유용한 내장 함수들}
 문자열을 더 편리하게 다루기 위한 다양한 내장 함수들도 준비되어 있습니다.
 문자열 \texttt{s}와 \texttt{t}가 주어졌을 때,
 \begin{itemize}
@@ -518,14 +518,14 @@ True
 2
 \end{minted}
 
-\subsection{Turtle}
+\section{Turtle}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\linewidth]{./figures/turtle.png}
 \end{figure}
 
-\subsection{Counters카운터와 Toy Robot토이 로봇}
+\section{Counters카운터와 Toy Robot토이 로봇}
 리스트를 배웠기 때문에, 조금 더 자유로운 반복문의 활용이 가능합니다.
 이번 절에서는 지금까지 예제에서 살펴본 counter카운터 패턴에 대해 집중적으로 살펴볼 것이며, \texttt{cs1robots} 패키지를 통해 토이 로봇을 이용해볼 것입니다.
 
@@ -561,7 +561,7 @@ print count_seven(num)  # 2
 \texttt{hubo}는 앞으로 이동, 좌로 회전, 우로 회전에 해당하는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()} 등의 기본적인 동작을 취할 수 있습니다.
 이번 절을 마치고 나면 \texttt{for} 문을 통해 \texttt{hubo}가 다양한 동작을 수행하도록 코드를 작성할 수 있을 것입니다.
 
-\subsubsection{Counters카운터 패턴}
+\subsection{Counters카운터 패턴}
 카운터 패턴은 모두 아래와 같은 형식을 따릅니다.
 \begin{minted}[mathescape,
                linenos,
@@ -603,7 +603,7 @@ num = [217, 287, 181, 143, 163, 319, 233, 399, 203]
 print count_prime(num)  # 3
 \end{minted}
 
-\subsubsection{Toy Robot토이 로봇 (선택)}
+\subsection{Toy Robot토이 로봇 (선택)}
 지금까지 수업을 통해 배운 함수, 조건문, 루프, 리스트 등의 개념을 종합적으로 활용하여 toy robot토이 로봇을 의도한 대로 움직이게 할 것입니다.
 Python 쉘에서 진행한 모든 Python 명령은 CLI\footnote{Command Line Interface, 즉 텍스트 기반의 명령행 인터페이스를 뜻한다.} 기반이었다면, 토이 로봇은 코드를 실행시키면 GUI\footnote{Graphic User Interface}인 창이 나올 것입니다.
 일단 다음과 같은 코드를 작성해봅니다.
@@ -693,7 +693,7 @@ for i in range(4):
     hubo.move()
 \end{minted}
 
-\subsection{예제}
+\section{예제}
 \begin{enumerate}
 \item Write a function \texttt{sum\_squares(a)} that returns the sum of squares of the elements in the given list \texttt{a}.
 \begin{minted}[mathescape,

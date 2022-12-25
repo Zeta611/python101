@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\subsection{Quantifiers한정자와 Beepers}
+\section{Quantifiers한정자와 Beepers}
 지금까지 개수 세기(카운터 패턴), 최대/최소값 구하기 등의 기본적인 반복문 패턴을 알아보았습니다.
 이번에는 quantifier한정자 패턴을 익히도록 합니다.
 수학에서 사용하는 universal quantifier전체 한정자 $\forall$ (for all)과 existential quantifier존재 한정자 $\exists$ (for some)의 의미를 코드로 옮겨놓은 것을 한정자 패턴이라고 합니다.
@@ -22,7 +22,7 @@
 \label{fig:lecture5beeper}
 \end{figure}
 
-\subsubsection{Quantifier한정자}
+\subsection{Quantifier한정자}
 한정자를 이용할 수 있는 간단한 예시를 들어봅니다.
 \begin{table}[H]
     \centering
@@ -82,7 +82,7 @@ def some_positive(numbers):
     return False
 \end{minted}
 
-\subsubsection{예시}
+\subsection{예시}
 다음은 어떤 정수 \texttt{n}이 두 정수의 제곱의 합인지의 여부를 알려주는 함수 \texttt{sum\_squares($\cdot$)}입니다.
 \begin{minted}[mathescape,
                linenos,
@@ -178,7 +178,7 @@ def all_odd(numbers):  # def some_odd(numbers):
 \end{minted}
 \end{enumerate}
 
-\subsubsection{Beepers}
+\subsection{Beepers}
 사실 beeper 자체는 이번 절에서 배운 한정자 패턴과 큰 관련이 있지는 않습니다.
 다만 다음 절에서 \texttt{while} 문과 함께 사용할 것이기 때문에 미리 익혀둡니다.
 
@@ -255,8 +255,8 @@ for i in range(9):
 \texttt{if} 조건문과 \texttt{on\_beeper()}를 통해 한 두번 반복을 할 수 있지만, 적절히 큰 수를 잡아서 그 수보다 beeper가 적기를 바라는 수 밖에는 없습니다.
 이러한 경우에 사용하는 것이 바로 다음 절에서 소개할 \texttt{while} 문입니다.
 
-\subsection{While 문과 토이 로봇}
-\subsubsection{While 문}
+\section{While 문과 토이 로봇}
+\subsection{While 문}
 \texttt{while} 문은 \texttt{for} 문과 같은 반복문이지만, 조금은 성질이 다릅니다.
 \texttt{for} 문은 명시적으로 몇 회 반복을 해야 하는지 주어지지만, \texttt{while} 문의 경우 어떤 조건을 만족한다면 계속 명령을 반복 수행하도록 하는 루프입니다.
 예컨대 위에서 제기하였던 의문점은 \texttt{on\_beeper()} 조건이 \texttt{True}일 경우 \texttt{pick\_beeper()} 명령이 반복되도록 코드를 작성하면 될 것입니다.
@@ -276,7 +276,7 @@ def gcd(m, n):
 \texttt{n}이 0이 아닐 때, 즉 0이 되기 직전까지 줄 3의 내용을 실행하는 것입니다.
 결국 \texttt{n}이 0이 되었을 때 \texttt{m}이 최대 공약수일 것이므로 \texttt{m}을 반환하는 코드입니다.
 
-\subsubsection{토이 로봇}
+\subsection{토이 로봇}
 토이 로봇에서 움직임을 제어할 수 있는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()}을 반복하기 위해서는 직접 \texttt{for} 문을 작성해야 했습니다.
 \texttt{pick\_beeper()}와 \texttt{drop\_beeper()}도 이와 마찬가지로 한 번에 하나의 beeper만을 배치하거나 주을 수 있기 때문에 반복문을 활용해야 합니다.
 특히 휴보는 \texttt{carries\_beeper()}나 \texttt{on\_beeper()}를 통해 beeper를 가지고 있는지, 혹은 현재 격자점에 beeper가 놓여 있는지의 여부 정도는 파악할 수 있지만, 그 개수는 알 수 없기 때문에 \texttt{while} 문을 통해서 \texttt{pick\_beeper()}와 \texttt{drop\_beeper()}를 사용하는 것이 적절한 경우가 있습니다.
@@ -384,7 +384,7 @@ for i in range(cnt):
 그리고 해당 위치까지 이동해서 반복문을 탈출했을 때, 줄 7의 반복문이 수행되어 beeper가 더 이상 없을 때까지 줍게 됩니다(줄 8).
 마지막으로는 줄 13에서 이동한 칸 수만큼 \texttt{move()}하여 되돌아옵니다.
 
-\subsection{예제}
+\section{예제}
 \begin{enumerate}
 \item Write a function \texttt{sum\_three\_squares(n)} that returns \texttt{True} if and only if \texttt{n} is expressible as a sum of squares of three positive integers, e.g., 38 should return \texttt{True} as $38 = 2^2 + 3^2 + 5^2$.
 \begin{minted}[mathescape,

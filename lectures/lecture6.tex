@@ -5,8 +5,8 @@
 나아가 이를 활용하여 다차원 리스트를 다루어 볼 것입니다.
 한편으로는 텍스트 파일을 읽고 출력하는 파일 입출력에 대해서 간단히 살펴볼 것이며, 이를 통해 많은 양의 데이터를 처리할 수 있는 길이 열리게 됩니다.
 
-\subsection{Loops반복문 응용}
-\subsubsection{range($\cdot$) 함수}
+\section{Loops반복문 응용}
+\subsection{range() 함수}
 지금까지 세 가지 종류의 반복문 패턴에 대해 알아보았습니다.
 이러한 \texttt{for} 문을 구성할 때 지금까지는 \texttt{range($\cdot$)}를 활용하였습니다.
 Python 콘솔에 \texttt{range}의 형을 알아보기 위해 \texttt{type(range)}를 쳐보면, 다음과 같은 결과를 얻을 수 있습니다.
@@ -31,7 +31,7 @@ Python 콘솔에 \texttt{range}의 형을 알아보기 위해 \texttt{type(range
 \end{minted}
 이를 통해 \texttt{range($\cdot$)}는 리스트를 반환하는 함수인 것을 알 수 있습니다.
 
-\subsubsection{리스트 원소의 인덱스 접근과 직접 접근}
+\subsection{리스트 원소의 인덱스 접근과 직접 접근}
 \texttt{range($\cdot$)}는 리스트를 반환하기 때문에, \texttt{for} 문을 활용할 때 \texttt{range($\cdot$)} 대신에 직접 리스트를 사용하여도 될 것이라고 짐작할 수 있습니다.
 지금까지는 리스트 \texttt{l}이 주어졌을 때 \texttt{range(len(l))}을 사용하여 다음과 같이 \texttt{for} 문을 구성하였습니다.
 \begin{minted}[mathescape,
@@ -99,7 +99,7 @@ print l  # [2, 4, 1, 7, 3]
 \end{minted}
 원소를 직접 접근하는 방식은 인덱스를 통한 간접 접근보다는 문법적으로 간결하고 직관적이기 때문에, 순서의 고려가 필요 없을 때는 직접 접근이 바람직합니다.
 
-\subsubsection{\texttt{break}/\texttt{continue}}
+\subsection{\texttt{break}/\texttt{continue}}
 특정 상황에서 반복문을 그만 실행하거나, 해당 회만 넘어가고 싶다면 \texttt{break}와 \texttt{continue}를 활용할 수 있습니다.
 비록 코드가 복잡한 상황에서 \texttt{break}와 \texttt{continue}를 사용한다면 코드의 구조가 더욱 꼬이고 디버깅이 힘들어지지만, 적절한 상황에서의 활용은 코드 작성의 생산성을 높일 수 있습니다.
 이론적으로는 \texttt{break}와 \texttt{continue} 없이 불리언 함수를 활용하여 동일한 기능을 구현할 수 있습니다.
@@ -193,7 +193,7 @@ for i in range(5):
 # 0 1 2 3 4 0
 \end{minted}
 
-\subsection{파일 입출력}
+\section{파일 입출력}
 USACO 문제를 해결하거나 많은 양의 자료를 활용해야 하는 경우, 외부 파일에서 데이터를 읽어오는 것이 필요합니다.
 아래와 같이 파일에서 문자열을 읽어올 수 있습니다.
 \begin{minted}[mathescape,
@@ -300,7 +300,7 @@ for word in s:
 \end{minted}
 
 
-\subsection{예제}
+\section{예제}
 \begin{enumerate}
 \item Write a function \texttt{occurrences\_integers(filename)} that writes a file \texttt{occurences.out} with increasing order of numbers in \texttt{filename} along with their occurrences.
 For instance, a file with the following content as an input:

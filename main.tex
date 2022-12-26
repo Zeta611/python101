@@ -1,8 +1,18 @@
 \documentclass[a4paper,10pt]{memoir}
 
+%%% Overall document settings
+\usepackage{microtype}
+
 \usepackage{subfiles}
+
 \usepackage{caption}
 \usepackage{subcaption}
+
+\usepackage{makeidx}
+\renewcommand*{\indexname}{목차}
+\makeindex
+
+\usepackage{minted}
 
 % For madsen chapter style:
 \usepackage{graphicx}
@@ -78,9 +88,6 @@
 \epigraphfontsize{\small\itshape}
 \setlength\epigraphwidth{8cm}
 \setlength\epigraphrule{0pt}
-
-%%% Code listings
-\usepackage{minted}
 
 %%% Custom commands
 % Math
@@ -186,6 +193,8 @@ the subroutine is finished.
 \end{epi}
 \subfile{lectures/lecture8}
 
+hi\index{안녕!hi}\index{hi!안녕}
+
 % \chapter{[TBD] Object-Oriented Programming객체 지향 프로그래밍}
 % \begin{epigraph}{Steve Jobs}{The Guts of a New Machine}
 %   Design is not just what it looks like and feels like. Design is how it works.
@@ -197,12 +206,13 @@ the subroutine is finished.
 
 % \chapter{[TBD] Dynamic Programming동적 계획법}
 
-% \chapter{Index}
-% \begin{epi}{Albert H. Highton}{Practical Proofreading}
-% Important works such as histories, biographies, scientific and technical text-books, etc., should contain indexes. Indeed, such works are scarcely to be considered complete without indexes.
-% An index is almost invariably placed at the end of a volume and is set in smaller type than the text-matter. Its subjects should be thoroughly alphabetized.
-% The compiling of an index is interesting work, though some authors are apt to find it tedious and delegate the work to others. The proofreader who undertakes it will find that it is splendid mental exercise and brings out his latent editorial capability.
-% \end{epi}
+\backmatter
+\renewcommand{\preindexhook}{\begin{epi}{Albert H. Highton}{Practical Proofreading}
+Important works such as histories, biographies, scientific and technical text-books, etc., should contain indexes. Indeed, such works are scarcely to be considered complete without indexes.
+An index is almost invariably placed at the end of a volume and is set in smaller type than the text-matter. Its subjects should be thoroughly alphabetized.
+The compiling of an index is interesting work, though some authors are apt to find it tedious and delegate the work to others. The proofreader who undertakes it will find that it is splendid mental exercise and brings out his latent editorial capability.
+\end{epi}}
+\printindex
 
 \end{document}
 %%% Local Variables:

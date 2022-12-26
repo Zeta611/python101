@@ -8,11 +8,18 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\renewcommand*{\figurename}{그림}
+
 \usepackage{makeidx}
 \renewcommand*{\indexname}{찾아보기}
 \makeindex
 
 \usepackage{minted}
+\setminted{
+  mathescape,breaklines,numbersep=5pt,frame=lines,framesep=2mm,autogobble
+}
+
+\usepackage{relsize} % \smaller
 
 % For madsen chapter style:
 \usepackage{graphicx}
@@ -20,6 +27,7 @@
 \usepackage[no-math]{fontspec}
 % Oblivoir does the following automatically:
 \usepackage{kotex}
+\hangingpunctuations
 \usepackage[pdfencoding=auto,bookmarks]{hyperref}
 \ifpdf
   \input glyphtounicode
@@ -95,22 +103,49 @@
 \newcommand*{\norm}[1]{\lVert#1\rVert}
 
 % Typesetting
-\makeatletter
 % Korean-English, e.g., \alt{메모리 재활용}{garbage collection}
-\newcommand*{\alt}{\@ifstar\altSt@r\altNoSt@r}
-\newcommand*{\altNoSt@r}[2]{#1\,{\small\textit{#2}}\hspace{.06667em}}
-\newcommand*{\altSt@r}[2]{#1\,{\small\textit{#2}}}
+\ExplSyntaxOn
 
-\newcommand*{\booktitle}{\@ifstar\booktitleSt@r\booktitleNoSt@r}
-\newcommand*{\booktitleNoSt@r}[1]{\textit{#1}\hspace{.06667em}}
-\newcommand*{\booktitleSt@r}[1]{\textit{#1}}
-\makeatother
+\NewDocumentCommand { \myindex } { s m m }
+  {
+    \IfBooleanTF {#1}
+      { \index{#2!#3|textbf}\index{#3!#2|textbf} }
+      { \index{#2!#3}\index{#3!#2} }
+  }
+
+\NewDocumentCommand { \alt } { s m O{#2} d<> m O{#5} d<> }
+  {
+    #2\,{\color{gray!50!darkgray}\smaller\textit{#5}}\hspace{.06667em}
+    \IfBooleanT {#1}
+      {
+        \myindex{#3}{#6}
+
+        \IfNoValueTF {#4}
+          {
+            \IfNoValueF {#7}
+              { % See English
+                \index{#6|see{#7}}
+              }
+          }
+          {
+             \IfNoValueTF {#7}
+              { % See Korean
+                \index{#3|see{#4}}
+              }
+              { % See both
+                \index{#3|see{#4}}\index{#6|see{#7}}
+              }
+          }
+      }
+  }
+\ExplSyntaxOff
+
+\newcommand*{\booktitle}[1]{\textit{#1}}
 
 \ExplSyntaxOn
-\NewDocumentEnvironment { epi }
-{ m m +b }
-{ \epigraph{#3}{---~\textup{#1},\ #2} }
-{ }
+\NewDocumentEnvironment { epi } { m m +b }
+  { \epigraph{#3}{---~\textup{#1},\ #2} }
+  { }
 \ExplSyntaxOff
 
 \newcommand*{\progname}[1]{\textsf{#1}}
@@ -193,8 +228,6 @@ the subroutine is finished.
 \end{epi}
 \subfile{lectures/lecture8}
 
-hi\index{안녕!hi}\index{hi!안녕}
-
 % \chapter{[TBD] Object-Oriented Programming객체 지향 프로그래밍}
 % \begin{epigraph}{Steve Jobs}{The Guts of a New Machine}
 %   Design is not just what it looks like and feels like. Design is how it works.
@@ -211,7 +244,7 @@ hi\index{안녕!hi}\index{hi!안녕}
 Important works such as histories, biographies, scientific and technical text-books, etc., should contain indexes. Indeed, such works are scarcely to be considered complete without indexes.
 An index is almost invariably placed at the end of a volume and is set in smaller type than the text-matter. Its subjects should be thoroughly alphabetized.
 The compiling of an index is interesting work, though some authors are apt to find it tedious and delegate the work to others. The proofreader who undertakes it will find that it is splendid mental exercise and brings out his latent editorial capability.
-\end{epi}}
+\end{epi}\vskip\baselineskip}
 \printindex
 
 \end{document}

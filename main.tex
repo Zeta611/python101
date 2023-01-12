@@ -9,6 +9,7 @@
 \usepackage{subcaption}
 
 \renewcommand*{\figurename}{그림}
+\renewcommand*{\tablename}{표}
 
 \usepackage{makeidx}
 \renewcommand*{\indexname}{찾아보기}
@@ -20,6 +21,9 @@
 }
 
 \usepackage{relsize} % \smaller
+
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs}
 
 % For madsen chapter style:
 \usepackage{graphicx}
@@ -102,6 +106,8 @@
 \renewcommand*{\vec}[1]{\symbf{#1}}
 \newcommand*{\norm}[1]{\lVert#1\rVert}
 
+\newcommand*{\pyin}[1]{\mintinline{python}{#1}}
+
 % Typesetting
 % Korean-English, e.g., \alt{메모리 재활용}{garbage collection}
 \ExplSyntaxOn
@@ -177,7 +183,7 @@
 \end{epi}
 \subfile{lectures/lecture1}
 
-\chapter{Functions함수와 Conditionals조건문}
+\chapter{함수와 조건문}
 \begin{epi}{Donald Knuth}{The Art of Computer Programming}
   When a certain task is to be performed at several different places in a program, it is usually undesirable to repeat the coding in each place.
   To avoid this situation, the coding (called a subroutine) can be put into one place only, and a few extra instructions can be added to restart the outer program properly after

@@ -1,111 +1,132 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+지금까지 파이썬에서
+\begin{itemize}
+\item 기본적인 타입과 이들에 대해 수행할 수 있는 연산자들,
+\item 식들을 조립하여 복잡한 식을 구성하는 방법, 그리고
+\item 변수를 정의하여 값을 담을 수 있는 방법을
+\end{itemize}
+알아보았습니다.
+이러한 기능은 대부분의 언어에서 지원하는 프로그래밍 언어의 기본 요소입니다.
 
-\section{Functions함수}
-오늘날 프로그래밍의 기본 중 기본은 functions함수라고 말할 수 있습니다.  함수를
-전혀 사용하지 않고 프로그래밍을 하는 것이 가능은 하지만, 함수를 쓰면 다양한
-이점이 있습니다.  일단 프로그램을 역할에 따라 여러 부분으로 나누어 구조적
-프로그래밍\footnote{구조적 프로그래밍은 비구조적 프로그래밍과 대비되는
-프로그래밍 패러다임입니다. 비구조적 프로그래밍은 프로그램 전체를 하나의 연속된
-코드로 작성하는 방식입니다. 이러한 프로그래밍 방식에서는 GOTO문과 같은 제어문에
-의존할 수 밖에 없는데, 이는 디버깅이 어렵고 가독성이 떨어집니다. 특히
-구조화되지 않은 코드는 프로그램이 복잡해지면 수행 방향이 복잡하게 얽히게
-되는데, 이를 비유적으로 `스파게티 코드'라고 표현하기도 합니다. machine
-language기계어와 assembly language어셈블리어를 제외한 현대의 대부분 프로그래밍
-언어는 구조적 프로그래밍을 지원합니다.}이 가능해집니다.  또한 함수를 사용하면
-같은 코드를 반복하지 않음으로써 프로그램의 용량을 줄이고 범용성을 늘릴 수
-있습니다.  지난 시간에 자주 반복하여 사용하는 식을 하나의 변수에 대입하여
-사용하면 효율적이라고 했던 것과 같은 맥락입니다.  나중에 객체 지향 프로그래밍
-패러다임을 배우면 더 자세히 배우겠지만, 함수를 사용하여도 encapsulation캡슐화가
-가능해집니다.  캡슐화란 함수를 한 번 구현해두면 내용을 모르더라도 그 기능을
-사용할 수 있게 하는 것이라고 생각하면 됩니다.
+이번 단원에서는 일련의 연산을 하나의 단위로 구성하여 \alt*{함수}{function}를 작성하고,
+경우에 따라 프로그램 실행의 순서를 다르게 변화할 수 있는 구성 요소인 \alt*{조건문}{conditional statements}에 대해서 알아봅니다.
 
-한 번 Python에서 함수를 어떻게 정의하고 사용하는지, 아래의 예시를 통해서 살펴봅시다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def gamma(v):
-    c = 299792458
-    b = v / c
-    return 1 / (1 - b**2)**0.5
+\section{함수}
+함수를 사용하면 논리적으로 하나의 역할을 하는 코드를 감싸서 하나의 블럭으로 만들 수 있습니다.
+다음의 간단한 예시를 봅시다:
+\begin{minted}{python}
+def square(x):
+    return x * x
 
-def t_rel(x, t, v):
-    c = 299792458
-    return gamma(v) * (t - v * x / c**2)
-
-pos = 10
-time = 13
-vel = 3E7
-
-print(gamma(vel))
-print(t_rel(pos, time, vel))
+print(square(9))  # 81
 \end{minted}
-일단 함수를 사용하기 위해서는 함수를 정의해야 합니다.
-함수의 정의는 \texttt{def function(arg1, arg2, ...)}의 형태로 시작해서
-\texttt{return value}으로 끝납니다. 이때 \verb|function|은 원하는 함수명이고,
-\verb|arg1|, \verb|arg2|, $\cdots$은 함수의 인자에 해당하는 변수명입니다.
-함수를 호출(사용)할 때에는 그냥 \texttt{function(a, b, c)}의 형태로 사용하시면
-됩니다.
-또한, 예시처럼 매개 변수의 수는 여러 개가 될 수 있습니다.
-수학의 다변수 함수와 유사하게 받아들이면 됩니다.
-본격적으로 함수를 어떻게 정의하고 사용해야 하는지 알아봅시다.
+위 코드는 어떤 값을 받아 제곱을 수행하는 함수를 파이썬에서 어떻게 작성하는지 보여줍니다.
 
-\subsection{Indentation들여쓰기}
-Python에서는 indentation들여쓰기가 구문을 나누는 중요한 syntax입니다.  C, C++
-등의 언어에서는 들여쓰기를 하지 않아도 중괄호\verb|{·}|와
-세미콜론 \verb|;|으로 명령을 구분하고, 들여쓰기는 완전히 가독성만을 위한
-것입니다.  그러나 중괄호나 세미콜론을 사용하지 않는 Python에서는 들여쓰기가
-반드시 필요합니다. 띄여쓰기를 4회 하여 들여쓰기를 하던가, 탭을 통해서 들여쓰기를
-할 수도 있습니다.\footnote{띄어쓰기를 하여 들여쓰기를 할것인지, 탭을 하여
-들여쓰기를 할 것인지는 프로그래머들 사이에서 펼쳐지는 오랜 논쟁입니다.}
-띄어쓰기 4회를 통해 들여쓰기를 한다고 스페이스 키를 네 번 누를 필요는 없습니다.
-IDE나 텍스트 에디터 설정에서 탭 키를 soft tab (띄어쓰기 여러 개를 사용하여
-들여쓰기를 하는 것)으로 설정하던지 hard tab (탭을 사용하여 들여쓰기를 하는
-것)으로 설정하면 됩니다.  Python의 코딩 스타일 가이드인 PEP-8에서는 soft tab이
-권장됩니다.
+우선 모든 함수\footnote{뒤에서 배우는 \alt*{람다 함수}{lambda function}가 있지만 여기서는 무시합니다.}의 정의는 \verb/def/로 시작합니다.
+그 후 함수에 붙일 이름(\verb/square/)이 이어지고, 괄호 안에 함수가 받을 \alt*{인자들}{arguments}의 이름이 들어갑니다.
+이러한 이름을 \alt*{매개변수}{parameters}라고 합니다.
+매개변수와 인자의 관계는, 변수와 저장되는 값의 관계와 대응됩니다.
+이 괄호가 끝나면 반드시 \alt{콜론}{colon}을 사용해 함수 이름과 매개변수의 나열이 끝났으며, 함수를 구성하는 코드가 시작된다는 표시를 해야 합니다.
 
-위에서 언급하였듯이, Python에서 들여쓰기는 필수적인 문법입니다.  함수뿐만이
-아니라 이번 시간에 배울 조건문, 나중에 배울 반복문 등에서 들여쓰기는 구문을
-구별하고 포함 관계를 나타내는 역할을 합니다.  위의 예시처럼 함수에서는
-\texttt{def} 다음 줄부터 \texttt{return}의 해당 줄까지 한 수준 들여쓰기를 해야
-합니다.  \textbf{들여쓰기를 실수로 의도한 바와 다르게 한다면 코드의 수행 결과가
-  완전히 달라질 수 있습니다.  나아가 문법적으로는 맞을 수 있어서 에러 메시지는
-뜨지 않고 결과만 차이가 생기는 경우도 빈번하니 유의해야 합니다.} 따라서
-들여쓰기를 명시적으로 나타내주는 IDE의 기능을 활용하면 생산성을 높일 수
-있습니다.  IDE의 기능에서 기본 중의 기본이니 대부분의 IDE에서 들여쓰기를
-도와주는 기능이 있을 것입니다.  Wing IDE에서는 Preferences $>$ Editor $>$
-Indentation으로 들어가면 Show Indent Guides 항목에 체크를 하면 됩니다.
-PyCharm에서는 기본적으로 indentation guide를 보여줄 것입니다.
+여기서 주목해야할 것은, (콜론 뒤에 이어지는) 함수를 구성하는 코드가 반드시 들여쓰기되어야 한다는 것입니다.
+파이썬에서는 기본적으로 네 칸 띄어쓰기로 \alt*{들여쓰기}{indentation}를 권장합니다.\footnote{\emph{특별한 사유가 있다면} 일정한 개수의 띄어쓰기나 탭 문자를 사용할 수도 있습니다.}
+이에 대해서는 뒤에서 다시 살펴볼 것입니다.
 
-\subsection{Built-in Functions내장 함수}
-사실 이번에 함수를 처음 접하는 것이 아닙니다.  지난 시간에도 여러 함수를
-보았는데요, \texttt{type($\cdot$)}이나 형 변환을 위해 사용한
-\texttt{int($\cdot$)} 등이 바로 함수입니다.  이러한 함수는 사용자가 직접
-정의하지 않아도 사용할 수 있는 built-in functions내장 함수입니다.  또한 어떤
-내장 함수들은 바로 사용할 수 있는 것이 아니라, `이러이러한 종류의 함수들을
-사용할 것이다'라는 것을 코드에 작성하여야 쓸 수 있는 것들이 있습니다.  바로
-\texttt{import package}을 (보통) 코드 맨 윗 줄에 적어주는 것입니다.  특히
-수식 계산을 위해 자주 사용할 패키지는 \texttt{math} 패키지로, 제곱근 함수
-\texttt{sqrt($\cdot$)}이라든지 사인 함수 \texttt{sin($\cdot$)}와 같은 삼각
-함수, 로그 함수 \texttt{log($\cdot$)}을 사용하기 위해서는  \texttt{math}
-패키지를 import해야 합니다.  지난 단원의 마지막 문제인 올림 함수는 \verb|math|
-패키지의 \texttt{ceil($\cdot$)}\footnote{Ceiling function올림 함수의 앞에서 따온
-명칭입니다.} 함수를 사용하면 됩니다.  마찬가지로 \texttt{int($\cdot$)}와 같은
-`가짜' 내림 함수가 아니라 진짜 내림 함수인 \texttt{floor($\cdot$)}가
-제공됩니다.
-Python 2에서는 \verb|math| 패키지에서 제공되던 반올림
-함수\texttt{round($\cdot$)}는 이제 \verb|math| 없이도 제공됩니다.  아래에서
-사용 예시를 봅시다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+마지막으로 함수를 구성하는 논리적인 코드 조각이 계산된 결과를 돌려주는 \alt*{반환}{return}입니다.
+\pyin{return x * x}는 \pyin{x * x}를 계산한 결과가 함수 \verb/square/의 계산 결과라는 의미입니다.
+반환이라고 이름 붙여진 이유는, \pyin{square(9)}와 같이 함수를 사용할 때, \verb/square/의 안에서 계산된 결과를 \pyin{square(9)}가 사용된 위치로 ``돌려주어야''하기 때문입니다.
+
+이미 보았지만 이렇게 정의된 함수는 \pyin{square(9)}와 같이 괄호 안에 값을 넘겨주어 사용할 수 있습니다.
+이를 \alt*{함수 호출}{function call}이라고 말합니다.
+함수를 불러서 사용하는 것이기 때문입니다.
+이렇게 호출된 함수는 값을 호출된 장소로 반환합니다.
+
+이번에는 여러 식이 사용된 코드를 통해서 다시 한 번 살펴봅시다\footnote{변수 이름들과 식을 보면 알 수 있겠지만 \alt*{특수 상대성 이론}{special relativity theory}에서 상대 시간을 계산하는 코드입니다.}:
+\begin{minted}{python}
+import math
+
+LIGHT_SPEED = 299792458
+
+def square(x):
+    return x * x
+
+def gamma(v):
+    b = v / LIGHT_SPEED
+    return 1 / math.sqrt(1 - square(b))
+
+def relative_time(x, t, v):
+    k = t - v * x / square(LIGHT_SPEED)
+    return gamma(v) * k
+
+position = 10
+time = 13
+velocity = LIGHT_SPEED / 2
+
+print(gamma(velocity))
+print(relative_time(position, time, velocity))
+\end{minted}
+위 예시에는 앞선 \verb/square/과 다르게 둘 이상의 매개변수를 사용한 함수 \verb/relative_time/이 정의되어 있습니다.
+코드가 길어졌지만, 구성 방식은 앞서 설명한 것과 동일합니다.
+
+\subsection{구조적 프로그래밍}
+기계어로 프로그래밍하는 방식에서 탈피하기 위한 첫 걸음마 중 하나가 함수라고 말할 수 있습니다.\footnote{반대로 \alt*{번역기}{compiler}가 하는 일에는 이렇게 정의된 함수를 기계어로 녹여내는 일이 포함됩니다.}
+함수를 전혀 사용하지 않고 프로그램을 작성할 수는 있지만, 함수를 사용하는데에는 다양한
+이점이 있기 때문입니다.
+
+함수를 사용하면 프로그램을 논리적인 역할에 따라 여러 조각으로 나누는 \alt*{구조적 프로그래밍}{structural programming}\footnote{구조적 프로그래밍은 비구조적 프로그래밍과 대비되는
+패러다임입니다. 비구조적 프로그래밍은 프로그램 전체를 하나의 큰 덩어리로 작성하는 방식입니다. 이러한 프로그램은 \textsc{goto}문\index{\textsc{goto}}과 같은 제어문에
+의존할 수 밖에 없는데, 이는 프로그램의 디버깅을 어렵게 가독성도 해칩니다.
+특히 구조화되지 않은 코드는 프로그램이 복잡해지면 실행 흐름이 복잡하게 얽히게
+되는데, 이렇게 읽기 힘들고 잘 구조화되지 않은 코드를 \alt*{스파게티 코드}{spaghetti code}라고 부릅니다.
+사실상 기계어를 제외한 현대의 모든 프로그래밍 언어는 구조적 프로그래밍을 지원합니다.}이 가능해집니다.
+또한 함수를 사용하면 같은 코드를 반복하지 않음으로써 프로그램의 용량을 줄이고 범용성을 늘릴 수 있습니다.
+자주 반복하여 사용하는 식을 하나의 변수에 대입하여 사용하면 효율적인 것과 비슷한 맥락입니다.
+
+이렇게 코드 조각을 함수로 감싸는 것을 \alt*{캡슐화}{encapsulation}\index{encapsulation|seealso{abstraction}}\index{캡슐화|seealso{추상화}}라고 부릅니다.
+뒤에서 \alt*{객체 지향 프로그래밍}{object-oriented programming}\index{OOP|see{object-oriented programming}}을 배우면, 연관된 일을 수행하는 여러 함수들과 변수들까지도 캡슐화를 할 수 있는 방법에 대해 알 수 있습니다.
+
+한편, 함수로 논리를 감싸는 것을 \alt*{추상화}{abstraction}\index{abstraction|seealso{encapsulation}}\index{추상화|seealso{캡슐화}}라고도 부를 수 있습니다.
+위에서 \verb/square/ 함수를 생각하면, 함수를 호출하는 입장에서는 \verb/square/이 \pyin{x * x}처럼 구현이 되었는지, 아니면 (비효율적으로) \verb/x/를 \verb/x/번 더해서 구현이 되었는지는 알 필요가 없습니다.
+\verb/square/이 약속한 것처럼, 값을 제곱해서 돌려주기만 하면 그만이기 때문입니다.
+이러한 관점으로 함수를 바라보면, 함수는 기능의 구현을 추상화하여 그 역할만 남겨놓은 블랙박스라고 생각할 수 있습니다.
+
+\subsection{들여쓰기}
+파이썬에서는 들여쓰기\myindex{들여쓰기}{indentation}가 논리적인 단위를 나누는 중요한 문법입니다.
+C, C++ 등의 언어에서는 들여쓰기에 대한 문법 규칙 없이 중괄호(\verb|{}|)와
+세미콜론(\verb|;|)으로 단위를 구분하며, 들여쓰기는 프로그램을 읽고 쓰는 인간을 위한 강제되지 않는 (중요한) 약속 정도입니다.
+그러나 중괄호나 세미콜론을 사용하지 않는 파이썬에서는 들여쓰기가 문법적으로
+반드시 필요합니다.\footnote{띄어쓰기를 하여 들여쓸 것인지, 탭 문자를 사용하여
+들여쓸 것인지는 프로그래머들 사이에서 펼쳐지는 오랜 논쟁입니다. 다만 파이썬 개발자들은 띄어쓰기 4회를 주로 사용합니다. 이는 파이썬의 스타일 가이드인 PEP-8\index{PEP-8}에 명시되어 있습니다.}
+참고로, 띄어쓰기 네 번 써서 들여쓴다고 해서 키보드의 스페이스 바를 네 번 누를 필요는 없습니다.
+(제대로된) IDE\myindex{통합 개발 환경}{integrated development environment, IDE}나 텍스트 편집기\myindex{텍스트 편집기}{text editor}라면 환경설정에서 키보드의 탭 키를 \alt*{소프트 탭}{soft tab} (띄어쓰기 여러 개를 사용하여 들여쓰는 것)으로 설정하면 됩니다.
+
+함수뿐만이 아니라 이번 단원 뒤에서 배울 조건문, 그리고 나중에 배울 반복문 등에서 들여쓰기는
+논리적 블럭을 구분하고 포함 관계를 나타냅니다.
+위의 예시처럼 함수에서는 함수 이름과 매개변수 나열 후 함수의 내용물을 적을 때에는 함수의 끝까지 한 단계 들여써야 합니다.
+\emph{들여쓰기를 실수로 의도한 바와 다르게 한다면 코드의 수행 결과가 완전히 달라지거나 실행조차 안 될 수 있습니다.}
+더 무서운 점은, 이렇게 잘못 작성된 코드가 문법적으로는 맞지만 논리적으로는 틀려서 에러 메시지 없이 원하지 않는 값만 나올 수도 있습니다.
+이렇게 되면 디버깅을 하기가 굉장히 까다로워집니다.\footnote{들여쓰기를 명시적으로 나타내주는 IDE의 기능을 활용하면 생산성을 높일 수 있습니다.  대부분의 IDE나 프로그래밍용 텍스트 에디터들은 들여쓰기를 도와주는 기능이 포함되어 있습니다.}
+
+\subsection{내장 함수와 \texttt{import}}
+사실 지난 단원에서도 여러 함수를 보았는데요, \verb/type/이나 타입 변환을 위해 사용한
+\verb/int/ 등이 바로 함수입니다.
+이들 함수는 프로그래머가 직접 정의하지 않아도 사용할 수 있는 \alt*{내장 함수}{built-in functions}입니다.
+
+어떤 내장 함수들은 기본적으로 바로 사용할 수 있는 것이 아니라, ``이러이러한 묶음 안의 함수들을 사용할 것이다''라는 것을 코드에 명시해야 쓸 수 있습니다.
+이는 \verb/import/\index{\texttt{import}}문을 사용해서 불러오면 됩니다.
+수식 계산을 위해 사용하는 패키지인 \texttt{math}로 예를 들자면, 제곱근 함수
+\verb/sqrt/, 사인 함수 \verb/sin/와 같은 삼각
+함수, 로그 함수 \verb/log/ 등을 사용하기 위해 \pyin{import math}를 해야 합니다.
+
+지난 단원의 마지막 문제인 올림 함수는 \verb|math|
+패키지에 들어있는 \alt*{올림 함수}{ceiling function} \verb/ceil/\index{\texttt{ceil}}로 이미 구현되어 있습니다.
+마찬가지로 \texttt{int}와 같은 ``가짜''\footnote{$\texttt{int(-1.3)} = -1 \ne \lfloor-1.3\rfloor = -2$} \alt*{내림 함수}{floor function}가 아니라 진짜 내림 함수인 \verb/floor/\index{\texttt{floor}}도 \verb/math/에 들어 있습니다.
+참고로 반올림 함수 \verb/round/\index{\texttt{round}}는 파이썬 2에서 \verb|math| 패키지에서 제공되었지만, 파이썬 3부터는 \verb/math/ 없이 사용할 수 있습니다.
+
+다음의 코드로 확인해봅시다:
+\begin{minted}{python}
 >>> import math
 >>> math.sqrt(4)
 2.0
@@ -121,30 +142,21 @@ Python 2에서는 \verb|math| 패키지에서 제공되던 반올림
 -2
 \end{minted}
 
-만약 \texttt{math.\dots($\cdot$)}를 반복하는 것이 귀찮다면, \texttt{from 패키지
-명 import *}로 import를 하면 아래와 같이 계속 \texttt{math.}를 앞에 붙일 필요가
-없어집니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+만약 \texttt{math.}을 반복하기 귀찮다면, \pyin{from package import *}로 \verb/package/ 안의 모든 함수를 밖으로 끄집어내어 가져올 수 있습니다:
+\begin{minted}{python}
 >>> from math import *
 >>> sqrt(4)
 2.0
->>> sin(30. * pi / 180.)
+>>> sin(30 * pi / 180)
 0.49999999999999994
 >>> log(e)
 1.0
 \end{minted}
-단, \texttt{sin} 등의 함수를 사용자가 새로 정의하거나, \texttt{pi}나 \texttt{e}와 같은 값을 새로 지정한다면 값이 덮어 씌워져서 실수할 가능성이 커집니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+여기서 뭔가 무시무시한 것을 발견하였나요?
+이제 자연 상수 $e$를 \verb/math.e/가 아니라 그대로 \verb/e/와 같이 사용해야 합니다.
+(짧은 변수 이름을 사용하는 것이 좋은 습관은 아니지만) \verb/e/를 다른 곳에서 부주의로 인해 정의한다면 자연 상수에 해당하는 $e$의 값이 아니라 다른 값이 \verb/e/에 담기게 됩니다.
+다음과 같이 말이죠.
+\begin{minted}{python}
 >>> from math import *
 >>> e
 2.718281828459045
@@ -152,147 +164,87 @@ Python 2에서는 \verb|math| 패키지에서 제공되던 반올림
 >>> e
 1
 \end{minted}
-또한 같은 함수 명 \texttt{fn}을 지닌 두 개의 패키지 \texttt{pack1}과
-\texttt{pack2}에서 \texttt{from pack1 import *}를 한 후 \texttt{from pack2
+또한 같은 함수 이름을 가진 서로 다른 두 함수---\texttt{fn}이라고 합시다---를 지닌 두 패키지 \texttt{pack1}과
+\texttt{pack2}에서 \pyin{from pack1 import *}를 한 후 \pyin{from pack2
 import *}를 한다면 뒤에서 불러온 \texttt{pack2}의 \texttt{fn}이 먼저 불러온
-\texttt{pack1}의 \texttt{fn}을 덮어 씌울 것입니다.  예컨데 \texttt{numpy}라는
-패키지를 컴퓨터에 설치한 후, \texttt{from numpy import *}와 \texttt{from math
-import *}를 한다면 상당수의 함수가 겹치게 되어 문제가 생길 가능성이 높습니다.
-따라서 문제가 생기지 않을 것이라고 확신하거나 불가피할 경우에만 \texttt{from
-\dots import *}를 사용하는 것이 권장됩니다.  나아가 자신이 \texttt{math}
-패키지에서 \texttt{sin($\cdot$)} 함수만 필요하다는 경우에는 \texttt{from math
-import sin}을 하여 바로 \texttt{math.} 없이 \texttt{sin} 함수를 사용할 수
-있습니다.\footnote{보통 \texttt{import numpy as np}로 numpy 패키지를
-불러옵니다. 이러한 경우, \texttt{np.sin}과 같은 형식으로 패키지를 사용할 수
-있습니다.}
+\texttt{pack1}의 \texttt{fn}을 덮어 씌울 것입니다.  예컨대 \texttt{numpy}라는
+패키지를 컴퓨터에 설치한 후, \pyin{from numpy import *}와 \pyin{from math
+import *}를 한다면 상당수의 함수가 겹치게 되어 두 패키지 중 하나의 것만 사용할 수 있게 됩니다.
+따라서 불가피한 경우에만 \pyin{from package import *}를 사용하는 것이 권장됩니다.
 
-\subsection{User-Defined Functions사용자 정의 함수}
-본인이 원하는 함수가 없다면 직접 정의를 해서 함수를 만들 수 있습니다.
-함수는 반환 값이 있는 것과 그렇지 않은 것 두 종류가 있습니다.
+나아가 자신이 \texttt{math} 패키지에서 \texttt{sin} 함수처럼 몇 개의 함수들만 필요하다면, 매번 \verb/math./을 붙이지 않고 직접 표시한 함수들을 사용할 수도 있습니다:
+\begin{minted}{python}
+>>> from math import sqrt, sin
+>>> sqrt(4)
+2.0
+>>> sin(0)
+0.0
+\end{minted}
+
+그리고 패키지를 불러올 때 이름을 원하는대로 바꿀 수도 있는데요, \pyin{import numpy as np}와 같이 패키지를 불러온다면, \pyin{numpy.sin} 대신 \pyin{np.sin}과 같이 사용할 수 있습니다.
+
+\subsection{함수와 부작용}
+함수는 반환 값이 있는 것과 그렇지 않은 것으로 나눌 수 있습니다.
+그렇지 않은 것은 (함수가 어떤 식으로든지 유용한 일을 한다면) 무조건 \alt*{부작용}{side effects}을 일으킵니다.
+
 아래는 원의 반지름을 받아서 면적을 반환하는 함수
-\texttt{circ\_area($\cdot$)}입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\verb/circ_area/입니다.
+\begin{minted}{python}
 import math
 
 def circ_area(radius):
-    return math.pi * radius**2
+    return math.pi * radius ** 2
 \end{minted}
 \texttt{return} 다음에 반환할 값이 나타나 있습니다.
-반면 아래는 원의 면적을 반환하지 않고 단순히 출력을 하는 함수
-\texttt{print\_circ\_area($\cdot$)}입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+아래는 원의 면적을 반환하지 않고 단순히 출력하는 함수 \verb/print_circ_area/입니다.
+\begin{minted}{python}
 import math
 
 def print_circ_area(radius):
-    print(math.pi * radius**2)
+    print(math.pi * radius ** 2)
 \end{minted}
-\texttt{circ\_area($\cdot$)}의 경우에는 원의 면적을 출력하기 위해
+\verb/circ_area/의 경우에는 원의 면적을 출력하기 위해
 \texttt{print}를 사용해야 합니다.  그렇지만 다른 값을 계산하는 등의 작업에서
-함수를 표현에 넣을 수 있습니다.  \texttt{print\_circ\_area($\cdot$)}는
-직접적으로 원의 면적을 출력하지만, 그 값을 다른 표현에서 활용할 수는 없습니다.
+함수를 다른 식에 넣을 수 있습니다.  \verb/print_circ_area/는
+자신이 직접 원의 면적을 출력하지만, 그 값을 다른 식에서 활용할 수는 없습니다.
 반환하는 값이 없기 때문입니다.
 
-함수를 정의하여 사용할 때에는, 사용하기 위해 호출하기 이전에 정의를 하기만 하면
-됩니다.  위 조건만 만족한다면 다른 코드들 사이에 끼워두어도 되고, 함수들 정의
-순서도 상관이 없습니다.  또한 함수를 정의하기 위해서 다른 함수를 사용할 수
-있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+함수를 정의하여 사용할 때에는, 호출하는 시점 이전에 정의가 되어 있으면 됩니다.
+이 조건만 만족한다면 함수의 정의는 다른 코드들 사이에 끼워두어도 되고, 함수들 간의 정의
+순서도 상관이 없습니다.
+또한 함수를 정의하기 위해서 다른 함수를 (당연히) 사용할 수 있습니다.
+\begin{minted}{python}
 import math
 
 def get_dist(x1, y1, x2, y2):
     dx = x1 - x2
     dy = y1 - y2
-    return (dx**2 + dy**2)**0.5
+    return math.sqrt(dx ** 2 + dy ** 2)
 
-def circ_area(x1, y1, x2, y2):
-    r = get_dist(x1, y1, x2, y2)
-    return math.pi * r**2
+def circ_area(cx, cy, px, py):
+    r = get_dist(cx, cy, px, py)
+    return math.pi * r ** 2
 
 print(circ_area(0, 0, 3, 4))
 \end{minted}
-위 코드의 \texttt{circ\_area($\cdot$)} 함수를 정의하기 위해
-\texttt{get\_dist($\cdot$)} 함수를 사용하였는데, \texttt{get\_dist($\cdot$)}
-함수의 정의와 \texttt{circ\_area($\cdot$)} 함수 정의의 순서는 바뀌어도 상관은
-없습니다.  하지만 코드를 읽는 사람이 위부터 읽어 내려갈 때 모르는 함수가 있으면
-코드를 이해하는데 어려움이 생길 수 있으니 가독성을 위해서 순서를 적당히
-지켜주는 것이 좋을 것 같습니다.
+위 코드의 \verb/circ_area/ 함수를 정의하기 위해 \verb/get_dist/ 함수를 사용하였는데, \verb/get_dist/ 함수의 정의와 \verb/circ_area/ 함수 정의 순서는 바뀌어도 상관
+없습니다.
 
-코드의 뼈대 부분을 \texttt{main()} 등의 함수로 묶어두고, 함수 정의 밖에는
-\texttt{main()} 한 번만 호출되게 할 수도 있습니다.  이는 C/C++, Java 등의
-언어에서는 기본적으로 채택되는 방식입니다.  예컨대, C에서는 \texttt{Hello,
-world!}를 출력하는 코드가 다음과 같습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{C}
-#include <stdio.h>
+\subsection{매개 변수와 인자}
+함수를 정의할 때 사용되는 매개 변수는 함수 정의 밖에서 사용될 수 없습니다.
+일종의 블랙 박스로 생각하면 되는데, 함수 안에서 정의되는 \alt*{지역 변수들}[지역 변수]{local variables}은 그 안에서만 사용할 수 있습니다.
+예를 들어 직전 예시의 \verb/get_dist/ 함수의 \texttt{dx}나 \texttt{dy}는 함수 안에서
+만들어졌다가 사라지는 변수입니다.
+매개 변수도 지역 변수입니다.
+나아가 함수 밖에서 \texttt{dx}라는 이름의 새로운 변수를 만들더라도 이는 함수 안에서 정의되었던 지역 변수 \texttt{dx}와는 전혀 다른 변수입니다.
+우연히 이름이 겹친 것일 뿐입니다.
 
-int main()
-{
-    printf("Hello, world!\n");
-    return 0;
-}
-\end{minted}
-Python 코드에서는 함수 없이 가장 윗 수준에 적힌 코드가 실행되는 반면, C에서는
-\texttt{main()} 함수에 적힌 내용이 실행됩니다.  하지만 Python에서도 다음과 같이
-코드를 구성할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def main():
-    print("Hello, world!")
+반면 함수 밖에서 먼저 정의되었으면서 함수 안에서 정의되지 않은 변수는 \alt*{전역 변수}{global variable}[global variables]라고 부릅니다.
+이 경우에는 함수 밖에서 정의된 값이 함수 안에서 그대로 사용됩니다.
 
-main()
-\end{minted}
-방금 정의한 \texttt{main()} 함수는 매개 변수를 가지지 않는데, 이러한 종류의
-함수는 매개 변수 없이 항상 동일한 기능을 하게 됩니다.
-
-\subsection{Parameters매개 변수와 Arguments전달 인자}
-함수를 정의할 때 사용되는 매개 변수들은 함수 정의 밖에서 호출될 수 없습니다.
-일종의 블랙 박스로 생각하면 되는데, 함수 안에서 정의되는 local variable지역
-변수는 그 안에서만 사용을 할 수 있습니다.  예를 들어 예시에서 본
-\texttt{get\_dist($\cdot$)} 함수에서 \texttt{dx}나 \texttt{dy}는 함수 안에서만
-생성되었다가 사라지는 변수라고 생각하면 됩니다.  나아가 함수 밖에서
-\texttt{dx}라는 이름의 새로운 변수를 만들더라도 이는 함수 안에서 정의되었던
-지역 변수 \texttt{dx}와는 다른 변수입니다.  반면, 함수 밖에서 먼저 정의가
-되었으면서 함수 안에서 다시 정의되지 않은 변수는 global variable전역 변수라고
-합니다.  이러한 경우에는 함수 밖에서 정의가 된 값이 그대로 함수 안에서
-사용됩니다.  또한 함수의 매개 변수도 함수 밖에서 사용될 수 없는 지역
-변수입니다.  매개 변수의 이름과 함수의 밖에서 정의된 어떤 변수의 이름이
-같더라도 이 둘은 관련이 없습니다.  물론, 해당 변수에 지정된 값이 같은 이름의
-매개 변수로 정의된 함수의 arguments전달 인자로 지정될 수는 있습니다.  매개
-변수는 항상 전달 인자로 값이 지정되기 때문에 전역 변수와 이름이 겹친다고 해도
-영향을 받지 않습니다.  여기서 전달 인자는 \texttt{fn(3)}의 3처럼 단순히 함수에
-전달되는 값입니다.  아래의 예시를 통해 좀 더 명확히 이해를 해보시길 바랍니다.
-이해를 위해 같은 이름을 가졌더라도 가리키는 값이 다르면 다른 색상으로
-표시하였습니다.
-\begin{minted}[mathescape,
-               escapeinside=||,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+아래의 예시를 통해 지역 변수와 전역 변수를 나누는 기준을 완전히 이해했는지 확인해봅시다.
+이해를 위해 (이름이 같더라도) 다른 변수들은 다른 색상으로 표시하였습니다.
+\begin{minted}[escapeinside=||]{python}
 def fn1(|\textcolor{red}{a}|, |\textcolor{red}{b}|):
     |\textcolor{brown}{c}| = |\textcolor{red}{a}| + |\textcolor{red}{b}|
     |\textcolor{brown}{d}| = |\textcolor{red}{a}| - |\textcolor{red}{b}|
@@ -311,62 +263,59 @@ def fn2(|\textcolor{orange}{a}|, |\textcolor{orange}{b}|):
 print(fn2(|\textcolor{violet}{c}|, |\textcolor{violet}{d}|))
 print(fn2(3, 4))
 \end{minted}
-정리하자면, \texttt{fn1($\cdot$)}의 매개 변수 \texttt{\textcolor{red}{a}}와
-\texttt{\textcolor{red}{b}}는 아래에서 전달 인자로 사용된
+정리하자면, \verb/fn1/의 매개 변수 \texttt{\textcolor{red}{a}}와
+\texttt{\textcolor{red}{b}}는 아래에서 인자로 사용된
 \texttt{\textcolor{magenta}{a} = 1} 및 \texttt{\textcolor{magenta}{b} = 2}와
 무관합니다.  줄 7과 줄 8의 출력 값이 같다는 사실을 통해, 줄 7의
 \texttt{fn1(\textcolor{magenta}{a}, \textcolor{magenta}{b})}는 단지 밖에서
 정의된 \texttt{\textcolor{magenta}{a}}의 값인 1과
 \texttt{\textcolor{magenta}{b}}의 값인 2를 대입한 \texttt{fn1(1, 2)}와 완전히
-동일한 역할을 한다는 것을 확인할 수 있습니다.  \texttt{fn2($\cdot$)}의 경우는
+동일한 역할을 한다는 것을 확인할 수 있습니다.  \texttt{fn2}의 경우는
 약간 다릅니다.  함수 내부에서 \texttt{c}가 지역 변수로 새로 정의되지 않은
 상태로, 줄 14에서 \texttt{\textcolor{violet}{c}}를 사용하였습니다.  여기에서
 쓰인 \texttt{\textcolor{violet}{c}}는 \texttt{\textcolor{violet}{c} = 3}로
-정의된 전역 변수입니다.  반면 \texttt{fn2($\cdot$)} 내부에서 사용된
+정의된 전역 변수입니다.  반면 \texttt{fn2} 내부에서 사용된
 \texttt{\textcolor{olive}{d}}는 전역 변수 \texttt{\textcolor{violet}{d}}가
 아니라 새로 \texttt{\textcolor{orange}{a} - \textcolor{orange}{b}}의 값을
-가지는 지역 변수입니다.  이와 같이 어떤 변수가 유효성을 가지는 영역을 scope변수
-영역이라고 합니다.  마지막 예시를 통해 변수 영역의 의미를 확실히 파악할 수 있을
-것입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+가지는 지역 변수입니다.
+
+이와 같이 어떤 변수가 유효한 영역을 \alt*{범위}{scope}라고 합니다.
+마지막 예시를 통해 변수 범위의 의미를 확실히 파악할 수 있을 것입니다.
+\begin{minted}{python}
 def mult(a, b):
     x = a * b
     return x
 
 def div(a, b):
-    x = a / float(b)
+    x = a / b
     return x
 
 a, b = 1, 2
-print(mult(b, a))  # mult(2, 1)
-print(div(a, b))  # div(1, 2)
+print(mult(b, a))  # is mult(2, 1)
+print(div(a, b))   # is div(1, 2)
 print(x)  # NameError: name 'x' is not defined
 \end{minted}
-함수 \texttt{mult($\cdot$)}와 \texttt{div($\cdot$)}, 그리고 줄 9 이후의 \texttt{a}, \texttt{b}, \texttt{x}는 서로 무관하며, 줄 12에서는 함수 \texttt{mult($\cdot$)}와 \texttt{div($\cdot$)}의 변수 영역 밖에서 \texttt{x}가 정의된 적이 없으므로 오류가 발생합니다.
+함수 \texttt{mult}와 \texttt{div}, 그리고 줄 9 이후의 \texttt{a}, \texttt{b}, \texttt{x}는 서로 무관하며, 줄 12에서는 함수 \texttt{mult}와 \texttt{div}의 변수 영역 밖에서 \texttt{x}가 정의된 적이 없으므로 오류가 발생합니다.
 
-\section{Conditionals조건문}
-그렇다면, 입력값(전달 인자)에 따라서 반환값이 달라지는 함수를 만들 때에는 어떻게 해야 할까요?
-단순히, 절댓값 함수를 구현하려고 해도 다음과 같이 경우가 갈리게 됩니다.
-$$
+\section{조건문}
+절댓값 함수
+\[
 |x| = \begin{cases}
 x & \text{if $x \geq 0$}\\
 -x & \text{otherwise}
 \end{cases}
-$$
-이러한 함수를 구현하고 싶을 때 활용해야 하는 것이 바로 conditionals조건문입니다.
-내장 함수인 \texttt{abs($\cdot$)}를 사용할 수도 있지만, 절댓값 함수는 다음과
-같이 구현할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\]
+를 앞서 배운 함수로 구현해봅시다.\footnote{이미 \texttt{abs} 내장 함수가 있지만 직접 구현해봅시다.}
+\begin{minted}{python}
+def abs(x):
+    return (x ** 2) ** 0.5
+\end{minted}
+와 같이 정의할 수도 있습니다.
+다만 이는 불필요하게 제곱과 제곱근을 사용한 $|x| = \sqrt{x^2}$의 정의를 사용한 것으로, 위에 작성한 정의를 따르지 않았습니다.
+나아가, 인자가 정수 타입이더라도 반환값은 실수 타입으로 바뀌게 됩니다.
+
+이러한 함수를 자연스럽게 구현하고 싶을 때 \alt*{조건문}{conditional statement}[conditional statements]을 사용할 수 있습니다:
+\begin{minted}{python}
 def abs(x):
     if x >= 0:
         return x
@@ -374,207 +323,163 @@ def abs(x):
         return -x
 \end{minted}
 
-위의 조각적-정의된 (piecewise-defined) 함수의 예시 같이, 수학에서 정의역에 따라
-다르게 정의되는 수식을 코드로 작성하기 위해서는 조건문이 필요합니다.
-하지만 조건문은 이와 같이 수식을 계산하는 일을 넘어, 경우를 나눠야 하는 모든
-종류의 상황에 적용됩니다.
-예를 들어, 어떤 프로그램에서 사용자가 로그인하였을 때와 그렇지 않았을 때
-보여줘야 하는 항목이 다를 경우에 조건문을 사용해야 합니다.
-낮과 밤에 따라서 화면의 밝기를 조절하는 툴을 작성할 때에도 조건문을 쓸 수
-있습니다.
-어떤 로봇이 장애물을 맞닥뜨렸을 때 해야 하는 행동과 앞이 트여 있을 때 해야 하는
-행동을 조절하기 위해서 조건문이 필요합니다.
-이처럼, 컴퓨터가 상황에 따라 다른 연산을 하도록 하는 일에 조건문을 사용할 수
-있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+절댓값 함수처럼 \alt*{조각적으로 정의된}{piecewise-defined} 함수는 보통 조건문을 통해 구현할 수 있습니다.
+나아가 조건문은 경우를 나눠서 작동하는 수많은 상황들에 적용됩니다.
+예를 들어, 사용자가 로그인하였을 때와 그렇지 않았을 때 보여줘야 하는 정보가 다른 웹페이지는 조건문을 사용하여 이를 구현합니다.
+낮과 밤에 따라서 화면의 밝기를 조절하는 프로그램을 작성할 때에도 조건문을 쓸 것입니다.
+장애물을 맞닥뜨렸을 때 로봇이 해야 하는 행동을 지정하기 위해서도 조건문이 필요합니다.
+사실상 조건문 없이는 여러 경우에 대처하는 프로그램을 작성하기 힘듭니다.
+
+로봇 예시를 사용하자면,
+\begin{minted}{python}
 def check_obstacle(distance):
     if distance < 10:
-        print("앞에 장애물이 있습니다!")
+        print("앞에 장애물이 있습니다.")
     else:
         print("앞에 장애물이 없습니다.")
 \end{minted}
+와 같은 예시를 작성할 수 있습니다.
+여기서 \pyin{distance < 10}는 \verb/distance/가 $10$ 미만의 값을 가졌는지 확인하는 \alt*{조건}{condition}입니다.
+이렇게 \verb|if| 뒤에 오는 조건은 \pyin{True} 혹은 \pyin{False} 두 종류의 값을
+가질 수 있는데요\footnote{혹은 참과 거짓을 판단할 수 있는 기준이 정해진 다른 타입의 값들을 쓸 수도 있는데요, 지금은 무시합니다.}, 이는 \alt*{불리언}{Boolean}이라는 타입의 값입니다.
 
-이 예시에서 \verb|distance < 10|의 부분은 크게 설명하지 않아도 어떤 의미인지
-파악하실 수 있을 것입니다.
-이렇게 \verb|if| 뒤에 오는 부분은 \verb|True| 혹은 \verb|False| 두 종류의 값을
-가질 수 있는데, 이는 이제 소개해드릴 \textbf{Boolean불리언}이라는 자료형을
-가집니다.
+\subsection{불리언 타입과 식}
+지금까지 소개한 \texttt{int}, \texttt{float} 등의 타입 이외에도 자주 쓰게 될 불리언\footnote{영국의 수학자이자 논리학자인 George Boole의 이름을 따온 것입니다.} 타입은 참과 거짓을
+나타냅니다.
+특이한 점으로는, 불리언 타입은 유한한 개수의 값을 가진다는 점입니다.
+그냥 유한한 것도 아니고, \pyin{True}와 \pyin{False} 단 두 값만 가집니다.
 
-\subsection{Boolean Type불리언 자료형과 Expressions표현}
-지금까지 소개한 \texttt{int}, \texttt{float} 등의 자료형 외에도 자주 쓰게 될
-자료형은 Boolean type불리언 자료형\footnote{영국의 수학자이자 논리학자인 George
-Boole의 이름을 따온 것입니다.}입니다.  불리언 자료형은 어떤 표현의 참/거짓을
-나타내는 형으로, \texttt{True}와 \texttt{False} 두 값을 가집니다.  위의
-예시에서 본 표현인 \texttt{x >= 0}은 \texttt{True}일수도 \texttt{False}일수도
-있는 불리언 자료형입니다.  불리언 표현을 구성하기 위해서는 대소 관계와 일치
-여부 등을 판단하는 관계 연산자와 \texttt{and}, \texttt{or}, \texttt{not} 등의
-논리 연산자로 구성될 수 있습니다.  \texttt{x >= 0 or (y < 0 and z < 0)}이
-불리언 자료형을 가지는 표현의 예시입니다.
+위 예시의 \pyin{x >= 0}은 \pyin{True}일수도 \pyin{False}일수도
+있는 불리언 타입의 식입니다.  불리언 식을 구성하기 위해서는 대소 관계, 일치
+여부, 포함 관계 등을 판단하는 관계 연산자와 \pyin{and}, \pyin{or}, \pyin{not} 등의
+논리 연산자로 구성됩니다.
+\pyin{x >= 0 or (y < 0 and z < 0)}이 불리언 식의 예시입니다.
 
-관계 연산자는 다음의 여섯 가지 종류가 있습니다.
+관계 연산자는 다음의 여섯 개가 있습니다.
 \begin{itemize}
-  \item \texttt{x == y}: \texttt{x}와 \texttt{y}가 일치하면($=$) \texttt{True}
-  \item \texttt{x != y}: \texttt{x}와 \texttt{y}가 일치하지 않으면($\neq$) \texttt{True}
-  \item \texttt{x > y}: \texttt{x}가 \texttt{y} 초과이면($>$) \texttt{True}
-  \item \texttt{x < y}: \texttt{x}가 \texttt{y} 미만이면($<$) \texttt{True}
-  \item \texttt{x >= y}: \texttt{x}가 \texttt{y} 이상이면($\geq$) \texttt{True}
-  \item \texttt{x <= y}: \texttt{x}가 \texttt{y} 이하면($\leq$) \texttt{True}
+  \item \pyin{x == y}: $\texttt{x} = \texttt{y}$이면 \pyin{True}
+  \item \pyin{x != y}: $\texttt{x} \ne \texttt{y}$이면 \pyin{True}
+  \item \pyin{x > y}:  $\texttt{x} > \texttt{y}$이면 \pyin{True}
+  \item \pyin{x < y}:  $\texttt{x} < \texttt{y}$이면 \pyin{True}
+  \item \pyin{x >= y}: $\texttt{x} \ge \texttt{y}$이면 \pyin{True}
+  \item \pyin{x <= y}: $\texttt{x} \ne \texttt{y}$이면 \pyin{True}
 \end{itemize}
 지금까지 어떤 변수 \texttt{x}에 값을 대입할 때에는 \texttt{=}를 사용하였습니다.
-\texttt{x = 10}과 같이 말입니다.  수학에서도 ``let $x= 10$"처럼 $=$를 사용하는
-것과 같은 맥락입니다.  나아가 수학에서는 보통 두 값을 비교할 때, ``if $x = 10$,
-"과 같은 표현을 사용하는데, Python에서는 두 값을 비교할 때 단순히 등호 하나가
-아니라 두 개를 연달아 쓴 \texttt{==}를 사용합니다.  \texttt{if x == 10}과 같이
-말입니다.
+\texttt{x = 10}과 같이 말입니다.
+수학에서 두 값의 관계에 따라 다른 논리를 풀어나가려 할 때 ``$x = 10$인 경우,"와 같은 표현을 사용하는데, 파이썬에서는 값의 일치를 비교할 때 등호 하나가 아니라 두 개를 연달아 쓴 \texttt{==}를 사용합니다.  \pyin{if x == 10}와 같이 말입니다.
 
-논리 연산자는 다음 표의 세 가지 종류가 있습니다.
-\begin{table}[H]
+\begin{table}[htbp]
+  \caption{논리 연산자 \pyin{and}, \pyin{or}, \pyin{not}에 대한 진리표입니다.}\label{tab:logical-operators}
   \centering
-  \begin{tabular}{c|c|c|c|c}
-    $p$ & $q$ & \texttt{$p$ and $q$} & \texttt{$p$ or $q$} & \texttt{not $p$}\\ \hline
-    \texttt{True} & \texttt{True} & \texttt{True} & \texttt{True} & \texttt{False}          \\
-    \texttt{True} & \texttt{False} & \texttt{False} & \texttt{True} & \texttt{False}          \\
-    \texttt{False} & \texttt{True} & \texttt{False} & \texttt{True} & \texttt{True}          \\
-    \texttt{False} & \texttt{False} & \texttt{False} & \texttt{False} & \texttt{True}
-  \end{tabular}
+  \begin{tblr}{colspec={ccccc}}
+    \toprule
+    $p$ & $q$ & $p$ \pyin{and} $q$ & $p$ \pyin{or} $q$ & \pyin{not} $p$\\
+    \midrule
+    \pyin{True} & \pyin{True} & \pyin{True} & \pyin{True} & \pyin{False} \\
+    \pyin{True} & \pyin{False} & \pyin{False} & \pyin{True} & \pyin{False} \\
+    \pyin{False} & \pyin{True} & \pyin{False} & \pyin{True} & \pyin{True} \\
+    \pyin{False} & \pyin{False} & \pyin{False} & \pyin{False} & \pyin{True}\\
+    \bottomrule
+  \end{tblr}
 \end{table}
+논리 연산자는 표~\ref{tab:logical-operators}에 볼 수 있듯 \pyin{and}, \pyin{or}, \pyin{not} 세 종류가 있는데요, 각 식에 대해서 어떤 불리언 값을 가지는지에 대한 진리표가 제시되어 있습니다.
 위 표에는 각 표현에 대해서 어떤 불리언 값을 가지는지 진리표가 제시되어 있습니다.
-\texttt{and}, \texttt{or}, \texttt{not}은 각각 수학의 $\wedge$, $\vee$, 그리고 $\neg$에 대응됩니다.
+\pyin{and}, \pyin{or}, \pyin{not}은 각각 수학의 $\wedge$, $\vee$, 그리고 $\neg$에 대응됩니다.
 
-이제 여러가지 관계 연산자와 논리 연산자에 대해서 알아보았으니, 기존에 알았던 연산의 순서에 새로 배운 연산자들을 넣어봅시다.
-연산의 순서는 우선 순위에 따라 다음과 같이 나열할 수 있습니다.
-\begin{enumerate}
-  \item \texttt{($\cdot$)}
-  \item \texttt{\texttt{**}}
-  \item \texttt{*}, \texttt{/}, \texttt{\%}
-  \item \texttt{+}, \texttt{-}
-  \item \texttt{==}, \texttt{!=}, \texttt{>}, \texttt{<}, \texttt{>=}, \texttt{<=}
-  \item \texttt{not}
-  \item \texttt{and}
-  \item \texttt{or}
-  \item \texttt{=}
-\end{enumerate}
-모든 관계 연산자들은 논리 연산자들보다는 순위가 높고, 산술 연산자들보다는 낮습니다.
-이전과 같이 우선 순위가 겹친다면 좌에서 우로 순서가 결정됩니다.
+이들 \alt*{연산자의 우선순위}[연산자 우선순위]{operator precedence}는 지난 단원의 표~\ref{tab:operators}에 정리되어 있습니다.
+모든 관계 연산자들은 논리 연산자들보다 순위가 높고, 산술 연산자들보다는 낮습니다.
 
 지금까지 불리언 자료형에 대한 논리 연산자와 그 우선순위를 살펴보았는데요, 이제
-조건문과 함께 사용해서 그 사용 예시를 더 자세히 살펴봅시다.
+조건문과 함께 사용한 예시를 살펴봅시다.
 
-\subsection{\texttt{if-else} Conditionals조건문}
-\texttt{if-else} statements문의 기본적인 형태는 아래와 같습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsection{\texttt{if}와 \texttt{else}}
+\pyin{if}와 \pyin{else}를 사용한 조건문의 기본적인 형태는 다음과 같습니다.
+\begin{minted}{python}
 if expression:
     ...
 else:
     ...
 \end{minted}
-위에서 \texttt{expression}에는 \texttt{x\%2 == 0 or x\%3 == 0} 등의 임의의
-불리언 표현이 올 수 있습니다.  만약 제시된 불리언 표현이 \texttt{True}라면 줄
-2의 내용이 실행되고, 그렇지 않다면 줄 4의 내용이 실행됩니다.  제시된 불리언
-표현이 \texttt{False}일 때 실행할 내용이 없다면 \texttt{else} 부분은 빠뜨릴 수
-있습니다.
-다음과 같은 예시를 통해 확인해 봅시다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-x = 76
-if x % 3 == 0 and x % 2 == 0:
-    print(x, "은(는) 6의 배수입니다.")
-else:
-    print(x, "은(는) 6의 배수가 아닙니다.")
+위에서 \pyin{expression}에는 \pyin{x // 10 == 0 or x < 0} 등 임의의
+불리언 식이 올 수 있습니다.  만약 제시된 불리언 식의 계산된 값이 \pyin{True}라면 줄
+2의 내용이 실행되고, 그렇지 않다면 줄 4의 내용이 실행됩니다.  계산된 값이
+\pyin{False}일 때 실행할 내용이 없다면 \pyin{else} 부분을 빠뜨릴 수
+있습니다:
+\begin{minted}{python}
+if expression:
+    ...
 \end{minted}
-실제로 실행해보면 76은 6의 배수가 아니기에 \texttt{76은(는) 6의 배수가
-아닙니다.}가 출력되는 것을 볼 수 있습니다.
 
-만약 6의 배수가 아니라면, 적어도 3의 배수인지, 혹은 2의 배수인지까지 판별하고
-싶다면 어떻게 해야 할까요?
-일단 배운 것만으로는 다음과 같이 할 수 있을 것입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+다음의 예시를 봅시다.
+\begin{minted}{python}
 x = 76
 if x % 3 == 0 and x % 2 == 0:
-    print(x, "is divisible by 6")
+    print(f"{x}은(는) 6의 배수입니다.")
+else:
+    print(f"{x}은(는) 6의 배수가 아닙니다.")
+\end{minted}
+실행해보면 76은 6의 배수가 아니기에 \verb/76은(는) 6의 배수가 아닙니다./가 출력됩니다.
+
+만약 6의 배수가 아니라면, 적어도 3의 배수인지 혹은 2의 배수인지까지 판별하고
+싶다면 어떻게 해야 할까요?
+지금까지 배운 것만으로는 다음과 같이 할 수 있을 것입니다.
+\begin{minted}{python}
+x = 76
+if x % 3 == 0 and x % 2 == 0:
+    print(f"{x}은(는) 6의 배수입니다.")
 else:
     if x % 3 == 0:
-        print(x, "is divisible by 3")
+        print(f"{x}은(는) 3의 배수입니다.")
         else:
             if x % 2 == 0:
-                print(x, "is divisible by 2")
+                print(f"{x}은(는) 2의 배수입니다.")
             else:
-                print(x, "is neither divisible by 3 nor 2")
+                print(f"{x}은(는) 2의 배수도 3의 배수도 아닙니다.")
 \end{minted}
 6의 배수인지 체크한 후, 그렇지 않다면 다시 3의 배수인지 체크한 후, 그렇지
-않다면 2의 배수인지 체크하는 코드입니다.  분명 작동은 잘 하겠지만, 가독성도
-좋지 않고 깔끔하지도 않습니다.  이런 상황에서 쓸 수 있는 것이
-\texttt{elif}\footnote{\texttt{else if}에서 \texttt{else}의 \texttt{el}만 따온
-것입니다. C 언어에서는 그대로 \texttt{else if}를 사용합니다.}입니다.  세 가지
-이상의 경우가 있을 때, \texttt{if}로 시작하여 두 번째부터 마지막 바로 직전
-경우까지는 \texttt{elif}를, 마지막 예외의 경우에는 \texttt{else}로 마무리하는
-방식입니다.  마찬가지로 모든 경우에 해당하지 않을 때 시행할 것이 없으면 마지막
-\texttt{else}는 생략할 수 있습니다.  \texttt{elif}를 활용하면 위의 코드를
-아래와 같이 간결하게 나타낼 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+않다면 2의 배수인지 체크하는 코드입니다.
+작동은 하겠지만, 이렇게 들여쓰기가 많다면 코드를 읽기 힘들 것입니다.
+이런 상황에서는 \pyin{elif}를 쓸 수 있습니다.
+조건문에 세 개 이상의 \alt*{가지}{branch}가 있을 때, \pyin{if}로 시작하여 두 번째부터 마지막 바로 직전
+경우까지는 \pyin{elif}를, 마지막 예외의 경우에는 \pyin{else}로 마무리하는
+방식입니다.
+여기서 주의해야 할 것은, \pyin{if}와 \pyin{elif} 뒤에는 항상 조건문을 써야 하고, \pyin{else} 뒤에는 조건문을 절대 쓸 수 없다는 것입니다.
+조건문을 처음 배운다면 \pyin{elif} 뒤에 조건문을 안 쓰거나 \pyin{else} 뒤에 조건문을 작성하는 실수를 흔히 합니다.
+
+\pyin{else}는 어떠한 경우의 조건에도 해당하지 않을 때 실행할 코드를 쓰는 조각입니다.
+모든 경우에 해당하지 않을 때 시행할 것이 없으면 마지막
+\pyin{else}는 생략할 수 있습니다.
+
+\pyin{elif}를 활용하면 위의 코드를 아래와 같이 간결하게 나타낼 수 있습니다.
+\begin{minted}{python}
 x = 76
 if x % 3 == 0 and x % 2 == 0:
-    print(x, "is divisible by 6")
+    print(f"{x}은(는) 6의 배수입니다.")
 elif x % 3 == 0:
-    print(x, "is divisible by 3")
+    print(f"{x}은(는) 3의 배수입니다.")
 elif x % 2 == 0:
-    print(x, "is divisible by 2")
+    print(f"{x}은(는) 2의 배수입니다.")
 else:
-    print(x, "is neither divisible by 3 nor 2")
+    print(f"{x}은(는) 2의 배수도 3의 배수도 아닙니다.")
 \end{minted}
-만약 \texttt{if-elif-...-elif-else}를 훑는 중간에 참인 것이 나오면, 해당
+만약 \pyin{if ... elif ... elif ... else}를 훑는 중간에 참인 조건이 나오면, 해당
 조건에서 실행되는 명령을 수행한 후 이후의 경우는 모두 건너뛰게 됩니다.
 
-참고로, \texttt{if-else} 문에서 불리언 표현 대신 \texttt{int} 등의 자료형을 가진
+참고로, \pyin{if-else}문에서 불리언 식 대신 \pyin{int} 등의 타입을 가진
 변수를 넣어도 됩니다. 예컨대
 \texttt{0}은 거짓, \texttt{0} 이외의 모든 수는 참의 값을 가집니다.
-그렇다고 이러한 값들이 정확히
-\texttt{True} 혹은 \texttt{False}의 값을 가지는 것은 아닙니다. (실제로
-\texttt{0 == False}, \texttt{1 == True}이지만)
-\texttt{2 == True}에 대한 결과값은 \texttt{False}입니다.  또한
-문자열의 경우 \texttt{""} 외의 하나 이상의 문자를 담고 있는 문자열은 참입니다.
-\texttt{""}는 거짓에 해당합니다.
-이는 Python에서 \texttt{if} 문을 조금 더 간편하게 쓸 수 있도록 하지만, 특별한
-이유가 있지 않는 이상 불리언 표현을 사용하는 것이 혼란을 줄일 수 있습니다.
+그렇다고 이러한 값들이 항상
+\pyin{True} 혹은 \pyin{False}의 값을 가지는 것은 아닙니다.\footnote{실제로
+\pyin{0 == False}, \pyin{1 == True}입니다.}
+예컨대 불리언 식 \pyin{2 == True}의 값은 \pyin{False}입니다.
+또한 문자열의 경우 \pyin{""} 외의 하나 이상의 문자를 담고 있는 문자열은 참입니다.
+\pyin{""}는 거짓에 해당합니다.
+그렇다고 \pyin{"" == False}인 것은 아닙니다.
+이를 통해 특정 경우에 좀 더 \alt*{파이써닉}{Pythonic}한 코드를 작성할 수도 있습니다.
+하지만 이것도 가독성을 해치지 않는 선에서 써야 합니다.\footnote{커누스는 ``Programs are meant to be read by humans and only incidentally for computers to execute''라고 말한 적이 있습니다.}
 
-사실 \texttt{bool}형은 \texttt{int}형의 부분으로, \texttt{True}는
-정확히 \texttt{1}과, \texttt{False}는 정확히 \texttt{0}과
-동일합니다.\footnote{Python 2에서는 \texttt{True}와 \texttt{False}가 키워드로
-지정이 되어 있지 않아 일반 변수명으로 사용하여 아무 값으로나 재지정할 수
-있었습니다.
-반면 Python 3에서는
-\texttt{True}와 \texttt{False} 모두 키워드라 값을 지정하려고 하면 syntax 에러가
-발생하게 됩니다.} 따라서, 다음과 같은 결과가 나옵니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+위에서 \pyin{True}와 \pyin{False}가 각각 \verb/1/과 \verb/0/의 값을 가진다는 사실을 사용해 다음과 같은 장난도 칠 수는 있습니다:
+\begin{minted}{python}
 >>> True * 3
 3
 >>> True * False
@@ -582,16 +487,10 @@ else:
 >>> (6 % 2 == 0) + False
 1
 \end{minted}
-어디까지나 \emph{가능하다는} 사실을 알려주는 코드이고, 실제로는 이렇게 쓸
-이유가 없습니다.
+어디까지나 이것이 \emph{가능하다는} 사실을 알려주는 코드이고, 실제로는 이렇게 쓰면 큰 봉변을 당할 수도 있으니 주의하세요.
 
-그러나 논의된 내용을 바탕으로 다음과 같은 (유의미한) 코드를 쓸 수는 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+다만 위에서 \verb/0/이 아닌 \pyin{int}가 참인 것을 사용해 다음과 같이 간결한 코드를 작성할 수 있습니다:
+\begin{minted}{python}
 money = 100
 if money:
     print("I have money")
@@ -599,64 +498,39 @@ else:
     print("I don't have money")
 \end{minted}
 
-\subsection{Multiple Exit Points 다중 반환점}
-한 함수에 \texttt{if-else} 문을 넣어 경우별로 값을 반환하도록 만들 수 있습니다.
-상기하자면, 반환한다는 것은 함수에서 값을 뱉어내는 것이었습니다.
-즉, \verb|if-else| 문을 사용해 함수 정의의 여러 곳에서 값을 뱉어낼 수 있습니다.
-\textbf{2.2 Conditionals조건문} 처음에 제시한 \texttt{abs($\cdot$)} 함수가 그
-예시로, \texttt{x >= 0}일 경우 \texttt{x}를 반환하고 그렇지 않은 경우
-\texttt{-x}를 반환하였습니다.  이러한 함수에는 여러 개의 \texttt{return}을
-사용하였기 때문에 multiple exit points다중 반환점이 있다고 표현하기도
-합니다.\footnote{함수에 여러 개의 반환점이 있으면 경우에 따라 실수를 하여 예기치
- 못한 버그가 생길 수 있기 때문에, 다중 반환점을 쓰는 것이 바람직한가에 대한 논쟁이
-있습니다. 하지만, 적절한 상황에서 사용한다면 분명 편리할 것입니다.} 만약
-\texttt{abs($\cdot$)} 함수를 하나의 반환점만을 사용한다면 아래와 같게 나타낼 수
-있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsection{다중 반환점}
+한 함수에 \pyin{if-else}문을 넣어 경우에 따라 다른 값을 반환하도록\myindex{반환}{return} 할 수 있습니다.
+반환한다는 것은 함수에서 호출한 곳으로 값을 돌려주는 것이었습니다.
+즉, \pyin{if-else}문을 사용해 함수 안 여러 곳에서 값을 돌려줄 수 있습니다.
+위에서 작성된 \verb/abs/ 함수가 그 예시로, \pyin{x >= 0}일 경우 \pyin{x}를 반환하고 그렇지 않은 경우
+\pyin{-x}를 반환하였습니다.  이러한 함수에는 여러 \pyin{return}을
+사용하였기 때문에 \alt*{다중 반환점}{multiple exit points}이 있다고 표현합니다.
+만약 \pyin{abs} 함수를 하나의 반환점만 사용한다면 아래와 같게 다시 쓸 수 있습니다.
+\begin{minted}{python}
 def abs(x):
     if x >= 0:
-        y = x
+        result = x
     else:
-        y = -x
-    return y
+        result = -x
+    return result
 \end{minted}
-2.2절 처음에 제시한 코드와 위 코드는 정확하게 같은 방식으로 작동합니다.
-또한 2.2절 처음에서 제시한 코드를 변형하여 \texttt{else} 없이
-아래와 같이 다시 쓸 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+혹은 \pyin{else} 가지 없이
+아래와 같이 다시 쓸 수도 있습니다.
+\begin{minted}{python}
 def abs(x):
     if x >= 0:
         return x
     return -x
 \end{minted}
-위 코드의 경우에는 가능한 경우를 모두 걸러서 마지막 경우에는 \texttt{-x}를
-반환하라는 코드로 읽을 수 있습니다.
-함수를 읽어나갈 때, \verb|return|을 만나는 순간 함수가 해당 값을 반환하고
-종료되기 때문에 위와 같은 코드를 작성할 수 있습니다.
-즉, \textbf{\texttt{return}은 함수에서 값을 반환하는 동시에, 함수의 수행을
-종료하라는 마크로 볼 수 있습니다.}
+위 코드의 경우에는 가능한 경우를 모두 ``걸러서'' 마지막 경우에는 \texttt{-x}를
+반환하라고 읽을 수 있습니다.
+함수를 실행할 때, \pyin{return}을 만나는 순간 함수가 해당 값을 반환하고 종료되기 때문에 위와 같은 코드를 작성할 수 있습니다.
+즉, \emph{\pyin{return}은 함수에서 값을 반환하는 동시에, 함수의 수행을
+종료하라는 표시로 볼 수 있습니다.}
 
-다중 반환점을 사용할 경우, 일반적으로는 다음과 같이
-함수를 만들 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def abs(x):
-    if ...:
-        return ...
+다중 반환점을 사용할 경우, 일반적으로는 다음과 같이 함수를 만들 수 있습니다.
+\begin{minted}{python}
+def foo(x):
     if ...:
         return ...
     ...
@@ -666,18 +540,10 @@ def abs(x):
 \end{minted}
 
 \section{예제}
-이하 예제에서 \textsf{[물리]} 혹은 \textsf{[수학]}과 같이 표시된 문제는 물리학
-혹은 수학에서 등장하는 복잡한 연산을 코딩으로 해결할 수 있다는 것을 보여주기
-위한 것으로, 선택적으로 해결하시면 됩니다.
 \begin{enumerate}
   \item 이름 \verb|name|을 문자열로 받아서 \verb|제 이름은 {name}입니다.|와 같이
     출력하는 함수 \verb|introduce(name)|를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def introduce(name):
     # Add here!
 
@@ -690,12 +556,7 @@ print(introduce("폰 노이만"))     # 제 이름은 폰 노이만입니다.
     \verb|add(a, b)|, \verb|subtract(a, b)|, \verb|multiply(a, b)|,
     \verb|divide(a, b)|를 각각 작성하세요.
 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def add(a, b):
     # Add here!
 
@@ -715,18 +576,13 @@ print(multiply(1, 2))  # 2
 print(divide(1, 2))    # 0.5
 \end{minted}
 
-  \item \textsf{[수학]} 정규분포를 표현하기 위해 사용되는 가우시안 함수는
+  \item 정규분포를 표현하기 위해 사용되는 가우시안 함수는
     \[
     g(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac12 \left(\frac{x - \mu}{\sigma}\right)^2},
     \]
     이며, 이때 $\mu$는 기댓값, $\sigma$는 표준편차입니다.
     가우시안 함수 \verb|gaussian(mu, sigma, x)|를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 import math
 
 def gaussian(mu, sigma, x):
@@ -736,7 +592,7 @@ print(gaussian(0, 1, 0))                # 0.3989422804014327
 print(gaussian(-2, math.sqrt(0.5), 0))  # 0.010333492677046037
 \end{minted}
 
-\item \textsf{[물리]} 전하가 각각 $q_1$과 $q_2$인 두 물체 사이의 쿨롱힘은 거리 $r$에 따른 함수
+\item 전하가 각각 $q_1$과 $q_2$인 두 물체 사이의 쿨롱힘은 거리 $r$에 따른 함수
 \[
   F_C(r) = \frac{1}{4\pi \varepsilon_0} \frac{q_1 q_2}{r^2}\ \text{where $\varepsilon_0 = 8.854\,187\,817 \times 10^{-12}\ \mathrm{F \cdot m^{-1}}$}.
 \]
@@ -750,14 +606,9 @@ print(gaussian(-2, math.sqrt(0.5), 0))  # 0.010333492677046037
 \texttt{m2}를 가지고, 거리 \texttt{r}만큼 떨어져있다고 가정합니다.
 각각 쿨롱힘과 만유인력을 구하여 반환하는 함수 \verb|coulomb(q1, q2, r)|과
 \verb|gravity(m1, m2, r)|을 작성하세요.
-또한 이 둘 모두를 구하여 더하는 \texttt{total\_force(q1, q2, m1, m2, r)}도
+또한 이 둘 모두를 구하여 더하는 \verb/total_force(q1, q2, m1, m2, r)/도
 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 import math
 
 def coulomb(q1, q2, r):
@@ -780,17 +631,12 @@ print(gravity(e_m, p_m, a_0))
 print(total_force(e_c, p_c, e_m, p_m, a_0))
 \end{minted}
 
-\item \textsf{[수학]} $a \neq 0$일 경우, 함수 $f(x) = ax^2 + bx + c$는 극값을 가진다.
-함수 $f(x) = \texttt{a}x^2 + \texttt{b}x + c$은 극값을 반환하는 
-\texttt{extremum(a, b, c)}를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item  $a \neq 0$일 경우, 함수 $f(x) = ax^2 + bx + c$는 극값을 가집니다.
+함수 $f(x) = \texttt{a}x^2 + \texttt{b}x + c$의 극값을 반환하는
+\verb/extremum(a, b, c)/를 작성하세요.
+\begin{minted}{python}
 def f(a, b, c, x):
-    return a*x**2 + b*x + c
+    return a * x ** 2 + b * x + c
 
 def extremum(a, b, c):
     # Add here!
@@ -800,14 +646,9 @@ print(extremum(1, -5, 10))  # 3.75
 print(extremum(3, 7, 5))    # 0.916666666667
 \end{minted}
 
-\item 세 수 \verb|a|, \verb|b|, \verb|c| 중에서 가장 작은 수를 반환하는 
-  \texttt{least(a, b, c)}를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 세 수 \verb|a|, \verb|b|, \verb|c| 중에서 가장 작은 수를 반환하는
+  \verb/least(a, b, c)/를 작성하세요.
+\begin{minted}{python}
 # Add here!
 
 print(least(1, 2, 3))  # 1
@@ -817,12 +658,7 @@ print(least(1, 1, 2))  # 1
 
 \item 입력 받은 수 \verb|n|이 짝수이면 \verb|{n}은 짝수입니다.|, 홀수이면
   \verb|{n}은 홀수입니다.|를 출력하는 함수 \verb|check_parity(n)|을 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 check_parity(2)    # 2는 짝수입니다.
@@ -833,12 +669,7 @@ check_parity(101)  # 101은 홀수입니다.
   \verb|a|일 경우 \verb|좌회전|, \verb|s|일 경우 \verb|후진|, \verb|d|일 경우
   \verb|우회전|을 출력하는 함수 \verb|navigate(direction)|을 작성하세요.
   단, 이외의 문자가 입력되었을 경우에는 \verb|알 수 없는 명령입니다.|를
- \begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+ \begin{minted}{python}
 # Add here!
 
 navigate('w')  # 전진
@@ -850,18 +681,13 @@ navigate('z')  # 알 수 없는 명령입니다.
 
 \item 다음을 반환하는 함수 \texttt{quadrant(x, y)}를 작성하세요:
 \begin{itemize}
-  \item \texttt{"제1사분면"} if $\texttt{x} > 0\ \&\ \texttt{y} > 0$
-  \item \texttt{"제2사분면"} if $\texttt{x} < 0\ \&\ \texttt{y} > 0$
-  \item \texttt{"제3사분면"} if $\texttt{x} < 0\ \&\ \texttt{y} < 0$
-  \item \texttt{"제4사분면"} if $\texttt{x} > 0\ \&\ \texttt{y} < 0$
+  \item \texttt{"제1사분면"} if $\texttt{x} > 0 \wedge \texttt{y} > 0$
+  \item \texttt{"제2사분면"} if $\texttt{x} < 0 \wedge \texttt{y} > 0$
+  \item \texttt{"제3사분면"} if $\texttt{x} < 0 \wedge \texttt{y} < 0$
+  \item \texttt{"제4사분면"} if $\texttt{x} > 0 \wedge \texttt{y} < 0$
 \item \texttt{"경계선"} otherwise
 \end{itemize}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 print(quadrant(10, 5))   # 제1사분면
@@ -873,12 +699,7 @@ print(quadrant(0, -3))   # 경계선
 
 \item 10000보다 작은 자연수 \texttt{n}에 대해서, 각 자릿수를 거꾸로 출력하는
   함수 \texttt{reverse(n)}를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 print(reverse(3702))  # 2073
@@ -890,12 +711,7 @@ print(reverse(3))     # 3
 \item 10 이상 990 이하의 10의 배수 \verb|n|이 주어졌을 때, 10, 50, 100, 500원
   동전을 최소로 사용해서 \verb|n|원을 만드는데 사용되는 동전의 수를 반환하는
   함수 \verb|count_coins(n)|을 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 print(count_coins(730))  # 6
@@ -904,14 +720,9 @@ print(count_coins(260))  # 4
 print(count_coins(70))   # 3
 \end{minted}
 
-\item \textsf{[수학]} 함수 \texttt{ceiling(x)}이 $\lceil\texttt{x}\rceil$을
+\item  함수 \texttt{ceiling(x)}이 $\lceil\texttt{x}\rceil$을
   반환하도록 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 print(ceil(4.3))   # 5
@@ -919,15 +730,10 @@ print(ceil(-0.3))  # 0
 print(ceil(0.01))  # 1
 \end{minted}
 
-\item \textsf{[수학]} Write a function \texttt{min\_x(a, b, c)} that returns the integer $x$ that minimizes $\texttt{a}x^2 + \texttt{b}x + \texttt{c}$.
+\item  Write a function \verb/min_x(a, b, c)/ that returns the integer $x$ that minimizes $\texttt{a}x^2 + \texttt{b}x + \texttt{c}$.
 Assume that \texttt{a}, \texttt{b}, and \texttt{c} are \texttt{float} type, where $\texttt{a} > 0$ and $\texttt{b} < 0$.
 If such $x$ is not unique, return the smallest one.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def f(a, b, c, x):
     return a*x**2 + b*x + c
 
@@ -940,38 +746,28 @@ print(min_x(9, -15, 0))   # 1
 print(min_x(7, -13, 3))   # 1
 \end{minted}
 
-\item \textsf{[수학]} Write a function \texttt{area\_triangle(a, b)} that returns the area of a
+\item  Write a function \verb/area_triangle(a, b)/ that returns the area of a
   triangle formed by $y = \texttt{a}x + \texttt{b}$, $x$-axis, and $y$-axis.
   Return 0 if no triangle is formed. Assume \texttt{a} and \texttt{b} are
-  either \texttt{int} or \texttt{float} type.
+  either \pyin{int} or \pyin{float} type.
 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def area_triangle(a, b):
     # Add here!
 
 \end{minted}
 
-\item[심화] \texttt{"S"}, \texttt{"R"}, and \texttt{"P"} represent scissors, rock,
-  and paper, respectively.  Write a function \texttt{rock\_paper\_scissors(a,
+\item \texttt{"S"}, \texttt{"R"}, and \texttt{"P"} represent scissors, rock,
+  and paper, respectively.  Write a function \pyin{rock_paper_scissors(a,
   b)} that returns \texttt{"a"} if \texttt{a} wins, \texttt{"b"} if \texttt{b}
   wins, or \texttt{Tie} if the game is tied, where \texttt{a} and \texttt{b}
   are elements of $\{\texttt{"S"}, \texttt{"R"}, \texttt{"P"}\}$.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def rock_paper_scissors(a, b):
     if a == b:
         return "Tie"
     # Add here!
-    
+
 print(rock_paper_scissors("R","R"))  # Tie
 print(rock_paper_scissors("R","S"))  # a
 print(rock_paper_scissors("R","P"))  # b
@@ -983,7 +779,7 @@ print(rock_paper_scissors("P","R"))  # a
 print(rock_paper_scissors("P","S"))  # b
 \end{minted}
 
-\item[도전] \texttt{gold1}, \texttt{silver1}, and \texttt{bronze1} represent the
+\item \texttt{gold1}, \texttt{silver1}, and \texttt{bronze1} represent the
   numbers of gold, silver, and bronze medals of the first country,
   respectively.  \texttt{gold2}, \texttt{silver2}, and \texttt{bronze2}
   represent the numbers of gold, silver, and bronze medals of the second
@@ -992,13 +788,8 @@ print(rock_paper_scissors("P","S"))  # b
   country achieved better than the second, \texttt{"Second"} if the second
   country achieved better, or \texttt{"Tie"} if they tied.  The score is
   evaluated according to the gold-silver-bronze order, not by the sum of total
-  medals. 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  medals.
+\begin{minted}{python}
 def better(gold1, silver1, bronze1, gold2, silver2, bronze2):
     if gold1 > gold2:
         return "First"

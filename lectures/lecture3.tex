@@ -1,35 +1,26 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+\newcommand{\pytrue}{\pyin{True}}
+\newcommand{\pyfalse}{\pyin{False}}
 
-\section{Boolean Functions불리언 함수}
-지난 시간에는 조건문을 배우면서 불리언 자료형에 대해 알아보았습니다.
-그렇다면 불리언 자료형인 \texttt{True}와 \texttt{False}를 반환하는 Boolean functions불리언 함수도 생각해볼 수 있습니다.
-이미 함수와 조건문을 배웠기 때문에, 이번 절의 내용은 매우 간단합니다.
-지난 시간의 복습이라고 보아도 무방합니다.
-이번 절에서는 불리언 함수를 정의하고 사용할 때 무엇을 주의해야 하는 지에 대해 간략히 알아봅니다.
+\section{불리언 함수}
+지난 단원에서는 조건문과 함께 불리언 타입에 대해 알아보았습니다.
+또한 코드를 논리적 단위로 추상화한 함수에 대해서도 배웠습니다.
+이번 절에서는 이러한 불리언 값인 \pytrue와 \pyfalse를 반환하는 불리언 함수들을 살펴볼 것입니다.
 
-\subsection{Boolean Functions불리언 함수의 예시}
-불리언 함수는 불리언 자료형 \texttt{True}와 \texttt{False}를 반환하는 함수입니다.
-불리언 함수는 길고 복잡한 조건문을 간략하게 표현할 때 유용합니다.
-아래는 길이 \texttt{a}, \texttt{b}, \texttt{c}를 가지는 선분이 삼각형을 이룰 수 있는지 판별하는 조건문입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsection{예시}
+불리언 함수는 \pytrue 혹은 \pyfalse를 반환하는 함수입니다.
+이러한 불리언 함수는 길고 복잡한 조건문을 간결하게 표현할 때 유용합니다.
+
+다음은 길이 \texttt{a}, \texttt{b}, \texttt{c}를 선분의 길이로 가지는 삼각형이 존재하는지 판별하는 조건문입니다:
+\begin{minted}{python}
 if a < b + c and b < c + a and c < a + b:
     ...
-\end{minted} 
-이는 아래와 같은 함수로 대신할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def triangle_formed(a, b, c):
+\end{minted}
+이는 다음의 함수 \verb/can_form_triangle/로 대신할 수 있습니다:
+\begin{minted}{python}
+def can_form_triangle(a, b, c):
     if not a < b + c:  # if a >= b + c:
         return False
     if not b < c + a:
@@ -38,44 +29,35 @@ def triangle_formed(a, b, c):
         return False
     return True
 
-if triangle_formed(a, b, c):
+if can_form_triangle(a, b, c):
     ...
 \end{minted}
 
-복잡한 조건문의 경우에는 불리언 함수의 유용성이 명백해집니다.
-``두 수 $n_1$과 $n_2$가 서로소이라면'' 등의 표현을 한 줄로 표현하는 것보다는, 두 수가 서로소이면 \texttt{True}를 아니면 \texttt{False}를 반환하는 함수를 정의한 뒤--예컨대 \texttt{coprime(n1, n2)}--\texttt{if coprime(n1, n2):}와 같이 정리하는 것이 바람직합니다.
-나아가, 이러한 불리언 함수는 조건 확인의 재사용성을 높여줍니다.
-예를 들어, 로봇이 거리를 체크한 후 장애물이 앞에 있는지 확인하여 불리언을
-반환하는 함수를 생각해봅시다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+조건문이 복잡해질수록, 불리언 함수를 사용해 조건문을 쪼개는 것이 도움이 됩니다.
+``두 수 $n_1$과 $n_2$가 서로소라면''과 같은 표현을 한 조건문으로 표현하는 것보다는, 서로소이면 \pytrue를, 아니면 \pyfalse를 반환하는 함수 \verb/coprime/을 정의한 후 \pyin{if coprime(n1, n2): ...}와 같이 작성하는 것이 바람직합니다.
+
+나아가, 불리언 함수는 (모든 함수가 그렇지만) 재사용성을 높혀줍니다.
+예를 들어, 로봇이 거리를 측정한 후 장애물이 앞에 있는지 확인하는 함수 \verb/check_obstacle/을 생각해봅시다\footnote{\texttt{check\_obstacle}은 곧바로 \pyin{return distance < 10}으로 쓸 수도 있습니다. 이러한 패턴은 뒤에서 다시 살펴볼 것입니다.}:
+\begin{minted}{python}
 def check_obstacle(distance):
     if distance < 10:
         return True
     return False
 \end{minted}
-언뜻 보면 거리를 확인해야할 곳에 \verb|distance < 10|을 써넣는 것이 굳이 함수를
+%%%%%%%%%%%%%%%%%%%%%%%%%%% REWRITE FROM HERE!
+언뜻 보면 거리를 확인해야할 곳에 \pyin{distance < 10}을 써넣는 것이 굳이 함수를
 작성하는 것보다 간단해 보일 수도 있지만, 로봇을 조종하는 코드에서 장애물 확인은
 자주 발생할 것입니다.
 그런데 만약 장애물이 있다고 인식하는 거리를 10에서 5로 줄이고 싶다고 합시다.
-만약 \verb|distance < 10|로 거리를 확인했다면, 코드의 수십, 아니 수백 곳에서
+만약 \pyin{distance < 10}로 거리를 확인했다면, 코드의 수십, 아니 수백 곳에서
 10을 5로 바꿔줘야 할 것입니다.
-반면 함수를 정의한 후 \verb|check_obstacle(distance)|와 같이 사용했다면 단 한
+반면 함수를 정의한 후 \pyin{check_obstacle(distance)}와 같이 사용했다면 단 한
 곳만 수정하면 될 것입니다.
 
 \subsection{유의 사항}
-불리언 \texttt{True}는 문자열 \texttt{"True"}가 아닙니다.
-마찬가지로 불리언 \texttt{False}는 문자열 \texttt{"False"}가 아닙니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+불리언 \pytrue는 문자열 \pyin{"True"}가 아닙니다.
+마찬가지로 불리언 \pyfalse는 문자열 \pyin{"False"}가 아닙니다.
+\begin{minted}{python}
 >>> type(True)
 <type 'bool'>
 >>> type("True")
@@ -85,122 +67,90 @@ def check_obstacle(distance):
 >>> type("False")
 <type 'str'>
 \end{minted}
-\texttt{True}는 문자열이 아니라 그 자체로 불리언 자료형을 지닌 값입니다.\footnote{물론, 지난 시간에 언급했듯이 \texttt{True}는 1, \texttt{False}는 0입니다.}
-이를 강조하는 이유는, 간혹 \verb|True|를 반환해야할 곳에 실수로
-\verb|"True"|라고 적는 경우가 있기 때문입니다.
+
+\pytrue는 문자열이 아니라 그 자체로 불리언 자료형을 지닌 값입니다.\footnote{물론, 지난 시간에 언급했듯이 \pytrue는 \texttt{1}, \pyfalse는 \texttt{0}입니다.}
+이를 강조하는 이유는, 간혹 \pytrue를 반환해야할 곳에 실수로
+\pyin{"True"}라고 적는 경우가 있기 때문입니다.
 이 둘은 서로 다른 값입니다.
 
-조건문은 그 자체로 불리언 자료형을 가지기 때문에, \texttt{if 조건문: return True(False)}와 같은 형태는 단순히 \texttt{return 조건문}으로 줄여 쓸 수 있습니다.
-아래는 $\texttt{a}x^2 + \texttt{b}x + c = 0$의 실근이 존재하는지를 판별하는 함수 \texttt{real\_solution(a, b, c)}입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def real_solution(a, b, c):
-    if b**2 - 4*a*c >= 0:
+조건문은 그 자체로 불리언 자료형을 가지기 때문에
+\begin{minted}{python}
+if ...:
+    return True  # or False
+\end{minted}
+같은 형태는 단순히 \pyin{return ...}으로 쓸 수 있습니다.
+아래는 $\texttt{a}x^2 + \texttt{b}x + c = 0$의 실근이 존재하는지를 판별하는 함수 \pyin{has_real_solution(a, b, c)}입니다:
+\begin{minted}{python}
+def has_real_solution(a, b, c):
+    if b ** 2 - 4 * a * c >= 0:
         return True
     return False
 \end{minted}
-이는 간략히 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def real_solution(a, b, c):
-    return b**2 - 4*a*c >= 0
+이는 다시 (간략히)
+\begin{minted}{python}
+def has_real_solution(a, b, c):
+    return b ** 2 - 4 * a * c >= 0
 \end{minted}
 으로 나타낼 수 있습니다.
-반대로 \texttt{if 조건문: return False}는 \texttt{return not 조건문}과 같이 정리가 됩니다.
+반대로 \pyin{if cond: return False}는 \pyin{return not cond}와 같이 정리가 됩니다.
 
-나아가 이런 불리언 함수를 조건문에 사용할 때, \texttt{if 불리언\_함수 == True:} 대신 \texttt{if 불리언\_함수:}를 쓰는 것이 바람직합니다.
-즉,
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+나아가 불리언 함수를 조건문에 사용할 때는 \pyin{func(...) == True}보다는 바로 \pyin{func(...)}를 쓰는 것이 바람직합니다.
+즉
+\begin{minted}{python}
 if real_solution(a, b, c) == True:
     ...
 \end{minted}
 보다는
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 if real_solution(a, b, c):
     ...
 \end{minted}
-이 더 간결한 표현입니다.
-특히 \texttt{if 불리언\_함수 == True:}을 쓰려다가 \texttt{==} 대신 \texttt{=}을 사용하는 실수를 미연에 방지할 수 있습니다.
+이 더 파이써닉\myindex{파이써닉}{Pythonic}한 표현입니다.
+(\pyin{if func(...) == True:}을 쓰려다가 \pyin{==} 대신 \pyin{=}을 사용하는 실수를 미연에 방지할 수 있는 것은 덤입니다.)
 
-그리고 \emph{복잡한 표현은 끊어서 표현하는 것이 미연의 실수를 방지하고 코드의 가독성을 높입니다.}
-다음 코드
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+언제 강조하여도 부족하지 않은 것은, \emph{복잡한 표현을 끊어서 표현하는 것이 미연의 실수를 방지하고 코드의 가독성을 높인다는 점입니다.}
+다음의
+\begin{minted}{python}
 if ((x1 - x2)**2 + (y1 - y2)**2)**.5 <= ((x2 - x3)**2 + (y2 - y3)**2)**.5 + ((x3 - x1)**2 + (y3 - y1)**2)**.5:
     ...
 \end{minted}
 보다는
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-a = ((x1 - x2)**2 + (y1 - y2)**2)**.5
-b = ((x2 - x3)**2 + (y2 - y3)**2)**.5
-c = ((x3 - x1)**2 + (y3 - y1)**2)**.5
+\begin{minted}{python}
+def dist(x1, x2, y1, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** .5
+a = dist(x1, x2, y1, y2)
+b = dist(x2, x3, y2, y3)
+c = dist(x3, x1, y3, y1)
 if a < b + c:
     ...
 \end{minted}
 이 훨씬 읽기 편한 것을 볼 수 있습니다.
 
-마지막으로, \textbf{\texttt{float}형 수끼리는 등호 비교 연산\texttt{==}을 하면 안 됩니다.}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+마지막으로, \pyin{float}끼리는 등호 연산 \pyin{==}을 하면 \emph{안 됩니다.}
+\begin{minted}{python}
 >>> 0.1 + 0.2
 0.30000000000000004
 >>> 0.1 + 0.2 == 0.3
 False
 \end{minted}
-이러한 결과는 컴퓨터의 부동 소수점 처리 방식 때문인데, 부동 소수점 rounding error반올림 오차라고 합니다.
-간단히는 이진수 소수로 십진수 소수를 정확하게 나타낼 수 없어서, 오차가 누적되어 생기는 오차라고 생각하시면 됩니다.\footnote{자세한 내용은 \url{https://en.wikipedia.org/wiki/IEEE_754}와 \url{https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html}에 자세히 나와 있습니다.}
-따라서 \texttt{float}끼리의 비교는 \texttt{>}와 \texttt{<}만 신뢰할 수 있으며, 되도록이면 \texttt{int} 상태에서 비교를 하는 것이 좋습니다.
-예를 들어 두 정수 격자점 사이의 거리를 비교할 때는 제곱근을 씌우지 않은 상태에서 비교를 해야 정확합니다.
+이러한 결과는 앞서 잠시 언급된 컴퓨터의 부동 소수점 처리 방식의 \alt*{반올림 오차}{rounding error} 때문입니다.
+간단히는 이진법으로 십진법 소수(小數)를 정확하게 나타낼 수 없어 발생한 오차가 누적된 것이라 생각하면 됩니다.
+따라서 \pyin{float}끼리는 \pyin{>}와 \pyin{<}를 사용해 오차 범위 내의 비교만 신뢰할 수 있습니다.
+등호 비교는 되도록 \pyin{int} 상태에서 비교해야 합니다.
+예를 들어, 두 정수 격자점 사이의 거리는 제곱근을 씌우기 전에 비교를 할 수 있습니다.
+수학적으로는 $\lVert \vec v \rVert < \lVert \vec u \rVert \Leftrightarrow \lVert \vec v \rVert^2 < \lVert \vec u \rVert^2$이기 때문입니다.
 
-\section{Loops반복문 기본}
-컴퓨터는 인간보다 단순 반복 계산을 빠르게 수행할 수 있습니다.
-이번 절에서 배울 loops반복문을 익히면 손으로는 할 수 없는 많은 계산을 Python으로 수행할 수 있을 것입니다.
-나아가 \emph{지금까지 배운 함수, \texttt{if-else} 문과 같이 사용한다면, 원하는
-작업을 하는 코드를 설계하고 작성할 수 있을 것입니다.}
+\section{간단한 반복문}
+컴퓨터는 인간보다 단순 반복 계산을 빠르게 수행할 수 있습니다.\footnote{다만, 최근에는 AlphaGo, ChatGPT 등의 등장으로 상황이 급변하고 있습니다.}
+이번 절에서 배울 \alt*{반복문}{loops}을 사용하면 손으로 할 수 없는 수많은 계산을 파이썬으로 수행할 수 있게 됩니다.
+지금까지 배운 조건문과 이번 절의 반복문을 배우면 이론적으로 어떠한 종류의 계산이든지 수행할 수 있게 됩니다.\footnote{물론 자기 자신(의 간단한 버전)을 이용해 스스로 정의되는 \alt*{재귀 함수}{recursive function}[recursive functions]를 사용하면 ``반복문'' 없이도 모든 계산을 수행할 수 있습니다.}
 
-간단한 예시로는 로봇에게 반복적인 작업을 수행하도록 반복문을 통해 작성할 수
-있습니다.
-로봇이 특정 거리만큼 앞으로 가게 하는 함수 \verb|move_forward(distance)|, 특정
-각도만큼 우회전하는 함수 \verb|turn_right(angle)|가 주어져 있다고 합시다.
-이때 정사각형으로 한 바퀴를 돌게 하는 코드는 Python의 반복문을 사용해 다음과
+간단한 예시로는 로봇에게 반복적인 작업을 수행하도록 반복문을 작성할 수 있습니다.
+로봇이 특정 거리만큼 앞으로 가게 하는 함수 \pyin{move_forward(distance)}, 특정
+각도만큼 우회전하는 함수 \pyin{turn_right(angle)}가 주어져 있다고 합시다.
+이때 정사각형으로 한 바퀴를 돌게 하는 코드는 반복문을 사용해 다음과
 같이 쓸 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 for i in range(4):
     move_forward(1)
     turn_right(90)
@@ -212,44 +162,29 @@ for i in range(4):
 $1 + 2 + \dots + n = \frac{n(n + 1)}{2}$을 사용하였습니다.
 그렇다면 $1^m + 2^m + \dots + n^m$은 어떻게 계산할 수 있을까요?
 임의의 $m$에 대해서 공식을 유도할 수는 없습니다.
-이런 경우에 \texttt{for} 반복문을 활용할 수 있습니다.
+이런 경우에 반복문을 활용할 수 있습니다.
 지금까지는 `$n$회 무슨 작업을 반복하라'의 명령을 하려면 직접 $n$회 칠 수 밖에 없었지만,  \texttt{for} 반복문을 사용하면 임의의 $n$에 대해서 단 한 번의 일반적인 규칙을 제시하면 명령을 수행할 수 있습니다.
 $\sum_{i = 1}^n i^m$을 반환하는 함수는 아래와 같습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def summ(m, n):
     summ = 0
     for i in range(1, n + 1):
-        summ += i**m
+        summ += i ** m
     return summ
 \end{minted}
 줄 3에서 \texttt{i}를 1 이상 \texttt{n + 1} 미만까지 하나씩 증가하며 밑의 줄 4를 반복한다는 뜻입니다.
-이처럼 \texttt{for} 반복문의 기본은 \texttt{range($\cdot$)}이라고 볼 수 있습니다.
-이번 절에서는 \texttt{range($\cdot$)} 함수를 활용하여, 조건문을 활용한 반복문이나 nested loops중첩 반복문에 대해 자세히 알아봅니다.
+이처럼 반복문의 기본은 \texttt{range}이라고 볼 수 있습니다.
+이번 절에서는 \texttt{range} 함수를 활용하여, 조건문을 활용한 반복문이나 nested loops중첩 반복문에 대해 자세히 알아봅니다.
 
-\subsection{\texttt{range()} 함수를 활용한 \texttt{for} 반복문}
-\texttt{range($\cdot$)} 함수\footnote{\texttt{range($\cdot$)}는 리스트를 반환하는 함수로, 리스트에 대해서는 다음 시간에 자세히 알아볼 것입니다.}는 인자를 한 개에서 세 개까지 넣을 수 있습니다.
-일단 하나를 넣는 경우를 봅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsection{\texttt{range} 함수를 활용한 반복문}
+\texttt{range} 함수는 인자를 한 개에서 세 개까지 받을 수 있습니다.
+일단 인자가 하나인 경우를 봅니다.
+\begin{minted}{python}
 for i in range(n):
     print(i)
 \end{minted}
-이는 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+이는
+\begin{minted}{python}
 0
 1
 2
@@ -257,138 +192,96 @@ for i in range(n):
 n - 1
 \end{minted}
 를 출력합니다.
-즉, \texttt{range(n)}은 0에서 \texttt{n}이 되기 직전까지 \texttt{i}를 1씩
-증가시키며 \texttt{print(i)}을 실행합니다.
-참고로, 여기서 함수 밖에서 \texttt{for} 반복문이 정의되었다면 \texttt{i}는 전역 변수이므로, 다시 정의하지 않으면 \texttt{n - 1}로 남아있게 됩니다.
+즉, \pyin{range(n)}을 사용하여 0에서 \texttt{n}이 되기 직전까지 \texttt{i}를 1씩
+증가시키며 \pyin{print(i)}을 실행하는 코드입니다.
+참고로 반복문이 끝난 뒤 \texttt{i}는 \texttt{n - 1}로 남아 있습니다.
 
-\texttt{range($\cdot$)}에 두 개의 인자가 전달되는 경우가 아래에 나타나 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\texttt{range}에 두 개의 인자가 전달되는 경우는 아래에 나타나 있습니다.
+\begin{minted}{python}
 for i in range(m, n):
     print(i)
 \end{minted}
-이는 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+이는
+\begin{minted}{python}
 m
 m + 1
 m + 2
 ...
 n - 1
 \end{minted}
-와 동일합니다.
-\texttt{range(m, n)}은 \texttt{m}에서 \texttt{n}이 되기 직전까지 \texttt{i}를
-1씩 증가시키며 \texttt{print(i)}를 실행하는데, $\texttt{m} \geq \texttt{n}$이라면 반복문이 수행되지 않습니다.
+의 값들을 출력합니다.
+\pyin{range(m, n)}은 \texttt{m}에서 \texttt{n}이 되기 직전까지 \texttt{i}를
+1씩 증가시키며 \pyin{print(i)}를 실행하는데, $\texttt{m} \geq \texttt{n}$이라면 반복문이 수행되지 않습니다.
 
-마지막으로 세 개의 인자가 \texttt{range($\cdot$)}에 전달되는 경우를 살펴봅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+마지막으로 세 개의 인자가 \texttt{range}에 전달되는 경우를 살펴봅시다.
+\begin{minted}{python}
 for i in range(m, n, k):
     print(i)
 \end{minted}
 이는
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 m
 m + k
-m + 2*k
+m + 2 * k
 ...
-m + l*k
+m + l * k
 \end{minted}
 와 같습니다.
-위에서 \texttt{m + l*k}는 \texttt{n}이 되기 직전의 값입니다.
-\texttt{range(m, n, k)}은 \texttt{m}에서 \texttt{n}이 되기 직전까지
-\texttt{i}를 \texttt{k}씩 증가시키며 \texttt{print(i)}를 실행하는 것입니다.
+위에서 \texttt{m + l * k}는 \texttt{n}이 되기 직전의 값입니다.
+\pyin{range(m, n, k)}은 \texttt{m}에서 \texttt{n}이 되기 직전까지
+\texttt{i}를 \texttt{k}씩 증가시키며 \pyin{print(i)}를 실행하는 것입니다.
 \texttt{k}는 음수가 될 수도 있습니다.
 이 경우에는 \texttt{i}가 \texttt{m}에서부터 \texttt{n}이 되기 직전까지 감소됩니다.
 
-정리하자면 \texttt{range(n)}은 \texttt{range(0, n)}, \texttt{range(0, n, 1)}과 같고, \texttt{range(m, n)}은 \texttt{range(m, n, 1)}과 같습니다.
+정리하자면 \pyin{range(n)}은 \pyin{range(0, n)}, \pyin{range(0, n, 1)}과 같고, \pyin{range(m, n)}은 \pyin{range(m, n, 1)}과 같습니다.
 아래는 인자를 넣는 세가지 경우를 모두 나타낸 예시입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 for i in range(n):
-    print(i, end=' ')  # 0 1 ... n - 1
+    print(i, end=" ")  # 0 1 ... n - 1
 
 for i in range(1, n + 1):
-    print(i, end=' ')  # 1 2 ... n
+    print(i, end=" ")  # 1 2 ... n
 
 for i in range(10, 0, -1):
-    print(i, end=' ')  # 10 9 ... 1
+    print(i, end=" ")  # 10 9 ... 1
 
 for i in range(1, 10, 2):
-    print(i, end=' ')  # 1 3 ... 9
+    print(i, end=" ")  # 1 3 ... 9
 \end{minted}
-위 예시에서 \verb|print()|안에 \verb|end=' '|를 써준 것은 줄바꿈을 하지 않고
-대신 띄어쓰기를 하기 위함입니다.
-Python의 내장 \verb|print()| 함수에서는 \verb|end|에 값을 넣어 값을 출력한 후
-뒤에 붙일 문자를 직접 지정할 수 있습니다.
+위 예시에서 \pyin{print()}안에 \pyin{end=" "}를 써준 것은 줄바꿈을 하지 않고
+띄어쓰기를 하기 위함입니다.
+(파이썬의 내장 \pyin{print} 함수에는 \pyin{end}에 값을 넣어 값을 출력한 후
+뒤에 붙일 문자를 직접 지정할 수 있습니다.)
 
 \subsection{예시}
-이제는 \texttt{for} 문을 사용한 다양한 예시를 살펴보겠습니다.
-아래는 팩토리얼을 계산하는 함수를 \texttt{for} 문을 통해 만든 것입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+이제는 \pyin{for} 문을 사용한 다양한 예시를 살펴보겠습니다.
+아래는 팩토리얼을 계산하는 함수를 \pyin{for} 문을 통해 만든 것입니다.
+\begin{minted}{python}
 def factorial(x):
-    product = 1
+    prod = 1
     for i in range(1, x + 1):
-        product *= i
-    return product
+        prod *= i
+    return prod
 \end{minted}
 줄 2에서 \texttt{product}의 값을 1로 초기화를 한 후, 이후 반복하여
 \verb|product|에 \verb|i|를 1부터 \verb|x|까지 반복하며 곱해주었습니다.
-\emph{\texttt{range}에서 마지막 인자는 해당 값이 되기 이전까지 반복문을
-수행해줍니다.}
 
-구구단표 작성과 같은 규칙적인 작업도 \texttt{for} 문을 통해 할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+구구단표 작성과 같은 규칙적인 작업도 \pyin{for} 문을 통해 할 수 있습니다.
+\begin{minted}{python}
 for i in range(1, 10):
     for j in range(1, 10):
-        print(i * j, end=' ')
+        print(i * j, end=" ")
     print()
 \end{minted}
 \texttt{i}를 고정시킨 후 \texttt{j}를 1부터 9까지 변화시키며 곱을 출력한 후, 줄을 바꾼 후 \texttt{i}를 1 증가시킨후 \texttt{j}를 1부터 9까지 변화시키며 곱을 출력하는 것을 반복하는 것이므로 결과적으로 구구단표를 작성하게 됩니다.
-이렇게 \texttt{for} 문 안에서 또 다른 \texttt{for} 문이 수행되는 것을 중첩 반복문이라고 합니다.
+이렇게 \pyin{for} 문 안에서 또 다른 \pyin{for} 문이 수행되는 것을 중첩 반복문이라고 합니다.
 
 코딩에서 개수 세기 등과 함께 중요한 패턴 중 하나는 최댓값과 최솟값을 찾는 것입니다.
 $f(n) = (x - 2)^2$으로 정의된 함수에서 $f(0), \dots, f(4)$ 중 가장 작은 값을
 찾고 싶다면 다음과 같이 코드를 작성할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def f(x):
-    return (x - 2)**2
+    return (x - 2) ** 2
 
 def find_min_value():
     m = f(0)
@@ -407,94 +300,64 @@ def find_min_value():
 
 \section{예제}
 \begin{enumerate}
-\item 짝수일 때 \verb|True|를 반환하는 함수 \verb|is_odd(n)|을 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 홀수일 때 \pytrue를 반환하고 짝수일 때 \pyfalse를 반환하는 함수 \pyin{is_odd(n)}을 작성하세요.
+\begin{minted}{python}
 def is_odd(n):
     # Add here!
 
 print(is_odd(12))  # False
 print(is_odd(1))   # True
 \end{minted}
-% Write a function \texttt{exactly\_two\_even(n1, n2, n3)} by using \texttt{is\_odd($\cdot$)} above. \texttt{exactly\_two\_even(n1, n2, n3)} returns \texttt{True} if exactly two of \texttt{n1}, \texttt{n2}, and \texttt{n3} are even and \texttt{False} otherwise.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def exactly_two_even(n1, n2, n3):
-%     cnt = 0
-%     # Add here!
-%     return cnt == 2
-%
-% print exactly_two_even(1, 2, 3)   # False
-% print exactly_two_even(4, 2, 3)   # True
-% print exactly_two_even(7, 3, 4)   # False
-% print exactly_two_even(2, 5, 8)   # True
-% print exactly_two_even(2, 18, 4)  # False
-% \end{minted}
 
-% \item Write a function \texttt{triangle(a, b, c)} that returns \texttt{True} if it is possible to form a triangle with sides of lengths \texttt{a}, \texttt{b}, and \texttt{c}.
-% Assume \texttt{a}, \texttt{b}, and \texttt{c} are positive integers.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% # Add here!
-%
-% print triangle(3, 4, 5)  # True
-% print triangle(1, 5, 2)  # False
-% print triangle(1, 1, 1)  # True
-% print triangle(3, 1, 1)  # False
-% \end{minted}
+\item 위의 \pyin{is_odd}를 사용해 \pyin{exactly_two_even(n1, n2, n3)}를 작성하세요. \pyin{exactly_two_even(n1, n2, n3)}은 \texttt{n1}, \texttt{n2} 와 \texttt{n3} 중 정확히 두 개가 짝수이면 \pytrue, 아니면 \pyfalse를 반환합니다.
+\begin{minted}{python}
+def exactly_two_even(n1, n2, n3):
+    cnt = 0
+    # Add here!
+    return cnt == 2
 
-% \item Write a function \texttt{acute(x1, y1, x2, y2, x3, y3)} that returns \texttt{True} if three points \texttt{(x1, y1)}, \texttt{(x2, y2)}, and \texttt{(x3, y3)} form an acute-angled triangle(예각 삼각형) and \texttt{False} otherwise.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% # Add here!
-%
-% print acute(1, 2, 4, 3, 2, 7)  # True
-% print acute(1, 2, 4, 2, 5, 4)  # False
-% print acute(1, 2, 4, 2, 4, 3)  # False
-% \end{minted}
-%
-% \item Two circles are represented by centers \texttt{(x1, y1)} and \texttt{(x2, y2)} with radii \texttt{r1} and \texttt{r2}.
-% Write a function \texttt{intersect(x1, y1, r1, x2, y2, r2)} that returns \texttt{True} if the two circles intersect at two points and \texttt{False} otherwise.
-% Use \texttt{abs($\cdot$)}.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% # Add here!
-%
-% print intersect(1, 1, 3, 5, 4, 2)  # False
-% print intersect(1, 1, 3, 4, 3, 2)  # True
-% print intersect(1, 1, 3, 2, 1, 2)  # False
-% \end{minted}
+print(exactly_two_even(1, 2, 3))   # False
+print(exactly_two_even(4, 2, 3))   # True
+print(exactly_two_even(7, 3, 4))   # False
+print(exactly_two_even(2, 5, 8))   # True
+print(exactly_two_even(2, 18, 4))  # False
+\end{minted}
 
-\item 어떤 수가 4의 배수이면 기본적으로 윤년입니다. 그러나 해당 연도가 100으로
+\item \texttt{a}, \texttt{b}, \texttt{c}를 세 변으로 가지는 삼각형이 있는지 판별하는 함수 \pyin{triangle(a, b, c)}를 작성하세요.
+이때 \texttt{a}, \texttt{b}, \texttt{c}는 양의 정수입니다.
+\begin{minted}{python}
+# Add here!
+
+print(triangle(3, 4, 5))  # True
+print(triangle(1, 5, 2))  # False
+print(triangle(1, 1, 1))  # True
+print(triangle(3, 1, 1))  # False
+\end{minted}
+
+\item 세 점 \pyin{(x1, y1)}, \pyin{(x2, y2)}, \pyin{(x3, y3)}가 예각 삼각형을 이룰 수 있는지 판별하는 함수 \pyin{acute(x1, y1, x2, y2, x3, y3)}를 작성하세요.
+\begin{minted}{python}
+# Add here!
+
+print(acute(1, 2, 4, 3, 2, 7))  # True
+print(acute(1, 2, 4, 2, 5, 4))  # False
+print(acute(1, 2, 4, 2, 4, 3))  # False
+\end{minted}
+
+\item 중심이 각각 \pyin{(x1, y1)}과 \pyin{(x2, y2)}이며 반지름은 각각 \texttt{r1}과 \texttt{r2}인 두 원이 있습니다.
+이때 두 원이 두 점에서 만나는지 판별하는 함수 \pyin{intersect(x1, y1, r1, x2, y2, r2)}를 작성하세요.
+\begin{minted}{python}
+# Add here!
+
+print(intersect(1, 1, 3, 5, 4, 2))  # False
+print(intersect(1, 1, 3, 4, 3, 2))  # True
+print(intersect(1, 1, 3, 2, 1, 2))  # False
+\end{minted}
+
+\item 어떤 수가 4의 배수이면 기본적으로는 윤년입니다. 그러나 해당 연도가 100으로
   나누어지면서 400으로는 안 나누어진다면, 윤년이 아닙니다. 윤년일 경우에
-  \verb|True|를 반환하고 아닐 경우에는 \verb|False|를 반환하는 함수
+  \pytrue를 반환하고 아닐 경우에는 \pyfalse를 반환하는 함수
   \verb|leap_year|을 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 # Add here!
 
 print(leap_year(2008), leap_year(2011))  # True False
@@ -502,85 +365,54 @@ print(leap_year(2000), leap_year(2100))  # True False
 print(leap_year(2300), leap_year(2400))  # False True
 print(leap_year(2012), leap_year(2200))  # True False
 \end{minted}
-% Write a function \texttt{num\_days(year, month)} that returns the number of days in month \texttt{month} of year \texttt{year}, using \texttt{leap\_year($\cdot$)}.
-% \texttt{month} is given by an integer.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def num_days(year, month):
-%     assert 1 <= month <= 12
-%     if month == 1 or month == 3 or month == 5 or month == 7 or \
-%        month == 8 or month == 10 or month == 12:
-%         return 31
-%     # Add here!
-%
-% print num_days(2000,1), num_days(2001,4), num_days(2004,8)  # 31 30 31
-% print num_days(2004,9), num_days(2005,3), num_days(2005,7)  # 30 31 31
-% print num_days(2008,2), num_days(2011,2), num_days(2012,2)  # 29 28 29
-% print num_days(2000,2), num_days(2100,2), num_days(2200,2)  # 29 28 28
-% print num_days(2300,2), num_days(2400,2), num_days(3200,2)  # 28 29 29
-% \end{minted}
-%
-% \item Blood transfusion can be done as:
-% \begin{itemize}
-% \item Type O from O
-% \item Type A from A or O
-% \item Type B from B or O
-% \item Type AB from A, B, AB, or O.
-% \end{itemize}
-% Write a function \texttt{blood(supply\_O, supply\_A, supply\_B, supply\_AB, demand\_O, demand\_A, demand\_B, demand\_AB)} that returns \texttt{True} if the current supply of blood suffice the current demand and \texttt{False} otherwise.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def blood (supply_O, supply_A, supply_B, supply_AB,
-%            demand_O, demand_A, demand_B, demand_AB):
-%     if supply_O < demand_O:
-%         return False
-%     # Add here!
-%
-% print blood(50, 36, 11, 8, 45, 42, 10, 3)  # False
-% print blood(50, 36, 11, 3, 45, 38, 10, 7)  # True
-% \end{minted}
 
-\item 구구단 표를 작성하는 함수 \verb|print_tables()|를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 위에서 작성한 \pyin{leap_year} 함수를 사용해, \verb/year/년의 \verb/month/달에 며칠이 있는지 계산하는 함수 \pyin{num_days(year, month)}를 작성하세요.
+\begin{minted}{python}
+def num_days(year, month):
+    assert 1 <= month <= 12
+    if month == 1 or month == 3 or month == 5 or month == 7 or \
+       month == 8 or month == 10 or month == 12:
+        return 31
+    # Add here!
+
+print(num_days(2000, 1), num_days(2001, 4), num_days(2004, 8))  # 31 30 31
+print(num_days(2004, 9), num_days(2005, 3), num_days(2005, 7))  # 30 31 31
+print(num_days(2008, 2), num_days(2011, 2), num_days(2012, 2))  # 29 28 29
+print(num_days(2000, 2), num_days(2100, 2), num_days(2200, 2))  # 29 28 28
+print(num_days(2300, 2), num_days(2400, 2), num_days(3200, 2))  # 28 29 29
+\end{minted}
+
+\item 수혈은 다음과 같은 혈액형 조합에서 가능합니다:
+\begin{itemize}
+\item O형에서 O형
+\item A형에서 A 또는 O형
+\item B형에서 B 또는 O형
+\item AB형에서 A, B, AB 또는 O형.
+\end{itemize}
+함수 \pyin{blood(supply_O, supply_A, supply_B, supply_AB, demand_O, demand_A, demand_B, demand_AB)}는 각 혈액형별 수요와 공급을 받아 혈액이 충분한지를 판별해야 합니다.
+이를 작성하세요.
+\begin{minted}{python}
+def blood(supply_O, supply_A, supply_B, supply_AB,
+          demand_O, demand_A, demand_B, demand_AB):
+    if supply_O < demand_O:
+        return False
+    # Add here!
+
+print(blood(50, 36, 11, 8, 45, 42, 10, 3))  # False
+print(blood(50, 36, 11, 3, 45, 38, 10, 7))  # True
+\end{minted}
+
+\item 아래의 구구단 표를 작성하는 함수 \pyin{print_tables()}를 작성하세요.
+\begin{verbatim}
 1 2 3 4 5 6 7 8 9
 2 4 6 8 10 12 14 16 18
 ...
 9 18 27 36 45 54 63 72 81
-\end{minted}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def print_tables():
-    # Add here!
-
-print_tables()
-\end{minted}
-
+\end{verbatim}
 
 \item 주어진 수 \verb|n|에 따라 \verb|좌회전|, \verb|직진|을 줄마다 출력하는
-  \verb|turn_left_and_move(n)|를 작성하세요.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+  \pyin{turn_left_and_move(n)}를 작성하세요.
+\begin{minted}{python}
 def turn_left_and_move(n):
     # Add here!
 
@@ -593,182 +425,133 @@ turn_left_and_move(3)
 # 직전
 \end{minted}
 
+\item 다음과 같은 값들을 출력해야 합니다.
+\begin{minted}{python}
+1 2 3 4 5 6 7 8 9
+3 6 9 12 15 18 21 24 27
+5 10 15 20 25 30 35 40 45
+7 14 21 28 35 42 49 56 63
+9 18 27 36 45 54 63 72 81
 
-% \item The following output is desired:
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% 1 2 3 4 5 6 7 8 9
-% 3 6 9 12 15 18 21 24 27
-% 5 10 15 20 25 30 35 40 45
-% 7 14 21 28 35 42 49 56 63
-% 9 18 27 36 45 54 63 72 81
-%
-% 1
-% 3 6 9
-% 5 10 15 20 25
-% 7 14 21 28 35 42 49
-% 9 18 27 36 45 54 63 72 81
-% \end{minted}
-% Write a function print\_tables() that prints the above.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def print_tables():
-%     # Add here!
-%
-% print_tables()
-% \end{minted}
+1
+3 6 9
+5 10 15 20 25
+7 14 21 28 35 42 49
+9 18 27 36 45 54 63 72 81
+\end{minted}
+이런 일을 하는 함수 \pyin{print_tables()}를 작성하세요.
+\begin{minted}{python}
+def print_tables():
+    # Add here!
 
-% \item Write a function \texttt{sum\_interval(a, b)} that returns $\texttt{a} + (\texttt{a} + 1) + \dots + \texttt{b}$ where \texttt{a} and \texttt{b} are integers.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def sum_interval(a, b):
-%     # Add here!
-%
-% print sum_interval(5, 10)
-% print sum_interval(15, 100)
-% \end{minted}
+print_tables()
+\end{minted}
 
-% \item The following relation is known\footnote{Gottfried Wilhelm Leibniz이 발견하였다.}:
-% $$
-% \pi = 4\left(\frac11 - \frac13 + \frac 15 - \frac17 + \frac19 - \dots\right)
-% $$
-% Write a function \texttt{calculate\_pi(n)} that returns an approximate value of $\pi$ using the first \texttt{n} terms of the above relation.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def calculate_pi(n):
-%     # Add here!
-%
-% print calculate_pi(1000)
-% \end{minted}
+\item 함수 \pyin{sum_interval(a, b)}는 두 정수 \verb/a/와 \verb/b/를 받아 $\texttt{a} + (\texttt{a} + 1) + \dots + \texttt{b}$를 계산합니다.
+  이를 작성하세요.
+\begin{minted}{python}
+def sum_interval(a, b):
+    # Add here!
 
-% \item Write a function \texttt{within\_circ(r)} that returns the number of integer lattice points within a circle of radius \texttt{r} centered at the origin.
-% The following relation results from an Monte Carlo method:
-% $$
-% \pi = \lim_{\texttt{r} \rightarrow \infty} \frac{\texttt{within\_circle(r)}}{\texttt{r}^2}
-% $$
-% Write a function \texttt{calculate\_pi(r)} that approximates $\pi$ using the above equation.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def within_circ(r):
-%     cnt = 0
-%     # Add here!
-%     return cnt
-%
-% def calculate_pi(r):
-%     # Add here!
-%
-% print calculate_pi(1000)
-% \end{minted}
-%
-% \item Write a function \texttt{day\_of\_week(year, month, day)} that returns the day of the week as a string \texttt{"Mon"}, \texttt{"Tue"}, \texttt{"Wed"}, \texttt{"Thu"}, \texttt{"Fri"}, \texttt{"Sat"}, and \texttt{"Sun"}.
-% Assume $\texttt{year} \geq 2000$ and \texttt{month} is given as an integer.
-% Note that January 1 of 2000 is Saturday, and use \texttt{leap\_year($\cdot$)} and \texttt{num\_days($\cdot$)} from problem 5.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def day_of_week(year, month, day):
-%     # Add here!
-%
-% print day_of_week(2018, 1, 20)  # Sat
-% \end{minted}
-%
-% \item Let $f: \{0, 1, \dots, 99\}^2 \rightarrow \mathbb{Z}$ be a function defined by:
-% $$
-% f(i, j) = \left(i^5 + 2i^3j^2 + 5i^2 + j + 5000\right) \text{ mod $10000$}
-% $$
-% Write a function \texttt{find\_max()} that returns the maximum value of the function $f$.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def f(i, j):
-%     return (i**5 + 2* i**3 * j**2 + 5 * i**2 + j + 5000) % 10000
-%
-% def find_max():
-%     # Add here!
-%
-% print "Maximum is", find_max()  # 9997
-% \end{minted}
-%
-% \item Write a function \texttt{sum\_mlt35(n)} that returns the sum of all multiples of 3 or 5 smaller than \texttt{n}.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def sum_mlt35(n):
-%     # Add here!
-%
-% print sum_mlt35(10)    # 23
-% print sum_mlt35(100)   # 2318
-% print sum_mlt35(1000)  # 233168
-% \end{minted}
-%
-% \item Write a function \texttt{sum\_even\_fib(n)} that returns the sum of the even-valued terms of the Fibonacci sequence in the first \texttt{n} terms, where the first and the second terms are 1 and 2, respectively.
-% The calculation time should not exceed a second.
-%
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def sum_even_fib(n):
-%     # Add here!
-%
-% print sum_even_fib(300) == ...   # Too large to write here
-% print sum_even_fib(400) == ...   # Too large to write here
-% print sum_even_fib(1000) == ...  # Too large to write here
-% \end{minted}
-%
-% \item Write a function \texttt{d(n)} that returns the sum of proper divisors(진약수) of \texttt{n}.
-% If $b = \texttt{d($a$)} = \texttt{d(d($b$))}$ where $a \neq b$, $a$ and $b$ are an amicable pair and each of $a$ and $b$ are called amicable(우호적인) numbers.
-% Write a function \texttt{is\_amicable(n)} that returns \texttt{True} if \texttt{n} is amicable and \texttt{False} otherwise.
-% Then write a function \texttt{sum\_amicable(n)} that returns the sum of all amicable numbers under \texttt{n}.
-% Using \texttt{sum\_amicable(1000)}, evaluate the sum of all amicable numbers under 10000.
-% It might take a while to execute; perhaps not if you find a better algorithm.
-% \begin{minted}[mathescape,
-%                linenos,
-%                breaklines,
-%                numbersep=5pt,
-%                frame=lines,
-%                framesep=2mm]{python}
-% def d(n):
-%     # Add here!
-%
-% def is_amicable(n):
-%     # Add here!
-%
-% def sum_amicable(n):
-%     # Add here!
-%
-% print sum_amicable(10000)  # 31626
-% \end{minted}
+print(sum_interval(5, 10))  # 45
+print(sum_interval(15, 100))  # 4945
+\end{minted}
+
+\item 원주율에 수렴하는 아래의 관계식이 알려져 있습니다\footnote{\alt*{라이프니츠}{Gottfried Wilhelm Leibniz}가 발견하였습니다.}:
+\[
+\pi = 4\left(\frac11 - \frac13 + \frac 15 - \frac17 + \frac19 - \dots\right)
+\]
+위 식의 첫 \verb/n/항들을 더해 $\pi$의 근사값을 구하는 함수 \pyin{calculate_pi(n)}를 작성하세요.
+\begin{minted}{python}
+def calculate_pi(n):
+    # Add here!
+
+print(calculate_pi(1000))
+\end{minted}
+
+\item 원점을 중심으로 하고 반지름이 \verb/r/인 원 내부의 정수 격자점을 세는 함수 \pyin{within_circ(r)}를 먼저 작성하세요.
+
+  \alt*{몬테 카를로 기법}{Monte Carlo method}를 통해 다음과 같이 원주율을 계산할 수 있습니다:
+\[
+\pi = \lim_{\texttt{r} \rightarrow \infty} \frac{\texttt{within\_circle(r)}}{\texttt{r}^2}
+\]
+이를 통해 원주율을 근사하는 \pyin{calculate_pi(r)}를 작성하세요.
+\begin{minted}{python}
+def within_circ(r):
+    cnt = 0
+    # Add here!
+    return cnt
+
+def calculate_pi(r):
+    # Add here!
+
+print(calculate_pi(1000))
+\end{minted}
+
+\item 날짜가 주어졌을 때 요일을 \pyin{"Mon"}, \pyin{"Tue"}, \pyin{"Wed"}, \pyin{"Thu"}, \pyin{"Fri"}, \pyin{"Sat"}, 혹은 \pyin{"Sun"}로 반환하는 함수 \pyin{day_of_week(year, month, day)}를 작성하세요.
+  1970년 1월 1일 목요일 이후의 날짜만 고려합니다.
+  위에서 작성한 \pyin{leap_year}과 \pyin{num_days}를 활용하세요.
+\begin{minted}{python}
+def day_of_week(year, month, day):
+    # Add here!
+
+print(day_of_week(2023, 1, 19))  # Thu
+\end{minted}
+
+\item 함수 $f: \{0, 1, \dots, 99\}^2 \rightarrow \mathbb{Z}$는 다음과 같이 정의됩니다:
+\[
+f(i, j) = \left(i^5 + 2i^3j^2 + 5i^2 + j + 5000\right) \pmod{10000}
+\]
+$f$의 최댓값을 구하는 함수 \pyin{find_max()}를 작성하세요.
+\begin{minted}{python}
+def f(i, j):
+    return (i**5 + 2* i**3 * j**2 + 5 * i**2 + j + 5000) % 10000
+
+def find_max():
+    # Add here!
+
+print("Maximum is", find_max())  # 9997
+\end{minted}
+
+\item \verb/n/ 미만의 3 혹은 5의 배수의 합을 계산하는 함수 \pyin{sum_mlt35(n)}을 작성하세요.
+\begin{minted}{python}
+def sum_mlt35(n):
+    # Add here!
+
+print(sum_mlt35(10))    # 23
+print(sum_mlt35(100))   # 2318
+print(sum_mlt35(1000))  # 233168
+\end{minted}
+
+\item 피보나치 수열의 첫 \verb/n/ 항 중 짝수인 것들을 더한 값을 계산하는 함수 \pyin{sum_even_fib(n)}를 작성하세요.
+  피보나치 수열의 첫 두 항은 1과 2입니다.
+
+\begin{minted}{python}
+def sum_even_fib(n):
+    # Add here!
+
+print(sum_even_fib(300)) == ...   # Too large to write here
+print(sum_even_fib(400)) == ...   # Too large to write here
+print(sum_even_fib(1000)) == ...  # Too large to write here
+\end{minted}
+
+\item 먼저 \verb/n/의 진약수의 합을 구하는 함수 \pyin{d(n)}을 작성하세요.
+
+만약 $b = \texttt{d($a$)} = \texttt{d(d($b$))}$ ($a \neq b$)이면, $a$와 $b$는 우호적인 쌍이고, 각각을 \alt*{우호적인 수}{amicable number}[amicable numbers]라고 부릅니다.
+\verb/n/이 우호적인 수인지 판별하는 함수 \pyin{is_amicable(n)}을 작성하세요.
+
+이제 \verb/n/ 미만의 모든 우호적인 수들의 합을 구하는 함수 \pyin{sum_amicable(n)}을 작성하세요.
+\begin{minted}{python}
+def d(n):
+    # Add here!
+
+def is_amicable(n):
+    # Add here!
+
+def sum_amicable(n):
+    # Add here!
+
+print(sum_amicable(10000))  # 31626
+\end{minted}
 \end{enumerate}
 \end{document}

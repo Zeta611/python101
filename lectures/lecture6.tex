@@ -1,184 +1,110 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-지금까지 반복문의 다양한 패턴을 알아보았으니, 이를 정리하고 \texttt{for} 문을 구성하는 새로운 방법과 \texttt{break}, \texttt{continue} 등의 다양한 기법에 대해 알아볼 것입니다.
-나아가 이를 활용하여 다차원 리스트를 다루어 볼 것입니다.
-한편으로는 텍스트 파일을 읽고 출력하는 파일 입출력에 대해서 간단히 살펴볼 것이며, 이를 통해 많은 양의 데이터를 처리할 수 있는 길이 열리게 됩니다.
+지금까지 반복문의 다양한 패턴을 알아보았으니, 이를 정리하고 \texttt{for}문을 구성하는 새로운 방법과 \pyin{break}, \pyin{continue}으로 반복문을 직접 제어하는 방법에 대해서 알아볼 것입니다.
 
-\section{Loops반복문 응용}
-\subsection{range() 함수}
-지금까지 세 가지 종류의 반복문 패턴에 대해 알아보았습니다.
-이러한 \texttt{for} 문을 구성할 때 지금까지는 \texttt{range($\cdot$)}를 활용하였습니다.
-Python 콘솔에 \texttt{range}의 형을 알아보기 위해 \texttt{type(range)}를 쳐보면, 다음과 같은 결과를 얻을 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
->>> type(range)
-<type 'builtin_function_or_method'>
-\end{minted}
-또한, 반복문 없이 \texttt{range(n)}의 형을 알아보기 위해 \texttt{type(range(5))}을 콘솔에 입력해봅시다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
->>> type(range(5))
-<type 'list'>
-\end{minted}
-이를 통해 \texttt{range($\cdot$)}는 리스트를 반환하는 함수인 것을 알 수 있습니다.
+또한 텍스트 파일을 읽고 출력하는 파일 입출력에 대해서 간단히 살펴볼 것이며, 이를 통해 많은 양의 데이터를 처리할 수 있는 길이 열리게 됩니다.
 
-\subsection{리스트 원소의 인덱스 접근과 직접 접근}
-\texttt{range($\cdot$)}는 리스트를 반환하기 때문에, \texttt{for} 문을 활용할 때 \texttt{range($\cdot$)} 대신에 직접 리스트를 사용하여도 될 것이라고 짐작할 수 있습니다.
-지금까지는 리스트 \texttt{l}이 주어졌을 때 \texttt{range(len(l))}을 사용하여 다음과 같이 \texttt{for} 문을 구성하였습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\section{반복문의 응용}
+\subsection{리스트 원소의 직접 접근}
+지금까지는 리스트 \texttt{l}이 주어졌을 때 \pyin{range(len(l))}을 사용하여 다음과 같이 \texttt{for}문을 구성하였습니다.
+\begin{minted}{python}
 l = [2, 4, 1, 7, 3]
 for i in range(len(l)):
-    print l[i]
+    print(l[i])
 \end{minted}
-하지만 이제는 \texttt{range($\cdot$)} 대신에 아래와 같이 구성을 할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-l = [2, 4, 1, 7, 3]
-for i in [0, 1, 2, 3, 4]:
-    print l[i]
-\end{minted}
-나아가 리스트의 원소를 인덱스를 통해 접근하지 않고, 직접 접근할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+그러나 리스트의 원소를 인덱스를 통해 접근하지 않고, 직접 접근할 수도 있습니다.
+\begin{minted}{python}
 l = [2, 4, 1, 7, 3]
 for e in l:
-    print e
+    print(e)
 \end{minted}
 
-수학적으로 표현하자면, 전자는 $\sum_{\texttt{i} \in |\texttt{l}|} \texttt{l[i]}$에, 후자는 $\sum_{\texttt{e} \in \texttt{l}} \texttt{e}$에 대응됩니다. 이러한 두 가지 방식은 각각 장단점이 있습니다.
+수학적으로 표현하자면, 전자는 $\sum_{0 \le \texttt{i} < |\texttt{l}|} \texttt{l[i]}$에, 후자는 $\sum_{\texttt{e} \in \texttt{l}} \texttt{e}$에 대응됩니다. 이러한 두 가지 방식은 각각 장단점이 있습니다.
 리스트의 원소를 인덱스로 접근할 때에는 해당 원소의 메모리 상 위치를 참조하기 때문에 리스트의 원소를 수정할 수 있습니다.
 또한, 리스트의 단조증가 여부 등을 알기 위해서는 \texttt{l[i]}, \texttt{l[i + 1]}와 같이 전후 원소를 비교해야 하며, 이처럼 순서가 중요한 경우 인덱스로 접근하는 것이 바람직합니다.
-리스트의 원소를 직접 접근할 때에는 해당 원소의 값을 가지는 변수--위의 예시에서는 \texttt{e}--를 새로 생성하기 때문에, 리스트를 수정하는 것이 아니라 해당 지역 변수의 \texttt{e} 값만 수정이 됩니다.
-또한, \texttt{e}는 반복문을 한 번 수행할 때마다 다음 원소의 값으로 초기화가 됩니다.
-따라서, 다음에 나오는 두 코드는 다른 결과를 내놓게 됩니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+
+리스트의 원소를 직접 접근할 때에는 해당 원소의 값을 가지는 변수---위의 예시에서는 \texttt{e}---를 새로 생성하기 때문에, 리스트를 수정하는 것이 아니라 해당 지역 변수의 \texttt{e} 값만 수정이 됩니다.
+따라서 다음에 나오는 두 코드는 다른 결과를 내놓게 됩니다.
+\begin{minted}{python}
 l = [2, 4, 1, 7, 3]
 for i in range(len(l)):
     l[i] += 1
 
-print l  # [3, 5, 2, 8, 4]
+print(l)  # [3, 5, 2, 8, 4]
 \end{minted}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 l = [2, 4, 1, 7, 3]
 for e in l:
     e += 1
 
-print l  # [2, 4, 1, 7, 3]
+print(l)  # [2, 4, 1, 7, 3]
 \end{minted}
-원소를 직접 접근하는 방식은 인덱스를 통한 간접 접근보다는 문법적으로 간결하고 직관적이기 때문에, 순서의 고려가 필요 없을 때는 직접 접근이 바람직합니다.
 
-\subsection{\texttt{break}/\texttt{continue}}
-특정 상황에서 반복문을 그만 실행하거나, 해당 회만 넘어가고 싶다면 \texttt{break}와 \texttt{continue}를 활용할 수 있습니다.
-비록 코드가 복잡한 상황에서 \texttt{break}와 \texttt{continue}를 사용한다면 코드의 구조가 더욱 꼬이고 디버깅이 힘들어지지만, 적절한 상황에서의 활용은 코드 작성의 생산성을 높일 수 있습니다.
-이론적으로는 \texttt{break}와 \texttt{continue} 없이 불리언 함수를 활용하여 동일한 기능을 구현할 수 있습니다.
-아래에는 \texttt{break}와 \texttt{continue}의 활용 예가 제시되어 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+파이썬에서는 이 둘을 모두 사용할 수 있게 \pyin{enumerate} 함수를 제공합니다:
+\begin{minted}{python}
+l = [2, 4, 1, 7, 3]
+for i, e in enumerate(l):
+    l[i] += e
+
+print(l)  # [4, 8, 2, 14, 6]
+\end{minted}
+
+\subsection{\texttt{break}와 \texttt{continue}}
+특정 상황에서 반복문을 중단하거나, 바로 다음 반복문 실행으로 넘어가고 싶다면 \texttt{break}와 \texttt{continue}를 활용할 수 있습니다.
+아래에 \texttt{break}와 \texttt{continue}을 사용한 예시가 나와 있습니다.
+\begin{minted}{python}
 for i in range(8):
     if i == 5:
         break
-    print i,
+    print(i, end=" ")
 
 # 0 1 2 3 4
 \end{minted}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 for i in range(8):
     if i == [3, 5]:
         continue
-    print i,
+    print(i, end=" ")
 
 # 0 1 2 4 6 7
 \end{minted}
 
-\texttt{break}와 \texttt{continue}는 \texttt{while} 문과 결합하면 효과적으로 사용할 수 있습니다.
-일반적으로 \texttt{while} 문은 어떤 조건을 만족할 때 종료가 되는데, 특정 상황에서 반복문을 넘어가거나 중단해야 한다면 사용할 수 있습니다.
-또한 다중 반복문의 경우, \texttt{break}와 \texttt{continue}를 감싸고 있는 가장 내부의 반복문만을 종료하거나 넘기게 됩니다.
-아래에 다중 반복문에서의 \texttt{break}와 \texttt{continue} 활용과 그에 따른 출력값이 적혀 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\texttt{break}와 \texttt{continue}는 \texttt{while}문과 결합하면 효과적으로 사용할 수 있습니다.
+일반적으로 \texttt{while}문은 어떤 조건을 만족할 때 종료가 되는데, 반복문 내부에서도 마치고 싶을 때가 있기 때문입니다.
+
+\subsubsection{다중 반복문}
+다중 반복문에 \texttt{break}와 \texttt{continue}는 가장 가까이 있는 반복문만을 종료하거나 넘기게 됩니다.
+다중 반복문에서의 \texttt{break}와 \texttt{continue}을 나타낸 예시입니다:
+\begin{minted}{python}
 i = 0
 while i < 5:
     j = 0
     while j < 5:
         if i > 0:
             break
-        print j,
+        print(j, end=" ")
         j += 1
-    print i,
+    print(i, end=" ")
     i += 1
 
 # 0 1 2 3 4 0 1 2 3 4
 \end{minted}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 i = 0
 while i < 5:
     j = 0
     while j < 5:
         if i > 0:
             continue
-        print j,
+        print(j, end=" ")
         j += 1
-    print i,
+    print(i, end=" ")
     i += 1
 
 # infinite loop
 \end{minted}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 for i in range(5):
     if i > 0:
         continue
@@ -186,139 +112,88 @@ for i in range(5):
     while j < 5:
         if i > 0:
             break
-        print j,
+        print(j, end=" ")
         j += 1
-    print i,
+    print(i, end=" ")
 
 # 0 1 2 3 4 0
 \end{minted}
 
 \section{파일 입출력}
-USACO 문제를 해결하거나 많은 양의 자료를 활용해야 하는 경우, 외부 파일에서 데이터를 읽어오는 것이 필요합니다.
+많은 양의 자료를 다뤄야 하는 경우, 외부 파일에서 데이터를 읽고 쓰는 것이 필요합니다.
+
+\subsection{파일 입력}
 아래와 같이 파일에서 문자열을 읽어올 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 fin = open("input.txt", "r")
 content = fin.read()
 words = content.split()
+fin.close()
 \end{minted}
-첫 번째 줄에서 \texttt{open("input.txt", "r")}을 통하여 \texttt{"input.txt"}를 읽기 전용(\texttt{"r"})으로 열어 \texttt{fin}에 배정하게 됩니다.
+첫 번째 줄에서 \pyin{open("input.txt", "r")}을 통하여 \texttt{input.txt} 파일을 읽기 전용(\texttt{"r"})으로 열어 \texttt{fin}에 할당하게 됩니다.
 두 번째 줄에서 이 파일을 문자열로 읽어 \texttt{content}에 저장한 후, 세 번째 줄에서는 \texttt{content}의 문자열을 단어별로 끊어 \texttt{words}라는 리스트에 저장을 하게 됩니다.
-혹은, 줄여서 \texttt{words = open("input.txt", "r").read().split()}으로 써도 됩니다.
+마지막 줄에서는 이렇게 열린 파일을 닫습니다.
+한 번 연 파일을 닫지 않는 것은 리소스 낭비로 이어지기 때문에 반드시 닫아주어야 합니다.\footnote{\texttt{with} 문법을 통해 자동으로 파일을 닫게 할 수도 있습니다.}
 
 이를 활용하여 \texttt{dictionary.txt} 파일의 가장 긴 단어를 최대/최소 패턴을 통해 다음과 같이 찾을 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def longest_word(filename):
-    words = open(filename, "r").read().split()
-    
-    maxword = ""
-    maxlen = 0
-    
+    f = open(filename, "r")
+    words = f.read().split()
+    f.close()
+
+    max_word = None
+    max_len = -1
+
     for word in words:
-        if maxlen < len(word):
-            maxword = word
-            maxlen = len(word)
+        if max_len < len(word):
+            max_word = word
+            max_len = len(word)
 
     return maxword
 \end{minted}
+이를 쓰면 \verb/dictionary.txt/에서 pneumonoultramicroscopicsilicovolcanoconiosis라는 단어를 찾아낼 수 있습니다.
 
 이번에는 파일에서 문자열을 읽어들여 처리를 하는 다양한 방법에 대해서 알아보고, 파일에 문자열을 입력하는 법도 알아볼 것입니다.
-뒤에서 자세히 배우겠지만, 어떤 문자열에 \texttt{.strip()} 메소드를 취하면 문자열 양 끝에 있는 공백 문자들을 없앤 새로운 문자열을 반환합니다.
-또한, \texttt{.split()} 메소드는 공백으로 구분된 단어들의 리스트를 반환합니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+어떤 문자열에 \pyin{strip()} 메소드를 취하면 문자열 양 끝에 있는 공백 문자들을 없앤 새로운 문자열을 반환합니다.
+또한, \pyin{split()} 메소드는 공백으로 구분된 단어들의 리스트를 반환합니다.
+\begin{minted}{python}
 f = open("./input.txt", "r")
-print type(f)  # <type 'file'>
+print(type(f))  # <type 'file'>
 
 for i in range(5):
     s = f.readline().strip()
-    print s
+    print(s)
 
-print
+print()
 
 for line in f:
     s = line.strip()
-    print s
-\end{minted}
-위 코드에서 \texttt{for} 문에 바로 파일 \texttt{f}를 사용할 수 있다는 것을 보았습니다.
-이는 \texttt{for} 문에서 파일을 사용하면 자동으로 \texttt{readline()}을 불러오기 때문입니다.
+    print(s)
 
-파일에 내용을 작성하는 예시는 다음에 주어져 있습니다.
-아래는 구구단을 입력하는 코드입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-f = open("./multiply.txt", "w")
+f.close()
+\end{minted}
+위 코드에서 \texttt{for}문을 통해 바로 \texttt{f}을 줄 단위로 읽어올 수 있다는 것을 확인할 수 있습니다.
+
+\subsubsection{파일 출력}
+아래는 구구단을 파일로 작성하는 코드입니다.
+\begin{minted}{python}
+f = open("./gugu.txt", "w")
 
 for i in range(1, 10):
     for j in range(1, 10):
-        s = str(i * j) + " "
-        f.write(s)
+        f.write(f"{i * j} ")
     f.write("\n")
 
 f.close()
 \end{minted}
-유의할 점은, \texttt{.write($\cdot$)}은 \texttt{print}와는 다르게 개행을 자동으로 하지 않는다는 것입니다.
-따라서 직접 \texttt{.write("\textbackslash n")}을 통해 개행 문자를 넣어야 합니다.
-(USACO에서는 파일 출력을 할 때 맨 마지막에 개행 문자를 넣어줘야 합니다.)
-또한, 항상 파일을 열면 \texttt{.close()}를 통해 닫아줘야 합니다.
+유의할 점은, \pyin{write}은 \pyin{print}와는 다르게 개행을 자동으로 하지 않는다는 것입니다.
+따라서 직접 \pyin{.write("\textbackslash n")}을 통해 개행 문자를 넣어야 합니다.
 
 이외에도 다음과 같은 메소드를 활용할 수 있습니다.
 \begin{itemize}
-    \item \texttt{.read()}: 전체 내용을 하나의 문자열로 가져옵니다.
-    \item \texttt{.readlines()}: 각 줄의 내용을 문자열로 가지는 리스트를 반환합니다.
-    \item \texttt{.writelines()}: 리스트의 각 원소를 줄로 가지도록 파일에 작성합니다.
+    \item \pyin{.read()}: 전체 내용을 한 문자열로 읽어옵니다.
+    \item \pyin{.readlines()}: 각 줄의 내용을 문자열로 가지는 리스트를 반환합니다.
+    \item \pyin{.writelines()}: 리스트의 각 원소를 줄로 가지도록 파일에 작성합니다.
 \end{itemize}
-따라서, 위의 \texttt{.read()}와 문자열의 \texttt{.split()} 메소드를 통해 다음과 같이 파일을 읽을 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-f = open("./input.txt", "w")
-s = f.read().split()
-
-for word in s:
-    print word
-\end{minted}
-
-
-\section{예제}
-\begin{enumerate}
-\item Write a function \texttt{occurrences\_integers(filename)} that writes a file \texttt{occurences.out} with increasing order of numbers in \texttt{filename} along with their occurrences.
-For instance, a file with the following content as an input:
-\begin{verbatim}
-5 4 10 10 4
-\end{verbatim}
-should write a file with:
-\begin{verbatim}
-4 2
-5 1
-10 2
-\end{verbatim}
-
-\item Write a function \texttt{sieve\_eratosthenes(n)} that writes a file \texttt{primes.out} with all primes numbers less than or equal to \texttt{n} using seive of Eratosthenes.
-Create a list using \texttt{range(2, n + 1)} and use \texttt{.pop($\cdot$)} to remove composite numbers.
-An input $13$ should write a file:
-\begin{verbatim}
-2 3 5 7 11 13
-\end{verbatim}
-\end{enumerate}
 \end{document}

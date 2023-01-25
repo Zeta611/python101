@@ -2,20 +2,16 @@
 
 \begin{document}
 
-\section{Lists리스트}
-지난 시간에 반복문을 통해서 단순 반복 작업을 Python으로 수행하는 법에 대해서 알아보았습니다.
-하지만 지난 시간에서 \texttt{for} 문의 활용은 단순히 값을 대입하여, 해당 값을 그대로 사용하는 것에 그쳤습니다.
-만약 \texttt{i}를 4로 대입하는 경우에는 4를 그대로 사용하여 일반항을 계산하는 작업을 하였던 것입니다.
-이번 시간에 list리스트 자료형을 배우게 된다면, 임의의 주어진 수열에 대해서 연산을 수행할 수 있습니다.
-리스트는 일종의 수열로 생각할 수 있는데, \texttt{for} 문과 리스트를 사용하면 수열의 첨자를 통해 일반적인 계산을 수행할 수 있습니다.
+\section{리스트}
+지난 단원에서는 반복문으로 단순 반복 작업을 수행하는 법에 대해 알아보았습니다.
+하지만 지난 시간에 맛 본 \texttt{for}문은 단순히 \pyin{range}에서 받아온 값을 그대로 사용하는 것에 그쳤습니다.
+만약 \texttt{i}에 4를 대입하는 경우, 4를 그대로 사용해 일반항을 계산한 것입니다.
 
-지금까지는 10개의 변수를 받아 합을 반환하는 함수를 작성하기 위해서는 아래와 같은 코드를 작성했어야 합니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\alt*{리스트}{list}[lists]를 사용하면 임의의 수열에 대해 일반적인 연산을 할 수 있습니다.
+리스트는 일종의 (유한) 수열로 생각할 수 있는데, \texttt{for}문과 리스트를 적절히 사용하면 수열의 원소를 접근해 일반적인 계산을 수행할 수 있습니다.
+
+지금까지는 10개의 변수를 받아 합을 반환하는 함수를 작성하기 위해 아래와 같은 코드를 작성했어야 합니다.
+\begin{minted}{python}
 def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
     summ = 0
     summ += n1
@@ -24,137 +20,124 @@ def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
     summ += n10
     return summ
 \end{minted}
-심지어 \texttt{for} 문을 활용할 수도 없습니다.
-다음과 같은 문법은 허용되지 않기 때문입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+심지어 \texttt{for}문을 활용할 수도 없습니다.
+다음과 같은 문법은 허용되지 않기 때문입니다:
+\begin{minted}{python}
 def sum_ten(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
     summ = 0
     for i in range(1, 11):
         summ += ni
     return summ
 \end{minted}
-위에서 \texttt{ni}는 단지 새로운 변수 \texttt{ni}라는 이름을 가진 변수에 불과합니다.
-그러나 리스트를 사용한다면, 단지 10개의 변수가 아니라 임의의 개수의 변수를 받아서--엄밀하게는 임의의 개수의 변수를 담고 있는 하나의 리스트형 변수를 받아서--계산을 할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+위에서 \texttt{ni}는 \texttt{ni}라는 이름을 가진 변수에 불과합니다.
+하지만 이런 이름의 변수는 정의된 적이 없으므로 오류를 뿜어내게 됩니다.
+
+리스트를 사용하면 임의의 개수의 변수를 (담는 리스트를) 받아 계산을 할 수 있습니다:
+\begin{minted}{python}
 def sum_arb(numbers):
     summ = 0
     for i in range(len(numbers)):
         summ += numbers[i]
     return summ
 \end{minted}
-
-요약하자면, 묶음의 데이터를 한 번에 처리할 수 있는 방법이 리스트와 \texttt{for} 문을 활용하는 것입니다.
-이제 리스트의 정의와, 이를 어떻게 다룰 수 있을지 자세히 알아봅니다.
+혹은 더 간단히,
+\begin{minted}{python}
+def sum_arb(numbers):
+    summ = 0
+    for n in numbers:
+        summ += n
+    return summ
+\end{minted}
+와 같이 바로 \verb/numbers/에서 원소를 \verb/n/이라는 이름으로 하나씩 꺼내올 수도 있습니다.
 
 \subsection{리스트의 생성}
-리스트의 생성은 세 가지 경우로 나눌 수 있습니다.
-첫 번째 경우는 리스트에 어떤 원소가 들어갈 것인지 이미 정해진 경우입니다.
-이러한 경우, 직접 원소를 입력하여 리스트를 생성할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+리스트는 보통 세 가지 방법으로 생성할 수 있습니다:
+\begin{enumerate}
+\item 원소들이 이미 정해진 경우,
+\item 원소들의 개수가 이미 정해진 경우,
+\item 임의의 원소들이 들어갈 수 있는 경우
+\end{enumerate}
+입니다.
+각 경우를 살펴봅시다.
+
+\subsubsection{원소들이 이미 정해진 경우}
+원소들이 이미 정해진 경우 리스트에 직접 원소를 입력하여 생성할 수 있습니다.
+\begin{minted}{python}
 numbers = [3, 1, 4, 1, 5, 9, 2, 6]
 \end{minted}
-리스트의 값은 나중에 수정할 수 있기 때문에 처음에 채워 넣은 값을 initial values초기값이라고 합니다.
-하지만 이렇게 값을 입력하는 것은 리스트가 담고 있는 원소의 개수가 적을 때만 가능합니다.
-그렇지만 값이 불규칙할 경우에는 직접 입력할 수 밖에 없습니다.
+리스트의 값은 나중에 수정할 수 있기 때문에 처음에 채워 넣은 값들은 초기값입니다.
+하지만 이렇게 값을 입력하는 것은 리스트가 담고 있는 원소의 개수가 적을 경우입니다.
 
-리스트에 담을 값이 규칙적이면서, 크기가 정해져 있다면 값을 초기화하지 않은 상태에서 일정 크기를 가진 리스트를 생성할 수 있습니다.
+\subsubsection{원소들의 개수가 이미 정해진 경우}
+리스트에 담을 값이 규칙적이면서 크기가 정해져 있다면, 값을 \pyin{None}으로 초기화한 후 정해진 크기를 가진 리스트를 생성할 수 있습니다.
 아래는 크기 10의 리스트를 생성한 것입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 numbers = [None] * 10
 \end{minted}
-\texttt{[None] * 10}은 \texttt{[None, None, None, None, None, None, None, None, None, None]}과 동일합니다.
-위에서와 같이 \texttt{None} 말고 정수형인 \texttt{-1}이나 문자열인 \texttt{"empty"} 등으로도 채워넣을 수 있습니다.
-단, \texttt{0}과 같은 값은 실제로 값을 채워 넣은 유의미한 \texttt{0}과 혼동될 수 있으니 사용하지 않는 것이 바람직합니다.
-무의미한 값으로 리스트를 채웠으니 값을 채워야 합니다.
-이는 \texttt{for} 문으로 해결할 수 있습니다.
-아래는 첫 10개의 3의 배수를 넣는 과정입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\pyin{[None] * 10}은 \pyin{[None, None, None, None, None, None, None, None, None, None]}과 동일합니다.
+위에서와 같이 \pyin{None} 말고 정수인 \texttt{-1}이나 문자열인 \pyin{""} 등으로도 채워넣을 수 있습니다.
+단, \texttt{0}과 같은 값은 실제로 값을 채워 넣은 유의미한 \texttt{0}과 혼동될 수 있으니 유의해야 합니다.
+
+혹은, 처음에 적응하는데 조금 시간이 걸릴 수도 있지만 \alt*{리스트 표현}{list comprehension}을 사용할 수도 있습니다:
+\begin{minted}{python}
+numbers = [None for i in range(10)]
+\end{minted}
+위 코드에서 \verb/i/는 사용되지 않으므로 \pyin{[None for _ in range(10)]}와 같이 다시 쓸 수도 있습니다.
+이 같은 리스트 표현은 다차원 리스트를 초기화할 때 필요한데요, 이는 해당 절에서 더 자세히 확인할 수 있습니다.\footnote{리스트의 \texttt{*}는 \alt*{얕은 복사}{shallow copy}를 하는 방면 리스트 표현을 쓰면 복사가 아니라 각 값이 새로 만들어지기 때문입니다.}
+
+이렇게 만든 리스트 안의 \pyin{None}들을 대신할 값을 채워야 합니다.
+바로 \texttt{for}문으로 해결할 수 있습니다.
+다음은 첫 열 개의 3의 배수를 넣는 과정입니다.
+\begin{minted}{python}
 numbers = [None] * 10
 
 for i in range(len(numbers)):
     numbers[i] = (i + 1) * 3
 \end{minted}
-\texttt{len($\cdot$)} 함수가 처음 등장했는데, 이는 리스트의 길이를 반환합니다.
-위의 예시에서 \texttt{len(numbers)}는 \texttt{10}을 반환합니다.
-코드를 보다 일반적이고 명료하게 나타내기 위하여 리스트의 길이를 숫자 \texttt{10}과 같이 직접 치는 것보다는 \texttt{len($\cdot$)}을 사용하는 것이 좋습니다.
-또한 리스트의 원소를 접근하는 방식은 \texttt{리스트\_명[원소\_첨자]}입니다.
-\texttt{원소\_첨자}는 \texttt{0}에서 \texttt{len(리스트\_명) - 1}까지의 값을 가집니다.
-즉, 리스트의 첫 원소를 호출하려면 \texttt{리스트\_명[1]}이 아닌 \texttt{리스트\_명[0]}을, \texttt{n}번째 원소를 호출하려면 \texttt{리스트\_명[n]}이 아닌 \texttt{리스트\_명[n - 1]}을, 마지막 원소를 호출하려면 \texttt{리스트\_명[len(리스트\_명)]}이 아닌 \texttt{리스트\_명[len(리스트\_명) - 1]}을 사용해야 합니다.
-정리하자면, \texttt{리스트\_명[n]}은 \texttt{리스트\_명}의 $\texttt{n} + 1$번째 원소를 가리킵니다.
+\pyin{len}\index{\texttt{len}} 함수는 리스트의 길이를 반환합니다.
+예컨대 \pyin{len(numbers)}는 \texttt{10}을 반환합니다.
+보다 일반적이고 재사용 가능한 명료한 코드를 작성하기 위해서는 리스트의 길이를 숫자 \texttt{10}과 같이 직접 치는 것보다는 \pyin{len}을 사용하는 것이 좋습니다.
 
+리스트의 원소를 접근할 때는 \pyin{lst[index]}와 같이 쓸 수 있습니다.
+\pyin{index}는 \texttt{0}에서 \pyin{len(lst) - 1}까지의 값을 가집니다.
+즉, 리스트의 첫 번째 원소를 접근하려면 \pyin{lst[1]}이 아닌 \pyin{lst[0]}을, \texttt{n}번째 원소를 접근하려면 \pyin{lst[n]}이 아닌 \pyin{lst[n - 1]}을, 마지막 원소를 접근하려면 \pyin{lst[len(lst)]}이 아닌 \pyin{lst[len(lst) - 1]}을 사용해야 합니다.
+정리하자면, \pyin{lst[n]}은 \pyin{lst}의 $\texttt{n} + 1$번째 원소를 가리킵니다.
+
+\subsubsection{임의의 원소들이 들어갈 수 있는 경우}
 마지막으로는 리스트의 크기도 정해지지 않은 경우입니다.
-물론, 위 두 경우처럼 개수나 원소가 정해진 경우에도 사용할 수 있는 일반적인 방법입니다.
-리스트의 \texttt{append($\cdot$)} method메소드\footnote{객체에 관련된 함수를 뜻하는 말입니다. 객체 지향 프로그래밍을 배울 때 알아볼 것입니다. 지금으로는 단순히 어떤 변수에 딸린 함수라고 생각하면 됩니다.}를 사용하는 것입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+물론, 이 방법은 원소들이나 개수가 정해진 경우에도 사용할 수 있는 가장 일반적인 방법입니다.
+리스트의 \pyin{append}\index{\texttt{append}} \alt*{메소드}{method}\footnote{객체에 딸린 함수를 뜻하는 말입니다. 객체 지향 프로그래밍을 배울 때 알아볼 것입니다.}를 사용하는 방법입니다.
+\begin{minted}{python}
 numbers = []
 
 for i in range(10):
     numbers.append((i + 1) * 3)
 \end{minted}
-처음에 아무것도 담지 않은 리스트 \texttt{[]}에다가, \texttt{.append($\cdot$)}를 통해 새로운 원소를 뒤에 하나씩 추가하는 방법입니다.
-예컨대, \texttt{a = [1, 2, 3]}일 때 \texttt{a.append(4)}를 수행하면 \texttt{a}는 \texttt{[1, 2, 3, 4]}가 됩니다.
-간단히 ``리스트 버전의 \texttt{+=} 연산''이라고 생각하면 됩니다.
+처음에 아무것도 담지 않은 리스트 \pyin{[]}에다가, \pyin{append}를 통해 새로운 원소를 뒤에 하나씩 추가하는 방법입니다.
+예를 들어, \pyin{a = [1, 2, 3]}일 때 \pyin{a.append(4)}를 수행하면 \pyin{a}는 \pyin{[1, 2, 3, 4]}가 됩니다.
 
-\subsection{리스트의 elements원소와 indices인덱스}
-리스트 \texttt{리스트\_명}의 element원소 \texttt{리스트\_명[원소\_첨자]}에서 \texttt{원소\_첨자}는 index인덱스\footnote{복수형은 indices입니다.}라고 합니다.
-지금까지는 수열처럼 첨자라고 했는데, 앞으로는 인덱스라고 부릅니다.
-인덱스는 \texttt{0}부터 \texttt{len(리스트\_명) - 1}까지의 값 이외에도, \texttt{-len(리스트\_명)}에서부터 \texttt{-1}까지 사용할 수 있습니다.
-\texttt{리스트\_명[-1]}은 \texttt{리스트\_명[len(리스트\_명) - 1]}과 같으며, \texttt{리스트\_명[-len(리스트\_명)]}은 \texttt{리스트\_명[0]}과 같습니다.
-Modulo모듈로 \texttt{len(리스트\_명)}로 생각할 수 있는데, \texttt{len(리스트\_명)} 이상의 값이나 \texttt{-len(리스트\_명)} 미만의 값은 인덱스로 사용하면 \texttt{IndexError: list index out of range} 에러를 볼 수 있습니다.
-복잡한 코드에서 주의를 기울이지 않으면 자주 보게 될 에러 메시지인데, 해당 메시지가 뜨면 \texttt{for} 문의 리스트 인덱스를 다시 한 번씩 살펴보아야 합니다.
+\subsection{리스트의 원소와 인덱스}
+리스트 \texttt{lst}의 원소 \pyin{lst[index]}에서 \pyin{index}는 \alt*{인덱스}{index}\footnote{Index의 복수형은 indices입니다.}라고 합니다.
+인덱스는 \texttt{0}부터 \pyin{len(lst) - 1}까지의 값 이외에도, \pyin{-len(lst)}에서부터 \texttt{-1}까지 사용할 수 있습니다.
+\pyin{lst[-1]}은 \pyin{lst[len(lst) - 1]}과 같으며, \pyin{lst[-len(lst)]}은 \pyin{lst[0]}과 같습니다.
+이때 \pyin{len(lst)} 이상의 값이나 \texttt{-len(lst)} 미만의 값을 인덱스로 사용하면 \texttt{IndexError: list index out of range} 에러를 볼 수 있습니다.
+복잡한 코드에서 주의를 기울이지 않으면 자주 보게 될 에러 메시지인데, 해당 메시지가 뜨면 \texttt{for}문의 리스트 인덱스를 다시 한 번씩 살펴보아야 합니다.
 
-리스트는 굉장히 범용적인 container용기라고 생각할 수 있습니다.
-리스트는 정수형 혹은 실수형 수 뿐만이 아니라 문자열, 불리언, 나아가 리스트들을 담을 수 있습니다.
-또한, 한 종류의 자료형이 아니라 여러 종류의 자료형을 한 리스트에 담을 수 있습니다.
+리스트는 굉장히 범용적인 \alt*{컨테이너}{container}입니다.
+리스트는 정수 혹은 실수 뿐만이 아니라 문자열, 불리언, 나아가 다른 리스트들도 담을 수 있습니다.
+또한 한 가지 타입의 원소들만이 아니라 여러 타입이 섞인 원소들도 한 리스트에 담을 수 있습니다.
 즉, 아래와 같은 예시 모두 가능합니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 >>> type(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
 <type 'list'>
 >>> type([True, None, [3, 2, 1], 3.14, "one"])
 <type 'list'>
 \end{minted}
-나아가 인덱스를 통해 리스트에 담긴 원소를 다룰 때는 해당 원소의 자료형처럼 그대로 다룰 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+이런 리스트를 \alt*{불균일}{heterogeneous}하다고 부릅니다.
+하지만 이렇게 인덱스별로 다양한 타입의 값을 담고 있는 리스트는 다루기 힘들 뿐만이 아니라 (잘 짜여진 코드에서는) 많이 보기도 어렵습니다.
+
+인덱스를 통해 리스트에 담긴 원소를 다룰 때에는 해당 원소에 대한 연산들을 그대로 사용할 수 있습니다:\footnote{인덱스로 접근한 이후에는 그 원소에 해당하는 변수를 사용하는 것과 다름이 없기 때문에 당연한 일입니다.}
+\begin{minted}{python}
 >>> numbers = [None] * 4
 >>> numbers[0] = 3
 >>> numbers[0]
@@ -167,10 +150,10 @@ None
 >>> numbers[2] = numbers[1] - 7
 >>> numbers[2]
 -1
->>> numbers[3] = numbers[2]**2
+>>> numbers[3] = numbers[2] ** 2
 >>> numbers[3]
 1
->>> numbers[3] /= 2.
+>>> numbers[3] /= 2
 >>> numbers[3]
 0.5
 >>> numbers[4] = 2 * numbers[3]
@@ -178,27 +161,18 @@ None
 1.0
 \end{minted}
 
-리스트의 인덱스는 정수형이라면 어떠한 표현을 사용하여도 문제가 되지 않습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+리스트의 인덱스는 정수 타입이고 적절한 범위에 들어가는 값으로 계산된다면 어떤 식이든 사용할 수 있습니다:
+\begin{minted}{python}
 for i in range(4):
-    print(numbers[(i + 2)%4])
+    print(numbers[(i + 2) % 4])
 \end{minted}
-위 예시는 \texttt{numbers[2]}, \texttt{numbers[3]}, \texttt{numbers[0]}과 \texttt{numbers[1]}을 차례대로 출력합니다.
+위 예시는 \pyin{numbers[2]}, \pyin{numbers[3]}, \pyin{numbers[0]}과 \pyin{numbers[1]}을 차례대로 출력합니다.
 
-\subsection{리스트의 연산}
-리스트에서 유용한 연산 중에는 slicing슬라이싱이 있습니다.
-슬라이싱이란 리스트의 부분 리스트를 만드는 연산으로, 아래와 같이 사용할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsection{리스트의 조작}
+\subsubsection{슬라이싱}
+리스트에서 유용한 연산 중에는 \alt*{슬라이싱}{slicing}이 있습니다.
+슬라이싱이란 리스트의 부분 리스트를 만드는 연산으로, 다음과 같이 사용할 수 있습니다:
+\begin{minted}{python}
 >>> l = [0, 1, 2, 3, 4, 5]
 >>> l[1:4]
 [1, 2, 3]
@@ -216,20 +190,15 @@ for i in range(4):
 [1, 2, 3, 4]
 \end{minted}
 
-즉, \texttt{l}이라는 리스트가 주어졌을 때 \texttt{l[i:j]}는 \texttt{l[i]}부터 \texttt{l[j - 1]}까지의 원소를 뽑아서 새로운 리스트를 만듭니다.
-만약 \texttt{i}가 생략된다면 첫 문자부터 시작하며, \texttt{j}가 생략된다면 마지막 문자까지 포함을 합니다.
-둘 다 생략하는 경우 같은 원소들을 담고 있는 리스트의 복사본을 만들게 됩니다.
+\texttt{l}이라는 리스트가 주어졌을 때 \pyin{l[i:j]}는 \pyin{l[i]}부터 \pyin{l[j - 1]}까지의 원소를 뽑아 새로운 리스트를 만듭니다.
+만약 \texttt{i}가 생략된다면 첫 원소---인덱스 \verb/0/---부터 시작하며, \texttt{j}가 생략된다면 마지막 원소---인덱스 \verb/-1/---까지 포함합니다.
+둘 다 생략하는 경우 같은 원소들을 담고 있는 리스트의 복사본을 만들게 됩니다.\footnote{하지만 한 단계만 복사하는 얕은 복사\myindex{얕은 복사}{shallow copy}입니다.}
 
-원소들을 특정 간격으로 띄워서 부분 리스트를 만들 때도 슬라이싱을 사용할 수 있습니다.
-이 경우 \texttt{l[i:j:k]}와 같이 슬라이싱을 하는데, \texttt{k}만큼의 간격을 두고 원소들을 추출하게 됩니다.
-\texttt{range(i, j, k)}와 동일하다고 생각하면 됩니다.
-곧 알게 되겠지만 \texttt{range($\cdot$)}는 리스트를 호출하는 메소드이기 때문입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+원소들을 일정 간격으로 건너뛰면서 부분 리스트를 만들 때에도 슬라이싱을 사용할 수 있습니다.
+이 경우 \pyin{l[i:j:k]}와 같이 슬라이싱을 하는데, \texttt{k}만큼 건너뛰면서 원소들을 추출합니다.
+\pyin{range(i, j, k)}에 대응된다고 생각하면 됩니다.
+사실 \pyin{range}는 리스트처럼 값을 순회할 수 있게 하는 값을 반환하는 메소드이기 때문입니다.
+\begin{minted}{python}
 >>> l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 >>> l[1:9:2]
 [1, 3, 5, 7]
@@ -239,20 +208,17 @@ for i in range(4):
 [1, 3, 5, 7, 9]
 >>> l[1:-1:2]
 [1, 3, 5, 7]
+>>> list(range(10))
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{minted}
-위에서 볼 수 있듯이, \texttt{i}, \texttt{j}, \texttt{k}에서 \texttt{i}와 \texttt{j}, 혹은 둘 다 생략을 할 수 있습니다.
-또한 \texttt{k}가 음수일 경우, 원소를 뒤에서부터 골라서 추출하게 됩니다.
-특히 \texttt{k = -1}로 지정하여 \texttt{l[::-1]}과 같이 사용한다면 \texttt{l}의 원소를 거꾸로 나열한 새로운 리스트를 생성하게 됩니다.
+위에서 볼 수 있듯 \pyin{l[i:j:k]}의 \texttt{i}, \texttt{j}, \texttt{k} 중 \texttt{i}와 \texttt{j}, 혹은 둘 다 생략할 수 있습니다.
+\texttt{k}가 음수일 경우, 원소를 뒤에서부터 골라서 추출하게 됩니다.
+특히 \texttt{k = -1}인 경우 \texttt{l[::-1]}과 같이 사용하면 \texttt{l}의 원소를 거꾸로 나열한 새로운 리스트를 만들게 됩니다.
 
-또한 두 리스트를 비교할 때는 다른 자료형과 마찬가지로 \texttt{==}를 사용하여 비교할 수 있습니다.
-만약 특정 원소가 리스트에 해당하는지를 알아보려면 \texttt{in}을 사용하면 됩니다.
-이 두 연산은 불리언을 반환하게 됩니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsubsection{리스트의 비교와 포함 관계 확인}
+두 리스트를 비교할 때는 다른 타입과 마찬가지로 \pyin{==}를 사용해 비교할 수 있습니다.
+또한 특정 원소가 리스트에 해당하는지를 알아보려면 \pyin{in}을 사용하면 됩니다:
+\begin{minted}{python}
 >>> l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 >>> m = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 >>> l == m
@@ -267,14 +233,9 @@ False
 True
 \end{minted}
 
-두 리스트를 잇고 싶은 경우 단순히 \texttt{+}를 사용하여 연결하고, $n$ 회 반복한 만큼의 리스트를 만들고 싶다면 \texttt{*}를 사용하면 됩니다.
-아래와 같이 사용할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\subsubsection{리스트의 연결}
+두 리스트를 \alt*{연결}{concatenate}[concatenation]하고 싶은 경우 \texttt{+}를 사용하여 연결하고, $n$번 연결한 리스트를 만드려면 \texttt{*}를 사용하면 됩니다\footnote{얕은 복사\myindex{얕은 복사}{shallow copy}를 하므로 주의해야 합니다.}:
+\begin{minted}{python}
 >>> l = [0, 1, 2] + [3, 4, 5, 6, 7, 8, 9]
 >>> m = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 >>> l == m
@@ -284,101 +245,86 @@ True
 [1, 2, 1, 2, 1, 2]
 \end{minted}
 
-\subsection{Multi-Dimensional 다차원 리스트}
+\subsection{다차원 리스트}
 다차원 리스트는 리스트들의 리스트입니다.
-이는 matrix행렬을 Python으로 구현하고자 할 때 유용하게 사용할 수 있습니다.
-(일단 행렬은 아래와 같이 행과 열에 맞추어 수들을 나열한 수학적 객체라고 생각하시면 됩니다.)
-\[
-l =
-  \begin{pmatrix}
+특히 \alt*{행렬}{matrix}을 만들 때 유용하게 사용할 수 있습니다.
+
+행렬 $M$이
+\[M = \begin{pmatrix}
     1 & 2 & 3 & 4 & 5 \\
     3 & 4 & 5 & 6 & 7
-  \end{pmatrix}
-\]
-위와 같은 행렬은 아래와 같은 리스트로 표현할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\end{pmatrix}\]
+와 같을 때, 이는 다음과 같은 리스트 \verb/l/로 표현할 수 있습니다.
+\begin{minted}{python}
 l = [[1, 2, 3, 4, 5], [3, 4, 5, 6, 7]]
 \end{minted}
-만약 \texttt{l}의 행의 길이를 알고 싶다면 \texttt{len(l[0])}을, 열의 길이를 알고 싶다면 \texttt{len(l)}을 사용하면 됩니다.
-또한 각 원소를 접근할 때에, 1행 1열의 원소를 접근하고 싶다면 \texttt{l[0][0]}, 1행 2열의 원소를 접근하고 싶다면 \texttt{l[0][1]}, 2행 3열의 원소를 접근하고 싶다면 \texttt{l[1][2]}를 사용하면 됩니다.
-일반적으로, \texttt{i}행 \texttt{j}열의 원소는 \texttt{l[i - 1][j - 1]}로 접근할 수 있습니다.
 
-다차원 리스트의 경우에도 미리 원소를 지정하지 않고 \texttt{None}으로 초기화하여 리스트를 생성할 수도 있습니다.
-만약 \texttt{height}만큼의 행의 개수, \texttt{width}만큼의 열의 개수를 가지는, \texttt{None}으로 초기화된 리스트를 생성한다면, 다음과 같이 생성할 수 있습니다.
+만약 \texttt{l}의 행 크기를 알고 싶다면 \pyin{len(l[0])}을, 열 크기를 알고 싶다면 \pyin{len(l)}을 사용하면 됩니다.
+
+각 원소를 접근할 때는, 1행 1열의 원소라면 \pyin{l[0][0]}, 1행 2열의 원소라면 \pyin{l[0][1]}, 2행 3열의 원소를 접근하고 싶다면 \pyin{l[1][2]}를 사용하면 됩니다.
+일반적으로 \texttt{i}행 \texttt{j}열의 원소는 \pyin{l[i - 1][j - 1]}로 접근할 수 있습니다.
+
+다차원 리스트의 경우에도 미리 원소를 지정하지 않고 \pyin{None}으로 초기화하여 리스트를 생성할 수 있습니다.
+행 크기 \texttt{height}, 열 크기 \texttt{width}인 \pyin{None}으로 초기화된 리스트는 다음과 같이 생성할 수 있습니다.
 아래 예시에는 \texttt{i}행 \texttt{j}열의 값을 \texttt{i + 2*j + 1}로 지정하는 과정까지 담고 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 height = 3
 width = 4
-table = [[None]*width for i in range(height)]
+table = [[None] * width for i in range(height)]
+# or table = [[None for j in range(width)] for i in range(height)]
+# or just table = [[None for _ in range(width)] for _ in range(height)]
 
 for i in range(height):
     for j in range(width):
-        table[i][j] = i + 2*j + 1
+        table[i][j] = i + 2 * j + 1
 \end{minted}
-위 과정을 통해서 
+위 과정을 통해
 \[
-l =
   \begin{pmatrix}
     1 & 3 & 5 & 7\\
     2 & 4 & 6 & 8\\
     3 & 5 & 7 & 9
   \end{pmatrix}
 \]
-에 대응되는 리스트 \texttt{[[1, 3, 5, 7], [2, 4, 6, 8], [3, 5, 7, 9]]}를 구성하게 됩니다.
+에 대응되는 리스트 \pyin{[[1, 3, 5, 7], [2, 4, 6, 8], [3, 5, 7, 9]]}를 얻을 수 있습니다.
 
-나아가, 임의 차원을 가지는 리스트를 구성할 수 있습니다.
-3차까지는 시각적으로 길이, 너비, 높이를 가지는 각 격자점에 값이 놓여 있다고 생각하시면 됩니다.
-이 경우, 3중 루프를 구성하여 값을 채워 넣을 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+나아가 임의의 차원을 가지는 리스트도 만들 수 있습니다.
+3차까지는 머리 속에서 시각화할 수 있는데요, 길이, 너비, 높이를 가지는 격자에 값이 놓여 있다고 생각하시면 됩니다.\footnote{4차도 시간에 따라 3차 격자에서 값들이 바뀌는 것으로 시각화할 수 있습니다.}
+이 경우 삼중 루프를 써서 값을 채워 넣을 수 있습니다:
+\begin{minted}{python}
 height = 3
 width = 4
 depth = 2
-table = [[[None]*width for j in range(height)] for i in range(depth)]
+table = [[[None] * width for j in range(height)] for i in range(depth)]
+# or table = [[[None for _ in range(width)] for _ in range(height)] for _ in range(depth)]
 
 for i in range(depth):
     for j in range(height):
         for k in range(width):
-            table[i][j][k] = i + 2*j + k + 1
+            table[i][j][k] = i + 2 * j + k + 1
 \end{minted}
 
-\subsection{알아두면 유용한 내장 함수}
-리스트 \texttt{l}가 주어졌을 때,
+\subsection{알아두면 유용한 리스트 내장 함수}
+파이썬에서는 리스트를 조작할 수 있는 다양한 내장 함수들을 미리 준비해 두었는데요, 다음의 연산들이 있습니다:
 \begin{itemize}
-\item \texttt{sum(l)}: \texttt{l}의 모든 원소의 합을 반환합니다.
-\item \texttt{min(l)}: \texttt{l}의 최소원을 반환합니다.
-\item \texttt{max(l)}: \texttt{l}의 최대원을 반환합니다.
-\item \texttt{l.append(x)}: \texttt{l}에 \texttt{x}를 마지막 위치에 추가하며 반환값이 없습니다.
-\item \texttt{l.count(x)}: \texttt{l}에 포함된 \texttt{x}의 개수를 반환합니다.
-\item \texttt{l.insert(i, x)}: \texttt{l}의 \texttt{i}번째 인덱스에 \texttt{x}를 추가하며 반환값이 없습니다.
-\item \texttt{l.pop(i)}: \texttt{l}의 \texttt{i}번째 인덱스에 해당하는 원소를 없애고 해당 값을 반환합니다.
-\item \texttt{l.remove(x)}: \texttt{l}의 첫 번째 \texttt{x}를 없앱니다.
-\item \texttt{l.reverse()}: \texttt{l}을 뒤집으며 반환값이 없습니다.
-\item \texttt{l.sort()}: \texttt{l}의 원소들을 정렬하며 반환값이 없습니다. 이 때, 수들 먼저 정렬된 후 문자열이 알파벳 순서로 정렬이 됩니다.
+\item \pyin{sum(l)}: \texttt{l}의 모든 원소의 합을 반환합니다.
+\item \pyin{min(l)}: \texttt{l}의 최소원을 반환합니다.
+\item \pyin{max(l)}: \texttt{l}의 최대원을 반환합니다.
+\item \pyin{l.append(x)}: \texttt{l}에 \texttt{x}를 맨 뒤에 추가합니다. \pyin{None}을 반환합니다.
+\item \pyin{l.count(x)}: \texttt{l}에 포함된 \texttt{x}의 개수를 반환합니다.
+\item \pyin{l.insert(i, x)}: \texttt{l}의 \texttt{i}번째 인덱스에 \texttt{x}를 추가합니다. \pyin{None}을 반환합니다.
+\item \pyin{l.pop(i)}: \texttt{l}의 \texttt{i}번째 인덱스에 해당하는 원소를 없애고 해당 값을 반환합니다.
+\item \pyin{l.remove(x)}: \texttt{l}의 첫 번째 \texttt{x}를 없앱니다.
+\item \pyin{l.reverse()}: \texttt{l}을 뒤집습니다.
+\item \pyin{l.sort()}: \texttt{l}의 원소들을 정렬하며 \pyin{None}을 반환합니다.
+\item \pyin{reversed(l)}: \texttt{l}의 뒤집힌 버전을 반환합니다.\footnote{이렇게 반환된 값은 사실 리스트가 아니라 \alt*{이터레이터}{iterator}인데, \pyin{list(reversed(l))}과 같이 \texttt{list} 함수로 변환하여 리스트로 변환할 수 있습니다.} \texttt{l}은 그대로 남아 있습니다.
+\item \pyin{sorted(l)}: \texttt{l}의 정렬된 버전을 반환합니다. \texttt{l}은 그대로 남아 있습니다.
 \end{itemize}
-\textbf{이 때 반환값이 없는 메소드에 대해서는 다른 원소를 정의할 때 사용할 수가 없다는 점을 유의해야 합니다.}
-예컨대, \texttt{m = l.append(x)}를 하면 \texttt{l}에는 \texttt{x}가 추가되지만, \texttt{m}에는 \texttt{None}이 배정됩니다.
-아래 예시를 모아두었습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+반환값이 \pyin{None}인 메소드와 그렇지 않은 것들을 잘 구분해야 합니다.
+예컨대 \pyin{l.sort()}를 하면 \texttt{l} 자체가 정렬이 되지만, \pyin{m = sorted(l)}을 하면 \verb/m/에 \verb/l/의 정렬된 버전이 대입되고 \verb/l/은 변화가 없습니다.
+
+아래 예시를 통해 확인해봅시다:
+\begin{minted}{python}
 >>> l = [0, 1, 2]
 >>> m = sum(l)
 >>> m
@@ -416,6 +362,9 @@ None
 None
 >>> l
 ['hi', 1, 3]
+>>> m = list(reversed(l))
+>>> m
+[3, 1, 'hi']
 >>> m = l.sort()
 >>> m
 None
@@ -423,176 +372,149 @@ None
 [1, 3, 'hi']
 \end{minted}
 
-\section{Strings문자열}
+\section{문자열}
+지금까지 문자열은 단순히 어떤 문구를 출력하기 위해 사용하는 용도였다면, 이제는 문자열을 가지고 연산하는 법을 알아볼 것입니다.
+
 문자열은 리스트와 비슷하게 다룰 수 있습니다.
-지금까지 문자열은 단순히 어떤 문구를 출력하기 위해 사용하는 정도로 그쳤었다면, 이제는 문자열을 가지고 연산을 하는 법을 알아볼 것입니다.
-리스트 \texttt{l}의 \texttt{i} 번째 원소를 접근하기 위하여 \texttt{l[i - 1]}을 사용하였다면, 어떠한 문자열 \texttt{s}의 \texttt{i} 번째 문자를 접근하기 위하여 동일한 방식으로 \texttt{s[i - 1]}을 사용할 수 있다.
+리스트 \texttt{l}의 \texttt{i}번째 원소를 접근하기 위하여 \pyin{l[i - 1]}을 사용하였다면, 어떠한 문자열 \texttt{s}의 \texttt{i}번째 문자를 접근하기 위하여 동일한 방식으로 \pyin{s[i - 1]}을 사용할 수 있습니다.
+
 슬라이싱도 동일한 문법을 따릅니다.
 나아가 두 문자열을 연결하기 위해서는 \texttt{+}를, 반복하기 위하여 \texttt{*}에 수를 곱하는 방식으로 연산하는 것까지 동일합니다.
+
 또한 부등호를 통해 사전식 배열을 하였을 때 어떤 문자열이 먼저 나오는지를 판단할 수 있습니다.
-\texttt{in}과 \texttt{not in}을 통해 어떤 문자열이 다른 문자열의 부분 문자열이 되는지도 판단할 수 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
->>> s = "WEIZMANN"
+\pyin{in}과 \pyin{not in}을 통해 어떤 문자열이 다른 문자열의 부분 문자열이 되는지도 판단할 수 있습니다.
+\begin{minted}{python}
+>>> s = "Python"
 >>> s[2]
-'I'
+'t'
 >>> s[1:4]
-'EIZ'
+'yth'
 >>> s * 3
-'WEIZMANNWEIZMANNWEIZMANN'
+'PythonPythonPython'
 >>> s = s + "PYTHON"
 >>> s
-'WEIZMANNPYTHON'
->>> "WEIZMANN" > "PYTHON"
+'PythonPYTHON'
+>>> "Python" > "PYTHON"
 True
->>> 'MANN' in s
+>>> 'thon' in s
 True
 \end{minted}
 
-\subsection{문자열의 연산}
-리스트와의 차이라면 리스트는 mutable가변 객체이고, 문자열은 immutable불변 객체라는 것입니다.
-이에 따라 한 문자열을 통해 새로운 값을 만들고 싶다면 새로운 문자열을 정의하는 방식을 사용해야 하며, 기존의 문자열을 수정하는 것은 불가능합니다.
-반면, \texttt{+=}이나 \texttt{*=}을 사용하는 것은 가능합니다.
-이는 \texttt{s += \textquotesingle a\textquotesingle}는 단순히 \texttt{s = s + \textquotesingle a\textquotesingle}를 축약한 것으로써 동일한 이름의 문자에 새로운 값을 배정하는 것을 의미하기 때문입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
->>> s = "WEIZMANN"
->>> s[0] = "w"
+\subsection{문자열의 불변성}
+리스트와의 차이라면 리스트는 \alt*{가변}{mutable} 객체이고, 문자열은 \alt*{불변}{immutable} 객체라는 것입니다.
+이에 따라 한 문자열을 ``조작''하고 싶다면 새로운 문자열을 만들어야지, 기존의 문자열을 수정하는 것은 불가능합니다.
+
+그렇지만 \pyin{+=}이나 \pyin{*=}을 사용하는 것은 가능합니다.
+이는 \pyin{s += "a"}는 단순히 \texttt{s = s + "a"}를 축약한 것으로, \verb/s/의 값을 수정하는 것이 아니라 \verb/s/에 새로운 값을 대입하는 것이기 때문입니다.
+\begin{minted}{python}
+>>> s = "Python"
+>>> s[0] = "p"
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: 'str' object does not support item assignment
 >>> s += "PYTHON"
 >>> s
-"WEIZMANNPYTHON"
+"PythonPYTHON"
 \end{minted}
 
-\subsection{알아두면 유용한 내장 함수들}
+\subsection{알아두면 유용한 문자열 내장 함수들}
 문자열을 더 편리하게 다루기 위한 다양한 내장 함수들도 준비되어 있습니다.
+
 문자열 \texttt{s}와 \texttt{t}가 주어졌을 때,
 \begin{itemize}
-\item \texttt{s.upper()}: \texttt{s}의 모든 문자를 대문자로 바꾸어 반환합니다.
-\item \texttt{s.lower()}: \texttt{s}의 모든 문자를 소문자로 바꾸어 반환합니다.
-\item \texttt{s.capitalize()}: \texttt{s}의 첫 문자는 대문자로, 나머지는 소문자로 바꾸어 반환합니다.
-\item \texttt{s.isupper()}: \texttt{s}의 모든 문자가 대문자라면 \texttt{True}를, 아니라면 \texttt{False}를 반환합니다.
-\item \texttt{s.islower()}: \texttt{s}의 모든 문자가 소문자라면 \texttt{True}를, 아니라면 \texttt{False}를 반환합니다.
-\item \texttt{s.isdigit()}: \texttt{s}의 모든 문자가 숫자라면 \texttt{True}를, 아니라면 \texttt{False}를 반환합니다.
-\item \texttt{s.split()}: \texttt{s}에서 띄어쓰기 문자로 구분된 구절들을 원소로 가지는 리스트를 반환합니다.
-\item \texttt{s.find(t)}: \texttt{s}에 \texttt{t}가 포함되는 경우, \texttt{t}가 나타나는 첫 위치의 인덱스를 반환하며, 포함되지 않는 경우 -1을 반환합니다.
+\item \pyin{s.upper()}: \texttt{s}의 모든 문자를 대문자로 바꾸어 반환합니다.
+\item \pyin{s.lower()}: \texttt{s}의 모든 문자를 소문자로 바꾸어 반환합니다.
+\item \pyin{s.capitalize()}: \texttt{s}의 첫 문자는 대문자로, 나머지는 소문자로 바꾸어 반환합니다.
+\item \pyin{s.isupper()}: \texttt{s}의 모든 문자가 대문자라면 \pyin{True}를, 아니라면 \pyin{False}를 반환합니다.
+\item \pyin{s.islower()}: \texttt{s}의 모든 문자가 소문자라면 \pyin{True}를, 아니라면 \pyin{False}를 반환합니다.
+\item \pyin{s.isdigit()}: \texttt{s}의 모든 문자가 숫자라면 \pyin{True}를, 아니라면 \pyin{False}를 반환합니다.
+\item \pyin{s.split()}: \texttt{s}에서 띄어쓰기 문자로 구분된 구절들을 원소로 가지는 리스트를 반환합니다.
+\item \pyin{s.find(t)}: \texttt{s}에 \texttt{t}가 포함되는 경우, \texttt{t}가 나타나는 첫 위치의 인덱스를 반환하며, 포함되지 않는 경우 -1을 반환합니다.
 \end{itemize}
+
 리스트와는 다르게 문자열을 수정하는 메소드는 없는 것을 확인할 수 있습니다.
 전에 언급하였던 것처럼 문자열은 불변 객체이기 때문입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
->>> s = "wEiZmANN".upper()
+\begin{minted}{python}
+>>> s = "pYtHon".upper()
 >>> s
-'WEIZMANN'
->>> s = "weiZManN".lower()
+'PYTHON'
+>>> s = "pYtHon".lower()
 >>> s
-'weizmann'
->>> s = "weizmAN".capitalize()
+'python'
+>>> s = "pYtHon".capitalize()
 >>> s
-'Weizmann'
->>> "WEIZMANN12".isupper()
+'Python'
+>>> "PYTHON12".isupper()
 True
->>> "weizmanN12".islower()
+>>> "pyThon12".islower()
 False
 >>> "1242".isdigit()
 True
 >>> l = "Hello World!".split()
 >>> l
 ['Hello', 'World!']
->>> s = "WEIZMANN"
->>> s.find("IZ")
+>>> s = "Python"
+>>> s.find("thon")
 2
 \end{minted}
 
-\section{Turtle}
+\section{카운터 패턴과 휴보}
+리스트를 배웠기 때문에 조금 더 자유로운 반복문의 활용이 가능합니다.
+이번 절에서는 카운터 패턴에 대해 집중적으로 살펴볼 것이며, \texttt{hubo.cs1robots} 패키지를 통해 ``휴보''를 조작할 것입니다.\footnote{이는 카이스트에서 프로그래밍을 가르치기 위해 만들어진 패키지입니다.}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\linewidth]{./figures/turtle.png}
-\end{figure}
-
-\section{Counters카운터와 Toy Robot토이 로봇}
-리스트를 배웠기 때문에, 조금 더 자유로운 반복문의 활용이 가능합니다.
-이번 절에서는 지금까지 예제에서 살펴본 counter카운터 패턴에 대해 집중적으로 살펴볼 것이며, \texttt{cs1robots} 패키지를 통해 토이 로봇을 이용해볼 것입니다.
-
-카운터 패턴은 주어진--리스트로써 표현된--집합에서 특정 조건을 만족하는 원소의 개수를 구하는데 사용할 수 있습니다.
-아래는 \texttt{numbers}라는 수에서 7의 배수의 개수를 세는 함수 \texttt{count\_seven(numbers)}입니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+카운터 패턴은 리스트에서 어떤 조건을 만족하는 원소의 개수를 구하는데 사용합니다.
+아래는 \texttt{numbers}에서 7의 배수를 세는 함수 \pyin{count_seven}입니다.
+\begin{minted}{python}
 def count_seven(numbers):
     cnt = 0
     for i in range(len(numbers)):
-        if numbers[i]%7 == 0:
+        if numbers[i] % 7 == 0:
             cnt += 1
     return cnt
 
 num = [1, 7, 2, 4, 3, 5, 34, 12, 42, 26]
-print count_seven(num)  # 2
+print(count_seven(num))  # 2
 \end{minted}
-\texttt{for} 문을 통해서 각 원소에 대해 반복적인 시행을 표현하고, 내부에 \texttt{if} 문을 두어 특정 조건에만 명령이 수행되도록 하는 일반적인 패턴에 개수를 세는 역할을 부여한 것이 카운터 패턴입니다.
+\texttt{for}문을 통해 각 원소에 대해 반복적인 실행을 표현하고, 내부에 \texttt{if}문을 두어 특정 조건을 만족하면 개수를 세는 패턴이 카운터 패턴입니다.
 
-또한 \texttt{for} 문을 활용하여 toy robot의 움직임을 제어해볼 것입니다.
-이를 위해 첫 시간에 \texttt{C:\textbackslash Python27\textbackslash Lib\textbackslash site-packages} 폴더에 복사한 \texttt{cs1robots} 패키지를 사용할 것입니다.
-\texttt{cs1robots} 패키지를 통해 로봇 객체\footnote{컴퓨터의 메모리에 할당된 공간을 포괄적으로 객체라고 하는데, object를 번역한 말입니다. 지금으로서는 간단히 대상이라고 생각해도 무방합니다.}를 불러올 때 앞으로 \texttt{hubo}라는 이름을 붙일 것입니다.
-사실 일반적인 변수처럼 \texttt{a}, \texttt{my\_robot} 등 어떠한 이름을 붙여도 상관은 없으나, 수업 중에 \texttt{hubo}라고 관용적으로 붙이니 여기서도 이를 따르겠습니다.
+또한 \texttt{for}문으로 휴보의 움직임을 제어해볼 것입니다~(그림~\ref{fig:lecture4:example}).
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_example"}
-\label{fig:lecture4example}
+\caption{휴보를 원하는대로 조작하는 법을 알아볼 것입니다.}\label{fig:lecture4:example}
 \end{figure}
-\texttt{hubo}는 앞으로 이동, 좌로 회전, 우로 회전에 해당하는 \texttt{move()}, \texttt{turn\_left()}, \texttt{turn\_right()} 등의 기본적인 동작을 취할 수 있습니다.
-이번 절을 마치고 나면 \texttt{for} 문을 통해 \texttt{hubo}가 다양한 동작을 수행하도록 코드를 작성할 수 있을 것입니다.
+휴보는 전진, 좌회전, 우회전에 해당하는 \pyin{move()}, \pyin{turn_left()}, \pyin{turn_right()} 등의 동작을 취할 수 있습니다.
 
-\subsection{Counters카운터 패턴}
-카운터 패턴은 모두 아래와 같은 형식을 따릅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\verb/hubo/ 패키지는 pip\index{pip}으로 설치할 수 있습니다.
+pip을 사용하면 PyPI\myindex{파이썬 패키지 인덱스}{Python Package Index, PyPI}에 있는 패키지들을 손쉽게 설치할 수 있습니다:
+\begin{minted}{shell}
+pip install hubo
+\end{minted}
+
+\subsection{카운터 패턴}
+카운터 패턴은 다음의 같은 형식을 따릅니다.
+\begin{minted}{python}
 cnt = 0
-for i in range(len(리스트_명)):
-    if 조건(리스트_명[i]):
+for i in range(len(lst)):
+    if cond(lst[i]):
         cnt += 1
 \end{minted}
-어떤 주어진 리스트 \texttt{리스트\_명}가 주어졌을 때, 해당 리스트의 모든 원소에 대해(줄 2) 어떤 조건 \texttt{조건}을 원소 \texttt{리스트\_명[i]}이 만족한다면(줄 3) \texttt{cnt}의 값을 하나씩 늘리는(줄 4) 것입니다.
+리스트 \texttt{lst}가 주어졌을 때, 해당 리스트의 모든 원소에 대해(줄 2) 어떤 조건 \texttt{cond}을 \pyin{lst[i]}가 만족한다면(줄 3) \texttt{cnt}의 값을 1씩 더하는(줄 4) 것입니다.
+
 위에서 보았던 7의 배수의 개수를 세는 예시도 마찬가지입니다.
-\texttt{numbers[i]\%7 == 0}의 조건이었는데, 7의 배수이면 \texttt{True}를, 아니면 \texttt{False}를 반환하는 함수를 정의한다면 \texttt{조건(리스트\_명[i])}의 형태로 만들 수 있습니다.
+\texttt{numbers[i] \% 7 == 0}의 조건이었는데, 이를 사용해 7의 배수이면 \pyin{True}를, 아니면 \pyin{False}를 반환하는 함수 \verb/is_mult_7/로 만든다면 정의한다면 \pyin{is_mult_7(lst[i])}의 형태로 쓸 수 있습니다.
 불리언 함수를 배울 때 언급하였듯, 조건이 복잡한 경우에는 함수를 정의하는 방식으로 코드를 작성해야 합니다.
-예컨대 소수의 개수를 세는 카운터 패턴의 경우, 소수를 판별하는 불리언 함수 \texttt{is\_prime($\cdot$)}과 같은 함수를 정의하여 \texttt{if is\_prime(리스트\_명[i]):}와 같이 사용하면 됩니다.
+소수의 개수를 세는 카운터 패턴의 경우, 소수를 판별하는 불리언 함수 \pyin{is_prime}으로 \pyin{if is_prime(lst[i]):}와 같이 사용하면 됩니다.
 주어진 리스트에서 소수의 개수를 세는 함수가 아래 예시에 나와 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def is_prime(p):
-    for i in range(2, p/2):
-        if p%i == 0:
+    """A naive implementation"""
+    for i in range(2, p // 2):
+        if p % i == 0:
             return False
     return True
 
-def count_prime(numbers):
+def count_primes(numbers):
     cnt = 0
     for i in range(len(numbers)):
         if is_prime(numbers[i]):
@@ -600,56 +522,47 @@ def count_prime(numbers):
     return cnt
 
 num = [217, 287, 181, 143, 163, 319, 233, 399, 203]
-print count_prime(num)  # 3
+print(count_primes(num))  # 3
 \end{minted}
 
-\subsection{Toy Robot토이 로봇 (선택)}
-지금까지 수업을 통해 배운 함수, 조건문, 루프, 리스트 등의 개념을 종합적으로 활용하여 toy robot토이 로봇을 의도한 대로 움직이게 할 것입니다.
-Python 쉘에서 진행한 모든 Python 명령은 CLI\footnote{Command Line Interface, 즉 텍스트 기반의 명령행 인터페이스를 뜻한다.} 기반이었다면, 토이 로봇은 코드를 실행시키면 GUI\footnote{Graphic User Interface}인 창이 나올 것입니다.
-일단 다음과 같은 코드를 작성해봅니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-from cs1robots import *
-create_world()
-\end{minted}
-이를 실행시키면, 아래와 같은 창이 뜹니다.
-\begin{figure}[H]
+\subsection{휴보}
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_emptyworld"}
-\label{fig:lecture4emptyworld}
+\caption{휴보가 움직일 빈 세상입니다.}\label{fig:lecture4:emptyworld}
 \end{figure}
-이것이 앞으로 로봇이 활동을 할 기본 ``세계''입니다.
-기본적으로 가로세로 10칸의 공간이 생성됩니다.
 
-위 코드에 \texttt{hubo = Robot()}를 추가하면, 로봇(앞으로 휴보라고 지칭하겠습니다)이 $(1, 1)$에 생성되는 것을 확인할 수 있습니다.
-\begin{figure}[H]
+지금까지 배운 함수, 조건문, 루프, 리스트 등의 개념을 모두 활용하여 휴보를 움직이게 할 것입니다.
+시작하기 위해 다음과 같은 코드를 작성해봅시다:
+\begin{minted}{python}
+from hubo.cs1robots import *
+create_world()
+\end{minted}
+이를 실행시키면 그림~\ref{fig:lecture4:emptyworld}\와 같은 창이 뜹니다.
+이것이 앞으로 휴보가 움직일 세상입니다.
+세상은 기본적으로 가로 세로로 10칸의 격자입니다.
+
+이제 \pyin{hubo = Robot()}을 실행하면, 그림~\ref{fig:lecture4:hubo}\와 같이 휴보가 위치 $(1, 1)$에 생성됩니다.
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubo"}
-\label{fig:lecture4hubo}
+\caption{휴보가 생성된 모습입니다.}\label{fig:lecture4:hubo}
 \end{figure}
 
-휴보를 앞으로 한 칸 움직이게 하기 위해서는 \texttt{hubo.move()}를 실행하고, 좌로 90도 회전하기 위해서는 \texttt{hubo.turn\_left()}를, 우로 90도 회전하기 위해서는 \texttt{hubo.turn\_right()}를 실행하면 됩니다.
-아래는 휴보를 좌로 회전시킨 후 앞으로 한 번 전진한 후의 모습입니다.
-\begin{figure}[H]
+휴보가 한 칸 전진하기 위해서는 \pyin{hubo.move()}를 실행하고, 90도 좌회전하기 위해서는 \pyin{hubo.turn_left()}를, 90도 우회전하기 위해서는 \pyin{hubo.turn_right()}를 실행하면 됩니다.
+그림~\ref{fig:lecture4:huboleftmove}에 휴보를 좌회전시킨 후 한 칸 전진한 후의 모습이 나와 있습니다.
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_huboleftmove"}
-\label{fig:lecture4huboleftmove}
+\caption{휴보가 좌회전한 후 한 칸 전진한 모습입니다.}\label{fig:lecture4:huboleftmove}
 \end{figure}
 
-만약 휴보가 이동한 경로를 가시화하고 싶다면 \texttt{hubo.set\_trace("blue")}와 같이 \texttt{set\_trace($\cdot$)} 메소드와 함께 인자로는 색상을 문자열로 입력하면 됩니다.
-또한 휴보가 이동을 하는 것을 천천히 보려면 \texttt{hubo.set\_pause(0.5)}처럼 \texttt{set\_pause($\cdot$)} 메소드와 매 명령마다 정지할 시간을 초 단위의 인자를 입력하면 됩니다.
-휴보가 한 변의 길이가 2인 정사각형의 경로를 따라 이동하는 코드와 그 후의 모습이 아래에 나타나 있습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-from cs1robots import *
+휴보가 이동한 경로를 가시화하고 싶다면 \pyin{hubo.set_trace("blue")}와 같이 \pyin{set_trace} 메소드에 인자로 색상을 문자열로 입력하면 됩니다.
+또한 휴보가 느리게 움직이도록 하려면 \pyin{hubo.set_pause(0.5)}와 같이 매 명령마다 정지할 시간을 초 단위로 넘겨주면 됩니다.
+
+휴보가 한 변의 길이가 2인 정사각형의 경로를 따라 이동하는 코드가 아래에 나타나 있습니다.
+\begin{minted}{python}
+from hubo.cs1robots import *
 create_world()
 
 hubo = Robot()
@@ -664,88 +577,74 @@ def move_square():
 
 move_square()
 \end{minted}
-\begin{figure}[H]
+이를 실행한 결과는 그림~\ref{fig:lecture4:hubosquare}입니다.
+
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubosquare"}
-\label{fig:lecture4hubosquare}
+\caption{휴보가 한 변의 길이가 2인 정사각형의 경로를 따라 이동한 모습입니다.}\label{fig:lecture4:hubosquare}
 \end{figure}
 
-조금 더 복잡한 종류의 명령도 얼마든지 가능합니다.
-월드의 모양을 한 변의 길이 10짜리인 단조로운 정사각형이 아니라 칸 사이에 벽을 넣어 미로와 같은 지형을 만들 수 있는데, 계단형 지형을 살펴봅시다.
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_hubostairs"}
-\label{fig:lecture4hubostairs}
+\caption{계단형 지형입니다.}\label{fig:lecture4:hubostairs}
 \end{figure}
-위 그림에서 나타난 움직임을 구현하는 코드는 아래와 같습니다.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+
+세상에는 벽도 추가할 수 있습니다.
+그림~\ref{fig:lecture4:hubostairs}에 계단형 지형을 만든 세상을 볼 수 있습니다.
+여기서 나타난 움직임을 구현하는 코드는 아래와 같습니다.
+\begin{minted}{python}
 hubo.move()
-for i in range(4):
+for _ in range(4):
     hubo.turn_left()
     hubo.move()
     hubo.turn_right()
     hubo.move()
     hubo.move()
 \end{minted}
+\verb/fot/문에서 사용한 변수 이름이 \verb/_/인 것은, 해당 값을 실제로 사용하지 않기 때문에 저렇게 놓은 것입니다.
+기억한다면 \verb/_/는 가능한 변수 이름에 해당하고, 파이썬 프로그래머들은 보통 사용되지 않는 변수 이름으로 \verb/_/를 자주 사용합니다.
 
 \section{예제}
 \begin{enumerate}
-\item Write a function \texttt{sum\_squares(a)} that returns the sum of squares of the elements in the given list \texttt{a}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 리스트의 원소들의 제곱의 합을 반환하는 함수 \verb/sum_squares/를 작성하세요.
+\begin{minted}{python}
 def sum_squares(a):
-    n = len(a)
-    s = 0
     # Add here!
 
-print sum_squares([3, 5, 4])  # 50
-print sum_squares([2, 5, 4, 0, 1, -1, 5, 1])  # 73
+print(sum_squares([3, 5, 4]))  # 50
+print(sum_squares([2, 5, 4, 0, 1, -1, 5, 1]))  # 73
 \end{minted}
 
-\item Write function \texttt{compute\_polynomial(a, x)} that returns
+\item 길이 \verb/n/인 정수 리스트 \verb/a/와 정수 \verb/x/를 받아
 \[
 \sum_{i = 0}^{\texttt{n} - 1} \texttt{a[}i\texttt{]} \cdot \texttt{x}^i
 \]
-where \texttt{a} is an integer list of length \texttt{n} and \texttt{x} is an integer.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+을 계산하는 함수 \pyin{compute_polynomial(a, x)}를 작성하세요.
+\begin{minted}{python}
 def compute_polynomial(a, x):
-    \ Add here!
+    # Add here!
 
-print compute_polynomial([3, 5, 4], 5)  # 128
-print compute_polynomial([2, 0, 4, 0, 1, -1, 5, 1], 3)  # 5708
+print(compute_polynomial([3, 5, 4], 5))  # 128
+print(compute_polynomial([2, 0, 4, 0, 1, -1, 5, 1], 3))  # 5708
 \end{minted}
 
-\item Write a function \texttt{harmonic\_mean(a)} that returns the harmonic mean of values in \texttt{a}, where \texttt{a} is a list of positive integers of length.
-A harmonic mean of given numbers $a_1, a_2, \dots, a_n$ is
+\item 리스트 \verb/a/의 조화 평균을 계산하는 함수 \verb/harmonic_mean/을 작성하세요.
+  $a_1, a_2, \dots, a_n$의 조화 평균은
 \[
-\frac{n}{\sum_{i = 1}^{n} \frac{1}{a_i}}.
+\frac{n}{\sum_{i = 1}^{n} \frac{1}{a_i}}
 \]
-Also, write a function \texttt{geometric\_mean(a)} that returns the geometric mean of values in \texttt{a}.
-A geometric mean of given numbers $a_1, a_2, \dots, a_n$ is
-\[
-\sqrt[n]{\Pi_{i = 1}^{n} a_i}.
-\]
+와 같이 계산됩니다.
 
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+또, \verb/a/의 기하 평균을 계산하는 함수 \verb/geometric_mean/을 작성하세요.
+$a_1, a_2, \dots, a_n$의 기하 평균은
+\[
+\sqrt[n]{\prod_{i = 1}^{n} a_i}
+\]
+입니다.
+
+\begin{minted}{python}
 def harmonic_mean(a):
     # Add here!
 
@@ -753,60 +652,49 @@ def geometric_mean(a):
     # Add here!
 
 numbers = [2, 4, 3, 10, 7, 2, 5, 6]
-print harmonic_mean(numbers)  # 3.64820846906
-print geometric_mean(numbers)  # 4.22116731332
+print(harmonic_mean(numbers))  # 3.64820846906
+print(geometric_mean(numbers))  # 4.22116731332
 \end{minted}
 
-\item Write a function \texttt{reverse(a)} that returns a list with the same length of \texttt{a} where its order is reversed, e.g., \texttt{reverse([1, 5, 3, 7, 6])} returns \texttt{[6, 7, 3, 5, 1]}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
-def reverse(a):
+\item 반복문을 사용해서 주어진 리스트 \verb/a/의 뒤집힌 리스트를 반환하는 함수 \verb/reversed(a)/을 작성하세요.
+\begin{minted}{python}
+def reversed(a):
     n = len(a)
     b = [None] * n
     # Add here!
 
-print reverse([3, 1, 5, 2, 4])  # [4, 2, 5, 1, 3]
-print reverse([7, 6, 3, 1, 5, 8, 2, 4])  # [4, 2, 8, 1, 3, 6, 7]
+print(reversed([3, 1, 5, 2, 4]))  # [4, 2, 5, 1, 3]
+print(reversed([7, 6, 3, 1, 5, 8, 2, 4]))  # [4, 2, 8, 1, 3, 6, 7]
 \end{minted}
 
-\item Write a function \texttt{fibonacci(n)} that returns a list of first \texttt{n} Fibnonacci numbers where \texttt{n} is a positive integer.
-Assume that the first two terms of Fibonacci sequence are both 1.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 첫 \verb/n/개의 피보나치 수들의 리스트를 반환하는 \pyin{fibonacci(n)}을 작성하세요.
+  \verb/n/은 양의 정수라고 가정하고, 피보나치 수열의 첫 두 값은 1입니다.
+\begin{minted}{python}
 def fibonacci(n):
     # Add here!
 
-print fibonacci(10)  # [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+print(fibonacci(10))  # [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
 \end{minted}
 
-\item Write a function \texttt{area(points)} that returns an area of a polygon given by the list \texttt{points}.
-\texttt{points} is a list of points where each point is represented by a list of x coordinate and y coordinate, e.g., \texttt{[3, 4]}.
-An example of \texttt{points} that represents the below polygon is \texttt{[[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]}.
+\item 좌표 평면 상의 점들의 리스트 \verb/points/가 주어졌을 때, 이 점들이 구성하는 다각형의 면적을 계산하는 함수 \pyin{area(points)}을 작성하세요.
+\texttt{points}는 \pyin{[3, 4]}처럼 $x$ 좌표와 $y$ 좌표의 성분이 리스트로 표현된 원소들의 리스트입니다.
+예를 들어 그림~\ref{fig:lecture4q6}을 나타내는 \texttt{points}는 \pyin{[[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]}입니다.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q6"}
-\label{fig:lecture4q6}
+\caption{문제 6의 예시 다각형입니다.}\label{fig:lecture4q6}
 \end{figure}
-Note that the area of the polygon represented by points $(x_i, y_i)$ where $i = 0, 1, \dots, n - 1$ can be calculated via the so-called shoelace formula:
+
+일반적으로 점 $(x_i, y_i)$ ($i = 0, 1, \dots, n - 1$)들이 구성하는 다각형의 면적은 다음의 ``신발끈'' 공식으로 계산할 수 있습니다:
 \[
-\frac 12 \left| \sum_{i = 0}^{n - 1} x_i \left(y_{(i + 1)\ \mathrm{mod}\ n} - y_{(i - 1)\ \mathrm{mod}\ n}\right)\right|
+\frac 12 \left| \sum_{i = 0}^{n - 1} x_i \left(y_{(i + 1) \mod n} - y_{(i - 1) \mod n}\right)\right|
 \]
-Also, write a function \texttt{perimeter(points)} that returns a perimeter of the given polygon represented by \texttt{points}.
-You may want to define your own functions other than \texttt{area} and \texttt{perimeter}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+
+또, 이 점들이 구성하는 다각형의 둘레를 계산하는 \pyin{perimeter(points)}도 작성하세요.
+
+\verb/area/와 \verb/perimeter/를 작성하기 위해 다른 함수들을 작성할 수 있습니다.
+
+\begin{minted}{python}
 # Add here!
 
 def area(points):
@@ -816,135 +704,89 @@ def perimeter(points):
     # Add here!
 
 points = [[3, 1], [6, 3], [4, 4], [7, 6], [2, 7], [0, 5], [2, 3], [1, 2]]
-print area(points)  # 22.0
-print perimeter(points)  # 23.8533258314
+print(area(points))  # 22.0
+print(perimeter(points))  # 23.8533258314
 \end{minted}
 
-\item Write a function \texttt{find\_min(a)} that returns the least element of the list \texttt{a}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 리스트 \verb/a/의 최소원을 구하는 함수 \pyin{find_min(a)}을 작성하세요.
+\begin{minted}{python}
 def find_min(a):
     # Add here!
 
-print find_min([7.2, 5, 21, -1, 4, 0.4])  # -1
+print(find_min([7.2, 5, 21, -1, 4, 0.4]))  # -1
 \end{minted}
 
-\item Write a function \texttt{closest\_pair(points)} that returns a distance of the closest pair of points given in \texttt{points}.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q8"}
-\label{fig:lecture4q8}
-\end{figure}
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item \verb/points/의 가장 가까운 두 점의 길이를 반환하는 함수 \pyin{closest_pair(points)}을 작성하세요.
+\begin{minted}{python}
 # Add here!
 
-print closest_pair([[4, -4], [7, 5], [2, 1], [-2, -1], [-3, 5]])  # 4.472135955
+print(closest_pair([[4, -4], [7, 5], [2, 1], [-2, -1], [-3, 5]]))  # 4.472135955
 \end{minted}
 
-\item Write a function \texttt{count\_range(numbers, lower, upper)} that returns the number of integers in \texttt{numbers} which are in the range from \texttt{lower} to \texttt{upper}, where \texttt{numbers} is a list of integers.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item 리스트 \verb/numbers/가 주어졌을 때, \verb/lower/ 이상 \verb/upper/ 이하의 값들의 개수를 세는 함수 \pyin{count_range(numbers, lower, upper)}를 작성하세요.
+\begin{minted}{python}
 def count_range(numbers, lower, upper):
     # Add here!
 
-print count_range([8, 9, 10, 2, 4, 5, 9, 7, 2, 3, 7],  3, 7)  # 5
+print(count_range([8, 9, 10, 2, 4, 5, 9, 7, 2, 3, 7], 3, 7))  # 5
 \end{minted}
 
-\item Write a function \texttt{count\_within\_circle(points, radius)} that returns the number of points $(x, y)$ in \texttt{points} that is within $x^2 + y^2 \leq \texttt{radius}^2$.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item $x^2 + y^2 \le \texttt{radius}^2$을 만족하는 점 $(x, y)$들의 개수를 세는 함수 \pyin{count_within_circle(points, radius)}를 작성하세요.
+\begin{minted}{python}
 def count_within_circle(points, radius):
     # Add here!
 
 points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
-print count_within_circle(points, 3)  # 2
-print count_within_circle(points, 5)  # 4
-print count_within_circle(points, 8)  # 9
+print(count_within_circle(points, 3))  # 2
+print(count_within_circle(points, 5))  # 4
+print(count_within_circle(points, 8))  # 9
 \end{minted}
 
-\item Write a boolean function \texttt{within\_rect(top, bottom, left, right, x, y)} where integers \texttt{top}, \texttt{bottom}, \texttt{left}, \texttt{right} represent an axis-aligned rectangle, e.g., the rectangle represented by \texttt{(top, bottom, left, right) = (2, -4, -5, 6)} is
+\item \verb/top/, \verb/bottom/, \verb/left/, \verb/right/으로 표현되는 직사각형의 내부 혹은 경계 위에 $(\texttt{x}, \texttt{y})$가 포함되는지 확인하는 함수 \pyin{within_rect(top, bottom, left, right, x, y)}를 작성하세요.
+  예를 들어서 $(\texttt{top}, \texttt{bottom}, \texttt{left}, \texttt{right}) = (2, -4, -5, 6)$으로 표현되는 직사각형은 그림~\ref{fig:lecture4q11}\와 같습니다.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q11"},
-\label{fig:lecture4q11}
+\includegraphics[width=0.5\linewidth]{"./lectures/lecture4_q11"}
+\caption{문제 11의 직사각형입니다.}\label{fig:lecture4q11}
 \end{figure}
-and \texttt{x} and \texttt{y} are integers.
-The function should return \texttt{True} if and only if the point $(\texttt{x}, \texttt{y})$ is in the rectangle including the boundary.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\begin{minted}{python}
 def within_rect(top, bottom, left, right, x, y):
     # Add here!
 
-print within_rect(2, -4, -5, 6, -5, 2)  # True
-print within_rect(2, -4, -5, 6, 6, -1)  # True
-print within_rect(2, -4, -5, 6, 0, 1)  # True
-print within_rect(2, -4, -5, 6, -6, 0)  # False
-print within_rect(2, -4, -5, 6, 0, 3)  # False
+print(within_rect(2, -4, -5, 6, -5, 2))  # True
+print(within_rect(2, -4, -5, 6, 6, -1))  # True
+print(within_rect(2, -4, -5, 6, 0, 1))  # True
+print(within_rect(2, -4, -5, 6, -6, 0))  # False
+print(within_rect(2, -4, -5, 6, 0, 3))  # False
 \end{minted}
-Write a function \texttt{count\_within\_rect(top, bottom, left, right, points)} using \texttt{within\_rect} implemented above that returns the number of points within the rectangle including boundary, where \texttt{points} is a list of points in the plane.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+
+이제 위의 \verb/within_rect/ 함수를 사용해서 \verb/points/의 점들 중 직사각형에 포함되는 (경계 포함) 것들의 개수를 세는 함수 \pyin{count_within_rect(top, bottom, left, right, points)}를 작성하세요.
+\begin{minted}{python}
 def count_within_rect(top, bottom, left, right, points):
     # Add here!
 
 points = [[2, 1], [7, 5], [-5, 2], [-3, 5], [-7, 4], [-2, -1], [-2, -4], [-4, -2], [-6, -4], [4, -4], [6, -2]]
-print count_within_rect(2,-4,-5,6, points)  # 7
+print(count_within_rect(2,-4,-5,6, points))  # 7
 \end{minted}
 
-\item Write a function \texttt{count\_leap\_year(numbers)} that returns the number of leap years in list \texttt{numbers}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item \verb/years/에서 윤년의 개수를 세는 함수 \pyin{count_leap_year(numbers)}를 작성하세요.
+\begin{minted}{python}
 def count_leap_years(numbers):
     # Add here!
 
-print count_leap_years([2008, 2011, 2012, 2000])  # 3
-print count_leap_years([2100, 2300, 2400, 2200])  # 1
+print(count_leap_years([2008, 2011, 2012, 2000]))  # 3
+print(count_leap_years([2100, 2300, 2400, 2200]))  # 1
 \end{minted}
 
-\item Write a function \texttt{count\_composite(numbers)} that returns the number of composites in list \texttt{numbers}.
-You may want to add your own function other than \texttt{count\_composite}.
-\begin{minted}[mathescape,
-               linenos,
-               breaklines,
-               numbersep=5pt,
-               frame=lines,
-               framesep=2mm]{python}
+\item \verb/numbers/에서 합성수의 개수를 세는 함수 \pyin{count_composite(numbers)}를 작성하세요.
+\begin{minted}{python}
 # Add here!
 
 def count_composite(numbers):
     # Add here!
 
 numbers = [217, 287, 181, 143, 163, 319, 233, 399, 203]
-print count_composite(numbers)  # 1
+print(count_composite(numbers))  # 1
 \end{minted}
 \end{enumerate}
 \end{document}

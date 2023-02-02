@@ -6,9 +6,9 @@ def d(n):
     return result
 
 
-def is_amicable(n):
-    a = d(n)
-    return d(a) == n and n != a
+def is_amicable(b):
+    a = d(b)
+    return d(a) == b and b != a
 
 
 def sum_amicable(n):
